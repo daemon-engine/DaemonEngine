@@ -10,7 +10,8 @@ public static class DaemonEngineContainerBuilderExtensions
     public static IDaemonEngineContainerBuilder RegisterApplication<TApplication>(this IDaemonEngineContainerBuilder builder)
         where TApplication : class, IApplication
     {
-        builder.ContainerBuilder.RegisterType<TApplication>()
+        builder.ContainerBuilder
+            .RegisterType<TApplication>()
             .As<IApplication>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
@@ -34,7 +35,8 @@ public static class DaemonEngineContainerBuilderExtensions
 
     public static IDaemonEngineContainerBuilder RegisterLogging(this IDaemonEngineContainerBuilder builder)
     {
-        builder.ContainerBuilder.Register((cc) =>
+        builder.ContainerBuilder
+            .Register((cc) =>
         {
             return new LoggerConfiguration()
                 .WriteTo.Console()
