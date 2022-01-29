@@ -5,27 +5,26 @@ namespace DaemonEngine;
 
 public abstract class ApplicationBase : IApplication, IDisposable
 {
-    private IWindow _window;
-
     private bool _disposed;
 
     protected ApplicationBase(ILogger logger, IWindow window)
     {
         Logger = logger;
-        _window = window;
+        Window = window;
     }
 
     protected ILogger Logger { get; }
+    protected IWindow Window { get; }
 
     public void Run()
     {
         OnStart();
 
-        while (!_window.IsRunning())
+        while (!Window.IsRunning())
         {
             OnUpdate(0.0f);
 
-            _window.Update();
+            Window.Update();
         }
     }
 
@@ -48,7 +47,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         if (disposing)
         {
-            _window.Shutdown();
+            Window.Shutdown();
             OnShutdown();
         }
 
