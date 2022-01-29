@@ -2,6 +2,10 @@
 using DaemonEngine.Windows;
 using Serilog;
 
+// Temp
+using DaemonEngine.Extensions.OpenGL;
+using DaemonEngine.Extensions.OpenGL.Enums;
+
 namespace Sandbox;
 
 public class Application : ApplicationBase
@@ -23,5 +27,7 @@ public class Application : ApplicationBase
 
     public override void OnUpdate(float deltaTime)
     {
+        GL.ClearColor(0.8f, 0.5f, 0.3f, 1.0f);
+        GL.Clear(GLClearMask.ColorBufferBit);
     }
 }

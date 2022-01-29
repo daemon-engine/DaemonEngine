@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Graphics", "Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Abstractions", "DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj", "{E5906F3A-F69A-4310-A523-0966C4B238CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.OpenGL", "DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj", "{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
