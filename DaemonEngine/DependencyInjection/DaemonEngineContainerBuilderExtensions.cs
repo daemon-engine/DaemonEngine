@@ -18,7 +18,7 @@ public static class DaemonEngineContainerBuilderExtensions
 
         return builder;
     }
-    
+
     public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
     {
         var windowOptions = new WindowOptions
