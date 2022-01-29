@@ -1,12 +1,11 @@
 ﻿using DaemonEngine;
 using DaemonEngine.Windows;
+using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using Serilog;
 
 // Temp
 using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Extensions.OpenGL.Enums;
-using DaemonEngine.Graphics.Factories;
 
 namespace Sandbox;
 
@@ -55,11 +54,11 @@ public class Application : ApplicationBase
 
     public override void OnUpdate(float deltaTime)
     {
-        GL.ClearColor(0.8f, 0.5f, 0.3f, 1.0f);
-        GL.Clear(GLClearMask.ColorBufferBit);
+        RenderCommand.Clear();
+        RenderCommand.ClearColor(0.8f, 0.5f, 0.3f, 1.0f);
 
         _pipeline?.Bind();
         _ibo?.Bind();
-        GL.DrawElements(GLConstants.GL_TRIANGLES, _ibo.Count, GLConstants.GL_UNSIGNED_INT);
+        RenderCommand.DrawIndexed(_pipeline, _ibo);
     }
 }
