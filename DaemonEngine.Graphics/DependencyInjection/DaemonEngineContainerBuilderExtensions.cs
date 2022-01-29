@@ -1,9 +1,8 @@
 ﻿using Autofac;
 using DaemonEngine.DependencyInjection;
-using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Factories.Windows;
 using DaemonEngine.Graphics.Windows;
 using DaemonEngine.Windows;
-using Serilog;
 
 namespace DaemonEngine.Graphics.DependencyInjection;
 

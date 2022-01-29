@@ -1,12 +1,12 @@
 ﻿using DaemonEngine.Windows;
 using Serilog;
 
-namespace DaemonEngine.Graphics.Factories;
+namespace DaemonEngine.Graphics.Factories.Windows;
 
 internal class WindowFactory<TWindow> : IWindowFactory<TWindow>
     where TWindow : class, IWindow
 {
-    private ILogger _logger;
+    private readonly ILogger _logger;
 
     public WindowFactory(ILogger logger)
     {

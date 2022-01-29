@@ -1,6 +1,6 @@
 ﻿using DaemonEngine.Windows;
 
-namespace DaemonEngine.Graphics.Factories;
+namespace DaemonEngine.Graphics.Factories.Windows;
 
 public interface IWindowFactory<TWindow>
     where TWindow : class, IWindow
