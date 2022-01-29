@@ -11,4 +11,8 @@
     <Folder Include="Binary\" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo F|xcopy $(ProjectDir)Binary\glfw3.dll $(SolutionDir)Sandbox\bin\Debug\net6.0\Binary\glfw3.dll&#xD;&#xA;" />
+  </Target>
+
 </Project>

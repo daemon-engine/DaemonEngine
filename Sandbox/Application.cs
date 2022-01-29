@@ -1,12 +1,13 @@
 ﻿using DaemonEngine;
+using DaemonEngine.Windows;
 using Serilog;
 
 namespace Sandbox;
 
 public class Application : ApplicationBase
 {
-    public Application(ILogger logger) 
-        : base(logger)
+    public Application(ILogger logger, IWindow window) 
+        : base(logger, window)
     {
     }
 

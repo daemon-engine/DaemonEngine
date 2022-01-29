@@ -1,12 +1,18 @@
-﻿using Serilog;
+﻿using DaemonEngine.Windows;
+using Serilog;
 
 namespace DaemonEngine;
 
-public abstract class ApplicationBase : IApplication
+public abstract class ApplicationBase : IApplication, IDisposable
 {
-    public ApplicationBase(ILogger logger)
+    private IWindow _window;
+
+    private bool _disposed;
+
+    protected ApplicationBase(ILogger logger, IWindow window)
     {
         Logger = logger;
+        _window = window;
     }
 
     protected ILogger Logger { get; }
@@ -15,15 +21,36 @@ public abstract class ApplicationBase : IApplication
     {
         OnStart();
 
-        //while(true)
-        //{
-        //    Update(0.0f);
-        //}
+        while (!_window.IsRunning())
+        {
+            OnUpdate(0.0f);
 
-        OnShutdown();
+            _window.Update();
+        }
     }
 
     public abstract void OnStart();
     public abstract void OnShutdown();
     public abstract void OnUpdate(float deltaTime);
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            OnShutdown();
+        }
+
+        _disposed = true;
+    }
 }

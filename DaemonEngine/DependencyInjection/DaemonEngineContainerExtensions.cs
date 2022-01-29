@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using DaemonEngine.Graphics.DependencyInjection;
+using DaemonEngine.Windows;
 using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
@@ -12,6 +14,20 @@ public static class DaemonEngineContainerExtensions
             .As<IApplication>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
+
+        return builder;
+    }
+    
+    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
+    {
+        var windowOptions = new WindowOptions
+        {
+            Title = "Test Window",
+            Width = 1024,
+            Height = 768
+        };
+
+        builder.RegisterWindow(windowOptions);
 
         return builder;
     }
@@ -38,6 +54,5 @@ public static class DaemonEngineContainerExtensions
         using var scope = container.BeginLifetimeScope();
         var application = scope.Resolve<IApplication>();
         application.Run();
-        scope.Dispose();
     }
 }

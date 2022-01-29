@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.Glfw", "DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj", "{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Graphics", "DaemonEngine.Graphics\DaemonEngine.Graphics.csproj", "{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Abstractions", "DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj", "{E5906F3A-F69A-4310-A523-0966C4B238CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5906F3A-F69A-4310-A523-0966C4B238CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

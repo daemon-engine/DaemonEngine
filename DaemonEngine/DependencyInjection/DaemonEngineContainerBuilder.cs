@@ -2,11 +2,6 @@
 
 namespace DaemonEngine.DependencyInjection;
 
-public interface IDaemonEngineContainerBuilder
-{
-    ContainerBuilder ContainerBuilder { get; }
-}
-
 public class DaemonEngineContainerBuilder : IDaemonEngineContainerBuilder
 {
     public DaemonEngineContainerBuilder()
