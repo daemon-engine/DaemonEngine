@@ -12,6 +12,11 @@ internal class GLFactory : IGLFactory
 
     protected ILogger Logger { get; }
 
+    public Shader CreateShader()
+    {
+        return new Shader(Logger);
+    }
+
     public Pipeline CreatePipeline()
     {
         return new Pipeline(Logger);

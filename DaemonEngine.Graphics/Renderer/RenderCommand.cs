@@ -10,7 +10,7 @@ public static class RenderCommand
         pipeline.Bind();
         indexBuffer.Bind();
 
-        var count = indexCount != 0 ? indexBuffer.Count : indexCount;
+        var count = indexCount == 0 ? indexBuffer.Count : indexCount;
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
     }
 

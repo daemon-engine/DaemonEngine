@@ -13,6 +13,7 @@ public class Application : ApplicationBase
 {
     Pipeline? _pipeline;
     IndexBuffer? _ibo;
+    Shader? _shader;
 
     public Application(ILogger logger, IWindow window, IGLFactory factory)
         : base(logger, window)
@@ -39,12 +40,13 @@ public class Application : ApplicationBase
 
         _pipeline = GLFactory.CreatePipeline();
         _ = GLFactory.CreateVertexBuffer(12 * sizeof(float), vertices);
+        _ibo = GLFactory.CreateIndexBuffer(6, indices);
 
         // Must happend after VBO is bound
         GL.VertexAttribPointer(0, 3, GLConstants.GL_FLOAT, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
-        _ibo = GLFactory.CreateIndexBuffer(6, indices);
+        _shader = GLFactory.CreateShader();
     }
 
     public override void OnShutdown()
@@ -55,10 +57,13 @@ public class Application : ApplicationBase
     public override void OnUpdate(float deltaTime)
     {
         RenderCommand.Clear();
-        RenderCommand.ClearColor(0.8f, 0.5f, 0.3f, 1.0f);
+        RenderCommand.ClearColor(0.3f, 0.5f, 0.8f, 1.0f);
 
+        _shader?.Bind();
         _pipeline?.Bind();
         _ibo?.Bind();
+#pragma warning disable CS8604 // Possible null reference argument.
         RenderCommand.DrawIndexed(_pipeline, _ibo);
+#pragma warning restore CS8604 // Possible null reference argument.
     }
 }
