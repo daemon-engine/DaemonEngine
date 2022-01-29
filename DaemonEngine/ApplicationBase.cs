@@ -48,6 +48,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         if (disposing)
         {
+            _window.Shutdown();
             OnShutdown();
         }
 

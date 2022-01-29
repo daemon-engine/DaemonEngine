@@ -5,7 +5,7 @@ using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
 
-public static class DaemonEngineContainerExtensions
+public static class DaemonEngineContainerBuilderExtensions
 {
     public static IDaemonEngineContainerBuilder RegisterApplication<TApplication>(this IDaemonEngineContainerBuilder builder)
         where TApplication : class, IApplication

@@ -5,20 +5,21 @@ using Serilog;
 
 namespace DaemonEngine.Graphics.Windows
 {
-    internal class GLWindow : IWindow
+    internal class GLWindow : WindowBase
     {
-        private readonly GlfwWindow _glfwWindow;
-        private readonly WindowOptions _windowOptions;
+        private GlfwWindow _glfwWindow;
 
         public GLWindow(ILogger logger, WindowOptions windowOptions)
+            : base(logger, windowOptions)
         {
-            Logger = logger;
-            _windowOptions = windowOptions;
+        }
 
-            if (string.IsNullOrWhiteSpace(_windowOptions.Title))
+        public override void Initialize()
+        {
+            if (string.IsNullOrWhiteSpace(WindowOptions.Title))
             {
                 Logger.Warning("Title for Windows has not been set!");
-                _windowOptions.Title = "Glfw Window";
+                WindowOptions.Title = "Glfw Window";
             }
 
             if (!Glfw.Init())
@@ -27,7 +28,7 @@ namespace DaemonEngine.Graphics.Windows
                 return;
             }
 
-            _glfwWindow = Glfw.CreateWindow(_windowOptions.Width, _windowOptions.Height, _windowOptions.Title);
+            _glfwWindow = Glfw.CreateWindow(WindowOptions.Width, WindowOptions.Height, WindowOptions.Title);
             if (_glfwWindow.Equals(null))
             {
                 Glfw.Terminate();
@@ -38,14 +39,18 @@ namespace DaemonEngine.Graphics.Windows
             Glfw.MakeContextCurrent(_glfwWindow);
         }
 
-        protected ILogger Logger { get; }
-
-        public bool IsRunning()
+        public override bool IsRunning()
         {
             return Glfw.WindowShouldClose(_glfwWindow);
         }
 
-        public void Update()
+        public override void Shutdown()
+        {
+            Glfw.DestroyWindow(_glfwWindow);
+            Glfw.Terminate();
+        }
+
+        public override void Update()
         {
             if (Glfw.IsKeyPressed(_glfwWindow, GlfwConstants.GLFW_KEY_ESCAPE))
             {
