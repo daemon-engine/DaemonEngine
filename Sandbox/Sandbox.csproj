@@ -5,11 +5,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj" />
     <ProjectReference Include="..\DaemonEngine\DaemonEngine.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo A|xcopy $(ProjectDir)Assets $(ProjectDir)$(OutDir)\Assets /E /C /I" />
+  </Target>
 
 </Project>
