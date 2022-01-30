@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj" />
     <ProjectReference Include="..\DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Graphics.OpenGL\DaemonEngine.Graphics.OpenGL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using DaemonEngine.Graphics.DependencyInjection;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
 using Serilog;
 
@@ -15,6 +16,13 @@ public static class DaemonEngineContainerBuilderExtensions
             .As<IApplication>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
+
+        return builder;
+    }
+
+    public static IDaemonEngineContainerBuilder RegisterRenderer(this IDaemonEngineContainerBuilder builder, RendererApi rendererApi)
+    {
+        builder.RegisterRendererType(rendererApi);
 
         return builder;
     }

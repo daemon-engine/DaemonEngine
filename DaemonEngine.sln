@@ -3,17 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine", "DaemonEngine\DaemonEngine.csproj", "{C6B3C1A9-9288-4631-8B18-EBA113A868BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine", "DaemonEngine\DaemonEngine.csproj", "{C6B3C1A9-9288-4631-8B18-EBA113A868BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{9C2F0AEE-4C4E-4364-ACCA-C37D97DE8CCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{9C2F0AEE-4C4E-4364-ACCA-C37D97DE8CCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.Glfw", "DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj", "{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Glfw", "DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj", "{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Graphics", "DaemonEngine.Graphics\DaemonEngine.Graphics.csproj", "{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics", "DaemonEngine.Graphics\DaemonEngine.Graphics.csproj", "{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Abstractions", "DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj", "{E5906F3A-F69A-4310-A523-0966C4B238CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Abstractions", "DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj", "{E5906F3A-F69A-4310-A523-0966C4B238CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.OpenGL", "DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj", "{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.OpenGL", "DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj", "{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Graphics.OpenGL", "DaemonEngine.Graphics.OpenGL\DaemonEngine.Graphics.OpenGL.csproj", "{30B4E755-C810-43F2-AD1E-92950C5F059A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Graphics.Abstractions", "DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj", "{60AECB70-7DEC-478F-B789-32EE1918B098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.Runtime", "DaemonEngine.Extensions.Runtime\DaemonEngine.Extensions.Runtime.csproj", "{55639E3D-3461-463C-9A46-72A5672ED73B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30B4E755-C810-43F2-AD1E-92950C5F059A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30B4E755-C810-43F2-AD1E-92950C5F059A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30B4E755-C810-43F2-AD1E-92950C5F059A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30B4E755-C810-43F2-AD1E-92950C5F059A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60AECB70-7DEC-478F-B789-32EE1918B098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60AECB70-7DEC-478F-B789-32EE1918B098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60AECB70-7DEC-478F-B789-32EE1918B098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60AECB70-7DEC-478F-B789-32EE1918B098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55639E3D-3461-463C-9A46-72A5672ED73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55639E3D-3461-463C-9A46-72A5672ED73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55639E3D-3461-463C-9A46-72A5672ED73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55639E3D-3461-463C-9A46-72A5672ED73B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

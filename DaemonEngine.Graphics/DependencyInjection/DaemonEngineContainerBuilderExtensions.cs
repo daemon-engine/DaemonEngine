@@ -2,6 +2,8 @@
 using DaemonEngine.DependencyInjection;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Factories.Windows;
+using DaemonEngine.Graphics.OpenGL.DependencyInjection;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Windows;
 using DaemonEngine.Windows;
 
@@ -9,12 +11,16 @@ namespace DaemonEngine.Graphics.DependencyInjection;
 
 public static class DaemonEngineContainerBuilderExtensions
 {
-    public static IDaemonEngineContainerBuilder RegisterGLFactory(this IDaemonEngineContainerBuilder builder)
+    public static IDaemonEngineContainerBuilder RegisterRendererType(this IDaemonEngineContainerBuilder builder, RendererApi rendererApi)
     {
-        builder.ContainerBuilder
-            .RegisterType<GLFactory>()
-            .As<IGLFactory>()
-            .AsImplementedInterfaces();
+        switch (rendererApi)
+        {
+            case RendererApi.OpenGL: builder.RegisterOpenGLRenderer(rendererApi); break;
+            case RendererApi.Vulkan:
+            case RendererApi.DirectX:
+            case RendererApi.None:
+            default: break;
+        }
 
         return builder;
     }
@@ -22,7 +28,6 @@ public static class DaemonEngineContainerBuilderExtensions
     public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowOptions windowOptions)
     {
         builder.RegisterWindowFactory<GLWindow>();
-        builder.RegisterGLFactory();
 
         builder.ContainerBuilder
             .Register((cc) =>

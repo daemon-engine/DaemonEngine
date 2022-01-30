@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Windows;
+﻿using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Windows;
 using Serilog;
 
 namespace DaemonEngine;
@@ -7,14 +8,16 @@ public abstract class ApplicationBase : IApplication, IDisposable
 {
     private bool _disposed;
 
-    protected ApplicationBase(ILogger logger, IWindow window)
+    protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer)
     {
         Logger = logger;
         Window = window;
+        Renderer = renderer;
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
+    protected IRenderer Renderer { get; }
 
     public void Run()
     {
