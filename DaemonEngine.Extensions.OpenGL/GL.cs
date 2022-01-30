@@ -23,16 +23,11 @@ public static class GL
         Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
 
         OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelsPtr);
+    }
 
-        //unsafe
-        //{
-        //    IntPtr pixelPtr = IntPtr.Zero;
-        //    fixed (byte* p = pixels)
-        //    {
-        //        pixelPtr = (IntPtr)p;
-        //    }
-        //    OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelPtr);
-        //}
+    public static void ActiveTexture(uint textureSlot)
+    {
+        OpenGLDllImport.glActiveTexture(textureSlot);
     }
 
     public static void BindTexture(uint target, uint texture)
@@ -43,6 +38,23 @@ public static class GL
     public static void GenTextures(int count, ref uint[] textures)
     {
         OpenGLDllImport.glGenTextures(count, textures);
+    }
+    #endregion
+
+    #region Uniform methods
+    public static void UniformMatrix4fv(uint location, int count, bool transpose, float[] matrix)
+    {
+        OpenGLDllImport.glUniformMatrix4fv(location, count, transpose, matrix);
+    }
+
+    public static void Uniform1i(uint location, int value)
+    {
+        OpenGLDllImport.glUniform1i(location, value);
+    }
+
+    public static uint GetUniformLocation(uint program, string name)
+    {
+        return OpenGLDllImport.glGetUniformLocation(program, name);
     }
     #endregion
 

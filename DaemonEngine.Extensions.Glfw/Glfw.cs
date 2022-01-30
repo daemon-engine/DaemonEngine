@@ -50,6 +50,11 @@ public static class Glfw
         GlfwDllImport.glfwMakeContextCurrent(glfwWindow.WindowHandle);
     }
 
+    public static double GetTime()
+    {
+        return GlfwDllImport.glfwGetTime();
+    }
+
     public static GlfwWindow CreateWindow(int width, int height, string title)
     {
         var titleBytes = Encoding.UTF8.GetBytes(title);

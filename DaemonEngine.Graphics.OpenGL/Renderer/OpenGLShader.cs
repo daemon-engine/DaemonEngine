@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Numerics;
 using DaemonEngine.Extensions.OpenGL;
 using DaemonEngine.Extensions.OpenGL.Enums;
 using DaemonEngine.Graphics.Renderer;
@@ -35,6 +36,24 @@ internal class OpenGLShader : IShader
     public void Unbind()
     {
         GL.UseProgram(0);
+    }
+
+    public void SetInt(string name, int value)
+    {
+        GL.Uniform1i(GL.GetUniformLocation(_id, name), value);
+    }
+
+    public void SetMat4(string name, Matrix4x4 matrix, bool transpose = false)
+    {
+        float[] mat =
+        {
+            matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+            matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+            matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+            matrix.M41, matrix.M42, matrix.M43, matrix.M44,
+        };
+
+        GL.UniformMatrix4fv(GL.GetUniformLocation(_id, name), 1, transpose, mat);
     }
 
     private uint CreateShaderProgram(uint vertexShader, uint fragmentShader)

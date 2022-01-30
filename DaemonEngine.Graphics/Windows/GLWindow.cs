@@ -44,6 +44,11 @@ namespace DaemonEngine.Graphics.Windows
             return Glfw.WindowShouldClose(_glfwWindow);
         }
 
+        public override double GetTime()
+        {
+            return Glfw.GetTime();
+        }
+
         public override void Shutdown()
         {
             Glfw.DestroyWindow(_glfwWindow);

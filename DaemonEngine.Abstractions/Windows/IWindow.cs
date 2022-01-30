@@ -6,5 +6,7 @@ public interface IWindow
     void Shutdown();
 
     bool IsRunning();
+    double GetTime();
+
     void Update();
 }

@@ -2,6 +2,6 @@
 
 public interface ITexture
 {
-    void Bind(int slot = 0);
+    void Bind(uint slot = 0);
     void Unbind();
 }

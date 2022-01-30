@@ -8,6 +8,7 @@ namespace DaemonEngine;
 public abstract class ApplicationBase : IApplication, IDisposable
 {
     private bool _disposed;
+    private float m_LastFrameTime = 0.0f;
 
     protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
@@ -30,7 +31,11 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         while (!Window.IsRunning())
         {
-            OnUpdate(0.0f);
+            float time = (float)Window.GetTime();
+            float deltaTime = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+
+            OnUpdate(deltaTime);
 
             Window.Update();
         }

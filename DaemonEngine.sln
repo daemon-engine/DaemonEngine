@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics.Abstr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Runtime", "DaemonEngine.Extensions.Runtime\DaemonEngine.Extensions.Runtime.csproj", "{55639E3D-3461-463C-9A46-72A5672ED73B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.SixLabors.ImageSharp", "DaemonEngine.Extensions.SixLabors.ImageSharp\DaemonEngine.Extensions.SixLabors.ImageSharp.csproj", "{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.SixLabors.ImageSharp", "DaemonEngine.Extensions.SixLabors.ImageSharp\DaemonEngine.Extensions.SixLabors.ImageSharp.csproj", "{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

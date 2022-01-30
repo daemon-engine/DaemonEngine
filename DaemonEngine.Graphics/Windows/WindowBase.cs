@@ -18,6 +18,7 @@ public abstract class WindowBase : IWindow
     public abstract void Shutdown();
 
     public abstract bool IsRunning();
+    public abstract double GetTime();
 
     public abstract void Update();
 }
