@@ -13,6 +13,16 @@ internal class OpenGLRenderer : RendererBase
     {
     }
 
+    public override void Initialize()
+    {
+        Logger.Information("OpenGL Renderer Initializing");
+    }
+
+    public override void Shutdown()
+    {
+        Logger.Information("OpenGL Renderer Shutting down");
+    }
+
     public override void RenderGeometry(IPipeline? pipeline, IVertexBuffer? vertexBuffer, IIndexBuffer? indexBuffer, int indexCount = 0)
     {
         Throw.IfNull(pipeline, nameof(pipeline));

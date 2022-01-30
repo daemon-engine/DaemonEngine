@@ -2,10 +2,9 @@
 
 public interface IWindow
 {
-    bool IsRunning();
-
     void Initialize();
     void Shutdown();
 
+    bool IsRunning();
     void Update();
 }

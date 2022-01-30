@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Graphics.Renderer;
+﻿using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
 using Serilog;
 
@@ -8,20 +9,24 @@ public abstract class ApplicationBase : IApplication, IDisposable
 {
     private bool _disposed;
 
-    protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer)
+    protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
         Logger = logger;
         Window = window;
         Renderer = renderer;
+        GraphicsFactory = graphicsFactory;
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
     protected IRenderer Renderer { get; }
+    protected IGraphicsFactory GraphicsFactory { get; }
 
     public void Run()
     {
         OnStart();
+
+        Renderer.Initialize();
 
         while (!Window.IsRunning())
         {
@@ -50,6 +55,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         if (disposing)
         {
+            Renderer.Shutdown();
             Window.Shutdown();
             OnShutdown();
         }

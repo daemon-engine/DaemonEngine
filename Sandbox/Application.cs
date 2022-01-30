@@ -16,12 +16,9 @@ public class Application : ApplicationBase
     IIndexBuffer _ibo;
 
     public Application(ILogger logger, IWindow window, IRenderer renderer, IGraphicsFactory graphicsFactory)
-        : base(logger, window, renderer)
+        : base(logger, window, renderer, graphicsFactory)
     {
-        GraphicsFactory = graphicsFactory;
     }
-
-    protected IGraphicsFactory GraphicsFactory { get; }
 
     public override void OnStart()
     {
