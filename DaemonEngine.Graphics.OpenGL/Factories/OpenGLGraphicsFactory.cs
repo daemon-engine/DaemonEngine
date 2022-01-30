@@ -14,9 +14,9 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     protected ILogger Logger { get; }
 
-    public IShader CreateShader()
+    public IShader CreateShader(string filepath)
     {
-        return new OpenGLShader();
+        return new OpenGLShader(filepath);
     }
 
     public IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout)

@@ -1,37 +1,30 @@
-﻿using DaemonEngine.Extensions.OpenGL;
+﻿using System.Linq;
+using DaemonEngine.Extensions.OpenGL;
 using DaemonEngine.Extensions.OpenGL.Enums;
 using DaemonEngine.Graphics.Renderer;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
+enum ShaderType
+{
+    None = 0,
+    Vertex = 1,
+    Fragment = 2
+};
+
 internal class OpenGLShader : IShader
 {
-    private readonly string _vertexShaderSource;
-    private readonly string _fragmentShaderSource;
-
     private readonly uint _id;
 
-    public OpenGLShader()
+    public OpenGLShader(string filepath)
     {
-        _vertexShaderSource = @"#version 330 core
-layout (location = 0) in vec3 aPos;
-void main()
-{
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-}";
+        var shaderSources = ReadFile(filepath);
+        var vertexSource = shaderSources[ShaderType.Vertex];
+        var fragmentSource = shaderSources[ShaderType.Fragment];
 
-        _fragmentShaderSource = @"#version 330 core
-out vec4 FragColor;
-void main()
-{
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-}";
-
-        var vertexShader = CreateShader(GLShaderType.VertexShader, _vertexShaderSource);
-        var fragmentShader = CreateShader(GLShaderType.FragmentShader, _fragmentShaderSource);
+        var vertexShader = CreateShader(GLShaderType.VertexShader, vertexSource);
+        var fragmentShader = CreateShader(GLShaderType.FragmentShader, fragmentSource);
         _id = CreateShaderProgram(vertexShader, fragmentShader);
-
-        //Logger.Information("Successfully loaded shader!");
     }
 
     public void Bind()
@@ -82,5 +75,37 @@ void main()
         }
 
         return shader;
+    }
+
+    private IDictionary<ShaderType, string> ReadFile(string filepath)
+    {
+        var lines = File.ReadAllLines(filepath);
+        var shaderType = ShaderType.None;
+        IDictionary<ShaderType, string> shaderSources = new Dictionary<ShaderType, string>();
+
+        var typeKeyword = "#type";
+        var shaderSource = "";
+        foreach (var line in lines)
+        {
+            if (line.Contains(typeKeyword))
+            {
+                if (!string.IsNullOrWhiteSpace(shaderSource))
+                {
+                    shaderSources[shaderType] = shaderSource;
+                    shaderSource = string.Empty;
+                }
+
+                var type = line.Substring(typeKeyword.Length + 1, line.Length - (typeKeyword.Length + 1));
+                type = string.Concat(type[0].ToString().ToUpper(), type.AsSpan(1));
+                shaderType = (ShaderType)Enum.Parse(typeof(ShaderType), type);
+                shaderSources.Add(shaderType, "");
+                continue;
+            }
+
+            shaderSource += line + "\n";
+        }
+
+        shaderSources[shaderType] = shaderSource;
+        return shaderSources;
     }
 }

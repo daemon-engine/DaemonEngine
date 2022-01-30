@@ -4,7 +4,7 @@ namespace DaemonEngine.Graphics.Factories;
 
 public interface IGraphicsFactory
 {
-    IShader CreateShader();
+    IShader CreateShader(string filepath);
 
     IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout);
     IVertexBuffer CreateVertexBuffer(int size, float[] vertices);

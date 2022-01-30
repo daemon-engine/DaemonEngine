@@ -32,7 +32,8 @@ public class Application : ApplicationBase
             1, 2, 3    // second triangle
         };
 
-        var shader = GraphicsFactory.CreateShader();
+        var shader = GraphicsFactory.CreateShader("Assets/Shaders/Basic.shader");
+
         var layout = new BufferLayout(new List<BufferElement>
         {
             new BufferElement("POSITION", ShaderDataType.Float3)
