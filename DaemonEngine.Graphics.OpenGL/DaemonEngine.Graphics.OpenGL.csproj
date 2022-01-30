@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.Extensions.Runtime\DaemonEngine.Extensions.Runtime.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.SixLabors.ImageSharp\DaemonEngine.Extensions.SixLabors.ImageSharp.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj" />
   </ItemGroup>
 

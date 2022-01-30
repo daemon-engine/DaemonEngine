@@ -1,10 +1,51 @@
 ﻿using DaemonEngine.Extensions.OpenGL.Enums;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DaemonEngine.Extensions.OpenGL;
 
 public static class GL
 {
+    #region Texture methods
+    public static void TexParameteri(uint target, uint pname, uint param)
+    {
+        OpenGLDllImport.glTexParameteri(target, pname, param);
+    }
+
+    public static void GenerateMipmap(uint target)
+    {
+        OpenGLDllImport.glGenerateMipmap(target);
+    }
+
+    public static void TexImage2D(uint target, int level, uint internalFormat, int width, int height, int border, uint format, uint type, byte[] pixels)
+    {
+        IntPtr pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
+        Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
+
+        OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelsPtr);
+
+        //unsafe
+        //{
+        //    IntPtr pixelPtr = IntPtr.Zero;
+        //    fixed (byte* p = pixels)
+        //    {
+        //        pixelPtr = (IntPtr)p;
+        //    }
+        //    OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelPtr);
+        //}
+    }
+
+    public static void BindTexture(uint target, uint texture)
+    {
+        OpenGLDllImport.glBindTexture(target, texture);
+    }
+
+    public static void GenTextures(int count, ref uint[] textures)
+    {
+        OpenGLDllImport.glGenTextures(count, textures);
+    }
+    #endregion
+
     #region Shader Program methods
     public static string GetProgramInfoLog(uint program, int bufferSize, ref int length)
     {

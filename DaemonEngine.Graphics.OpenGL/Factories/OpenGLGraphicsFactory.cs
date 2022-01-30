@@ -33,4 +33,9 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
     {
         return new OpenGLIndexBuffer(count, indices);
     }
+
+    public ITexture CreateTexture(string filepath)
+    {
+        return new OpenGLTexture(filepath);
+    }
 }

@@ -9,4 +9,6 @@ public interface IGraphicsFactory
     IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout);
     IVertexBuffer CreateVertexBuffer(int size, float[] vertices);
     IIndexBuffer CreateIndexBuffer(int count, uint[] indices);
+
+    ITexture CreateTexture(string filepath);
 }
