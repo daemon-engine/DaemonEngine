@@ -4,9 +4,6 @@ using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using Serilog;
 
-// Temp
-using DaemonEngine.Extensions.OpenGL;
-
 namespace Sandbox;
 
 public class Application : ApplicationBase
@@ -36,15 +33,13 @@ public class Application : ApplicationBase
         };
 
         var shader = GraphicsFactory.CreateShader();
-
-        _pipeline = GraphicsFactory.CreatePipeline(shader);
+        var layout = new BufferLayout(new List<BufferElement>
+        {
+            new BufferElement("POSITION", ShaderDataType.Float3)
+        });
+        _pipeline = GraphicsFactory.CreatePipeline(shader, layout);
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(12 * sizeof(float), vertices);
         _ibo = GraphicsFactory.CreateIndexBuffer(6, indices);
-
-        // Must happend after VBO is bound
-        GL.VertexAttribPointer(0, 3, GLConstants.GL_FLOAT, false, 3 * sizeof(float), 0);
-        GL.EnableVertexAttribArray(0);
-
     }
 
     public override void OnShutdown()
