@@ -2,6 +2,7 @@
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Inputs;
 using DaemonEngine.Windows;
 using Serilog;
 
@@ -14,16 +15,18 @@ public abstract class ApplicationBase : IApplication, IDisposable
     private bool _isRunning = true;
     private bool _isFocused = true;
 
-    protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer, IGraphicsFactory graphicsFactory)
+    protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
         Logger = logger;
         Window = window;
+        Input = input;
         Renderer = renderer;
         GraphicsFactory = graphicsFactory;
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
+    protected IInput Input { get; }
     protected IRenderer Renderer { get; }
     protected IGraphicsFactory GraphicsFactory { get; }
 

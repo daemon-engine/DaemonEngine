@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using DaemonEngine.Graphics.DependencyInjection;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Inputs;
 using DaemonEngine.Windows;
 using Serilog;
 
@@ -30,6 +31,11 @@ public static class DaemonEngineContainerBuilderExtensions
         };
 
         builder.RegisterWindow(windowOptions);
+
+        builder.ContainerBuilder
+            .RegisterType<Input>()
+            .As<IInput>()
+            .AsImplementedInterfaces();
 
         return builder;
     }

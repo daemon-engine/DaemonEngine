@@ -59,6 +59,11 @@ public static class Glfw
     }
     #endregion 
 
+    public static void GetCursorPos(GlfwWindow glfwWindow, ref double xPos, ref double yPos)
+    {
+        GlfwDllImport.glfwGetCursorPos(glfwWindow.WindowHandle, ref xPos, ref yPos);
+    }
+
     public static void SetWindowShouldClose(GlfwWindow glfwWindow, int value)
     {
         GlfwDllImport.glfwSetWindowShouldClose(glfwWindow.WindowHandle, value);
