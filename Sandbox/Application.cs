@@ -72,7 +72,7 @@ public class Application : ApplicationBase
         rotationX += deltaTime;
         rotationY += deltaTime;
 
-        Renderer.Clear(DaemonEngine.Extensions.OpenGL.Enums.GLClearMask.ColorBufferBit);
+        Renderer.Clear(DaemonEngine.Extensions.OpenGL.Enums.GLClearMask.ColorBufferBit | DaemonEngine.Extensions.OpenGL.Enums.GLClearMask.DepthBufferBit);
         Renderer.ClearColor(0.3f, 0.5f, 0.8f, 1.0f);
 
         Matrix4x4 model = Matrix4x4.CreateRotationX(rotationX) * Matrix4x4.CreateRotationY(rotationY);

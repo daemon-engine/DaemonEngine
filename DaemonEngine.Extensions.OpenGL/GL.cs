@@ -196,6 +196,26 @@ public static class GL
     }
     #endregion
 
+    public static void Enable(GLCapabilities capabilities)
+    {
+        Enable((uint)capabilities);
+    }
+
+    public static void Enable(uint capabilities)
+    {
+        OpenGLDllImport.glEnable(capabilities);
+    }
+
+    public static void Disable(GLCapabilities capabilities)
+    {
+        Disable((uint)capabilities);
+    }
+
+    public static void Disable(uint capabilities)
+    {
+        OpenGLDllImport.glDisable(capabilities);
+    }
+
     public static void ClearColor(float red, float green, float blue, float alpha)
     {
         OpenGLDllImport.glClearColor(red, green, blue, alpha);
@@ -203,7 +223,7 @@ public static class GL
 
     public static void Clear(GLClearMask mask)
     {
-        OpenGLDllImport.glClear((uint)mask);
+        Clear((uint)mask);
     }
 
     public static void Clear(uint mask)

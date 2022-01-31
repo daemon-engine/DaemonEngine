@@ -16,6 +16,8 @@ internal class OpenGLRenderer : RendererBase
     public override void Initialize()
     {
         Logger.Information("OpenGL Renderer Initializing");
+
+        GL.Enable(GLCapabilities.DepthTest);
     }
 
     public override void Shutdown()
