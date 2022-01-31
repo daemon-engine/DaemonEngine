@@ -77,7 +77,7 @@ public class Application : ApplicationBase
 
         Matrix4x4 model = Matrix4x4.CreateRotationX(rotationX) * Matrix4x4.CreateRotationY(rotationY);
         Matrix4x4 view = Matrix4x4.CreateTranslation(new Vector3(0.0f, 0.0f, -3.0f));
-        Matrix4x4 projection = Matrix4x4.CreatePerspectiveFieldOfView(45.0f * (3.14f / 180.0f), 1024.0f / 768.0f, 0.1f, 100.0f);
+        Matrix4x4 projection = Matrix4x4.CreatePerspectiveFieldOfView(45.0f * (3.14f / 180.0f), Window.AspectRatio, 0.1f, 100.0f);
 
         _shader.Bind();
         _shader.SetMat4("_Model", model);

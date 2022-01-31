@@ -14,6 +14,18 @@ public abstract class WindowBase : IWindow
     protected ILogger Logger { get; }
     protected WindowOptions WindowOptions { get; }
 
+    public int Width { get { return WindowOptions.Width; } }
+
+    public int Height { get { return WindowOptions.Height; } }
+
+    public float AspectRatio
+    {
+        get
+        {
+            return (float)Width / (float)Height;
+        }
+    }
+
     public abstract void Initialize();
     public abstract void Shutdown();
 
