@@ -5,6 +5,60 @@ namespace DaemonEngine.Extensions.Glfw;
 
 public static class Glfw
 {
+    #region Mouse callback methods
+    public static void SetScrollCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWscrollfun scrollEvent)
+    {
+        glfwWindow.ScrollFunc = scrollEvent;
+        GlfwDllImport.glfwSetScrollCallback(glfwWindow.WindowHandle, scrollEvent);
+    }
+
+    public static void SetCursorPosCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWcursorposfun mouseMovedEvent)
+    {
+        glfwWindow.MouseMovedFunc = mouseMovedEvent;
+        GlfwDllImport.glfwSetCursorPosCallback(glfwWindow.WindowHandle, mouseMovedEvent);
+    }
+
+    public static void SetMouseButtonCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWmousebuttonfun mouseButtonEvent)
+    {
+        glfwWindow.MouseButtonFunc = mouseButtonEvent;
+        GlfwDllImport.glfwSetMouseButtonCallback(glfwWindow.WindowHandle, mouseButtonEvent);
+    }
+    #endregion
+
+    #region Key callback methods
+    public static void SetCharCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWcharfun keyTypedEvent)
+    {
+        glfwWindow.KeyTypedFunc = keyTypedEvent;
+        GlfwDllImport.glfwSetCharCallback(glfwWindow.WindowHandle, keyTypedEvent);
+    }
+
+    public static void SetKeyCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWkeyfun keyEvent)
+    {
+        glfwWindow.KeyEventFunc = keyEvent;
+        GlfwDllImport.glfwSetKeyCallback(glfwWindow.WindowHandle, keyEvent);
+    }
+    #endregion
+
+    #region Window callback methods
+    public static void SetWindowResizeCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowsizefun windowResizeEvent)
+    {
+        glfwWindow.WindowResizeEventFunc = windowResizeEvent;
+        GlfwDllImport.glfwSetWindowSizeCallback(glfwWindow.WindowHandle, windowResizeEvent);
+    }
+
+    public static void SetWindowFocusCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowfocusfun windowFocusEvent)
+    {
+        glfwWindow.WindowFocusEventFunc = windowFocusEvent;
+        GlfwDllImport.glfwSetWindowFocusCallback(glfwWindow.WindowHandle, windowFocusEvent);
+    }
+
+    public static void SetWindowCloseCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowclosefun windowCloseEvent)
+    {
+        glfwWindow.WindowCloseEventFunc = windowCloseEvent;
+        GlfwDllImport.glfwSetWindowCloseCallback(glfwWindow.WindowHandle, windowCloseEvent);
+    }
+    #endregion 
+
     public static void SetWindowShouldClose(GlfwWindow glfwWindow, int value)
     {
         GlfwDllImport.glfwSetWindowShouldClose(glfwWindow.WindowHandle, value);

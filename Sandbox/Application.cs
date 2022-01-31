@@ -4,6 +4,9 @@ using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using Serilog;
 using System.Numerics;
+using DaemonEngine.EventSystem;
+using DaemonEngine.EventSystem.Events.Window;
+using DaemonEngine.EventSystem.Events.Key;
 
 namespace Sandbox;
 
@@ -76,5 +79,30 @@ public class Application : ApplicationBase
         _texture1.Bind();
         _texture2.Bind(1);
         Renderer.RenderGeometry(_pipeline, _vertexBuffer, _ibo);
+    }
+
+    public override void OnEvent(IEvent e)
+    {
+        var dispatcher = new EventDispatcher(e);
+        dispatcher.Dispatch<WindowCloseEvent>(OnWindowCloseEvent);
+        dispatcher.Dispatch<KeyPressedEvent>(OnKeyPressedEvent);
+    }
+
+    private bool OnKeyPressedEvent(KeyPressedEvent e)
+    {
+        if(e.KeyCode == 256)
+        {
+            Close();
+            return true;
+        }
+        Logger.Information($"Key pressed {e.KeyCode}");
+        return true;
+    }
+
+    private bool OnWindowCloseEvent(WindowCloseEvent e)
+    {
+        Logger.Information("WindowCloseEvent invoked");
+        Close();
+        return true;
     }
 }

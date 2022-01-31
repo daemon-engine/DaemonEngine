@@ -1,4 +1,6 @@
-﻿using DaemonEngine.Graphics.Factories;
+﻿using DaemonEngine.EventSystem;
+using DaemonEngine.EventSystem.Events.Window;
+using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
 using Serilog;
@@ -8,7 +10,9 @@ namespace DaemonEngine;
 public abstract class ApplicationBase : IApplication, IDisposable
 {
     private bool _disposed;
-    private float m_LastFrameTime = 0.0f;
+    private float _lastFrameTime = 0.0f;
+    private bool _isRunning = true;
+    private bool _isFocused = true;
 
     protected ApplicationBase(ILogger logger, IWindow window, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
@@ -27,13 +31,15 @@ public abstract class ApplicationBase : IApplication, IDisposable
     {
         OnStart();
 
+        Window.SetEventCallback(OnEvent);
+
         Renderer.Initialize();
 
-        while (!Window.IsRunning())
+        while (_isRunning)
         {
             float time = (float)Window.GetTime();
-            float deltaTime = time - m_LastFrameTime;
-            m_LastFrameTime = time;
+            float deltaTime = time - _lastFrameTime;
+            _lastFrameTime = time;
 
             OnUpdate(deltaTime);
 
@@ -44,6 +50,12 @@ public abstract class ApplicationBase : IApplication, IDisposable
     public abstract void OnStart();
     public abstract void OnShutdown();
     public abstract void OnUpdate(float deltaTime);
+    public abstract void OnEvent(IEvent e);
+
+    protected void Close()
+    {
+        _isRunning = false;
+    }
 
     public void Dispose()
     {

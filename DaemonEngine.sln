@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Run
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.SixLabors.ImageSharp", "DaemonEngine.Extensions.SixLabors.ImageSharp\DaemonEngine.Extensions.SixLabors.ImageSharp.csproj", "{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.EventSystem", "DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj", "{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.EventSystem.Abstractions", "DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj", "{0C48D736-18F3-4966-900C-39E8F52112AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C48D736-18F3-4966-900C-39E8F52112AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C48D736-18F3-4966-900C-39E8F52112AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C48D736-18F3-4966-900C-39E8F52112AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C48D736-18F3-4966-900C-39E8F52112AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

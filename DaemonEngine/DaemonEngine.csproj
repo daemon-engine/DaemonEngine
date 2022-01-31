@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics\DaemonEngine.Graphics.csproj" />
   </ItemGroup>
 

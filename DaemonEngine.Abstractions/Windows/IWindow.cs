@@ -1,4 +1,8 @@
-﻿namespace DaemonEngine.Windows;
+﻿using DaemonEngine.EventSystem;
+
+namespace DaemonEngine.Windows;
+
+public delegate void EventCallbackFn(IEvent e);
 
 public interface IWindow
 {
@@ -9,8 +13,11 @@ public interface IWindow
     void Initialize();
     void Shutdown();
 
-    bool IsRunning();
+    void SetEventCallback(EventCallbackFn eventCallbackFn);
+
     double GetTime();
 
     void Update();
+
+    object GetNativeWindowHandle();
 }

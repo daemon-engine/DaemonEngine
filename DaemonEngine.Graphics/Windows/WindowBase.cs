@@ -29,8 +29,11 @@ public abstract class WindowBase : IWindow
     public abstract void Initialize();
     public abstract void Shutdown();
 
-    public abstract bool IsRunning();
+    public abstract void SetEventCallback(EventCallbackFn eventCallbackFn);
+
     public abstract double GetTime();
 
     public abstract void Update();
+
+    public abstract object GetNativeWindowHandle();
 }

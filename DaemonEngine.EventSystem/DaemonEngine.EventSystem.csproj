@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj" />
   </ItemGroup>
 
