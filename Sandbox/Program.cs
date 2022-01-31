@@ -1,10 +1,17 @@
 ﻿using DaemonEngine.DependencyInjection;
-using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.DependencyInjection;
 using Sandbox;
 
 var builder = new DaemonEngineContainerBuilder();
 builder.RegisterApplication<Application>()
-    .RegisterRenderer(RendererApi.OpenGL)
+    .RegisterGraphicsModule(DaemonEngine.Graphics.Renderer.RendererApi.OpenGL)
     .RegisterWindow()
     .RegisterLogging()
     .BuildAndRun();
+
+/*
+builder.RegisterApplication<Application>()
+    .RegisterGraphicsModule(RendererApi)
+    .RegisterLogging()
+    .BuildAndRun();
+ */

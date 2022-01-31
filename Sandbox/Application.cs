@@ -7,6 +7,7 @@ using System.Numerics;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.EventSystem.Events.Key;
+using DaemonEngine.Graphics.DependencyInjection;
 
 namespace Sandbox;
 

@@ -10,14 +10,22 @@ namespace DaemonEngine.Graphics.OpenGL.DependencyInjection;
 
 public static class OpenGLDaemonEngineContainerBuilderExtensions
 {
-    public static IDaemonEngineContainerBuilder RegisterOpenGLRenderer(this IDaemonEngineContainerBuilder builder, RendererApi rendererApi)
+    public static IDaemonEngineContainerBuilder RegisterOpenGLFactory(this IDaemonEngineContainerBuilder builder)
     {
         builder.ContainerBuilder
             .RegisterType<OpenGLGraphicsFactory>()
-            .Keyed<IGraphicsFactory>(rendererApi)
             .As<IGraphicsFactory>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
+
+        return builder;
+    }
+
+    public static IDaemonEngineContainerBuilder RegisterOpenGLRenderer(this IDaemonEngineContainerBuilder builder)
+    {
+        builder.ContainerBuilder
+            .RegisterType<OpenGLRenderer>()
+            .Keyed<IRenderer>(RendererApi.OpenGL);
 
         builder.ContainerBuilder
             .Register((cc) =>
@@ -25,7 +33,6 @@ public static class OpenGLDaemonEngineContainerBuilderExtensions
             var logger = cc.Resolve<ILogger>();
             return new OpenGLRenderer(logger);
         })
-            .Keyed<IRenderer>(rendererApi)
             .As<IRenderer>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();

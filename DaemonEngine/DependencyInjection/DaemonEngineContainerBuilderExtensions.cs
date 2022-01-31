@@ -20,13 +20,6 @@ public static class DaemonEngineContainerBuilderExtensions
         return builder;
     }
 
-    public static IDaemonEngineContainerBuilder RegisterRenderer(this IDaemonEngineContainerBuilder builder, RendererApi rendererApi)
-    {
-        builder.RegisterRendererType(rendererApi);
-
-        return builder;
-    }
-
     public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
     {
         var windowOptions = new WindowOptions
