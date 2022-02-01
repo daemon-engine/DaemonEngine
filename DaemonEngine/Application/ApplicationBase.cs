@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.EventSystem;
+using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
@@ -52,7 +53,18 @@ public abstract class ApplicationBase : IApplication, IDisposable
     public abstract void OnStart();
     public abstract void OnShutdown();
     public abstract void OnUpdate(float deltaTime);
-    public abstract void OnEvent(IEvent e);
+
+    public virtual void OnEvent(IEvent e)
+    {
+        EventDispatcher dispatcher = new(e);
+        dispatcher.Dispatch<WindowResizeEvent>(OnWindowResizeEvent);
+    }
+    
+    private bool OnWindowResizeEvent(WindowResizeEvent e)
+    {
+        Renderer.SetViewport(0, 0, e.Width, e.Height);
+        return true;
+    }
 
     protected void Close()
     {

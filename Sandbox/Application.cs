@@ -85,9 +85,9 @@ public class Application : ApplicationBase
         {
             float angle = 20.0f * i;
 
-            Matrix4x4 model = Matrix4x4.Identity 
-                * Matrix4x4.CreateTranslation(_cubePositions[i]) 
-                * Matrix4x4.CreateRotationX(angle / 0.01745329251f) 
+            Matrix4x4 model = Matrix4x4.Identity
+                * Matrix4x4.CreateTranslation(_cubePositions[i])
+                * Matrix4x4.CreateRotationX(angle / 0.01745329251f)
                 * Matrix4x4.CreateRotationY(angle / 0.01745329251f)
                 * Matrix4x4.CreateRotationZ(angle / 0.01745329251f);
 
@@ -105,7 +105,16 @@ public class Application : ApplicationBase
     public override void OnEvent(IEvent e)
     {
         var dispatcher = new EventDispatcher(e);
+        dispatcher.Dispatch<WindowResizeEvent>(OnWindowResizeEvent);
         dispatcher.Dispatch<WindowCloseEvent>(OnWindowCloseEvent);
+
+        base.OnEvent(e);
+    }
+
+    private bool OnWindowResizeEvent(WindowResizeEvent e)
+    {
+        _camera.SetViewport(e.Width, e.Height);
+        return true;
     }
 
     private bool OnWindowCloseEvent(WindowCloseEvent e)

@@ -17,6 +17,7 @@ public abstract class RendererBase : IRenderer
 
     public abstract void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
 
+    public abstract void SetViewport(int x, int y, int width, int height);
     public abstract void Clear(GLClearMask clearMask);
     public abstract void ClearColor(float red, float green, float blue, float alpha);
 }

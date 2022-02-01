@@ -38,7 +38,7 @@ public class FPSCamera
 
     public float FieldOfView { get; }
     public float FieldOfViewRadians { get { return FieldOfView * (3.14f / 180.0f); } }
-    public float AspectRatio { get; }
+    public float AspectRatio { get; private set; }
     public float NearClip { get; }
     public float FarClip { get; }
 
@@ -108,6 +108,12 @@ public class FPSCamera
         {
             _position += Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
         }
+    }
+
+    public void SetViewport(int width, int height)
+    {
+        AspectRatio = (float)width / (float)height;
+        UpdateProjection();
     }
 
     private void UpdateProjection()

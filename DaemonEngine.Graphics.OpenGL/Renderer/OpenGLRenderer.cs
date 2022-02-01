@@ -37,6 +37,11 @@ internal class OpenGLRenderer : RendererBase
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
     }
 
+    public override void SetViewport(int x, int y, int width, int height)
+    {
+        GL.Viewport(x, y, width, height);
+    }
+
     public override void Clear(GLClearMask clearMask)
     {
         GL.Clear(clearMask);
