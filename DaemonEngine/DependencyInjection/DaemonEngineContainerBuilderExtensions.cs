@@ -20,7 +20,7 @@ public static class DaemonEngineContainerBuilderExtensions
         return builder;
     }
 
-    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowApi windowApi)
+    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
     {
         builder.ContainerBuilder
             .RegisterType<WindowFactory>()
@@ -39,7 +39,7 @@ public static class DaemonEngineContainerBuilderExtensions
                 };
 
                 var windowFactory = cc.Resolve<IWindowFactory>();
-                return windowFactory.CreateWindow(windowApi, windowOptions);
+                return windowFactory.CreateWindow(windowOptions);
             })
             .As<IWindow>()
             .AsImplementedInterfaces()
