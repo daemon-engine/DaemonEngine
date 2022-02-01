@@ -5,18 +5,10 @@ namespace DaemonEngine.Windows.DependencyInjection;
 
 public static class WindowsDaemonEngineContainerBuilderExtensions
 {
-    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowApi windowApi)
+    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowOptions windowOptions)
     {
-        switch (windowApi)
-        {
-            case WindowApi.Glfw:    builder.RegisterGlfwWindow(); break;
-            case WindowApi.Win32:
-            case WindowApi.None:
-            default: break;
-        }
-
+        builder.RegisterGlfwWindow(windowOptions);
+        builder.RegisterGlfwInput();
         return builder;
     }
 }
-
-

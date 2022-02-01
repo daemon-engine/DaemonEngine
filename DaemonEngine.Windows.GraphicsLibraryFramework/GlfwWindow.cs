@@ -10,7 +10,7 @@ internal class GlfwWindow : WindowBase
 {
     private Extensions.Glfw.Structs.GlfwWindow _glfwWindow;
 
-    public GlfwWindow(ILogger logger, WindowOptions windowOptions) 
+    public GlfwWindow(ILogger logger, WindowOptions windowOptions)
         : base(logger, windowOptions)
     {
         Initialize();

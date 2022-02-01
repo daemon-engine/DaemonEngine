@@ -4,7 +4,6 @@ using Sandbox;
 
 var builder = new DaemonEngineContainerBuilder();
 builder.RegisterApplication<Application>()
-    .RegisterWindow()
     .RegisterGraphicsModule(DaemonEngine.Graphics.Renderer.RendererApi.OpenGL)
     .RegisterLogging()
     .BuildAndRun();

@@ -1,9 +1,8 @@
 ﻿using DaemonEngine.EventSystem;
-using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.Inputs;
 using DaemonEngine.Windows;
+using DaemonEngine.Windows.Inputs;
 using Serilog;
 
 namespace DaemonEngine;

@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Inputs;
+﻿using DaemonEngine.Windows.Inputs;
 using System.Numerics;
 
 namespace Sandbox;
@@ -91,20 +91,20 @@ public class FPSCamera
 
     private void Move(float deltaTime)
     {
-        if (_input.IsKeyPressed((int)'W'))
+        if (_input.IsKeyDown(Keycode.W))
         {
             _position += _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyPressed((int)'S'))
+        else if (_input.IsKeyDown(Keycode.S))
         {
             _position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
 
-        if (_input.IsKeyPressed((int)'A'))
+        if (_input.IsKeyDown(Keycode.A))
         {
             _position -= Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyPressed((int)'D'))
+        else if (_input.IsKeyDown(Keycode.D))
         {
             _position += Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
         }

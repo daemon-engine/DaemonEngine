@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using DaemonEngine.Factories.Windows;
-using DaemonEngine.Inputs;
 using DaemonEngine.Windows;
+using DaemonEngine.Windows.DependencyInjection;
 using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
@@ -17,42 +16,50 @@ public static class DaemonEngineContainerBuilderExtensions
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
-        return builder;
-    }
-
-    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
-    {
-        builder.ContainerBuilder
-            .RegisterType<WindowFactory>()
-            .As<IWindowFactory>()
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
-
-        builder.ContainerBuilder
-            .Register((cc) =>
-            {
-                var windowOptions = new WindowOptions
-                {
-                    Title = "Test Window",
-                    Width = 1024,
-                    Height = 768
-                };
-
-                var windowFactory = cc.Resolve<IWindowFactory>();
-                return windowFactory.CreateWindow(windowOptions);
-            })
-            .As<IWindow>()
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
-
-        builder.ContainerBuilder
-            .RegisterType<Input>()
-            .As<IInput>()
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
+        var windowOptions = new WindowOptions
+        {
+            Title = "Test Window",
+            Width = 1024,
+            Height = 768
+        };
+        builder.RegisterWindow(windowOptions);
 
         return builder;
     }
+
+    //public static IDaemonEngineContainerBuilder RegisterWindowOld(this IDaemonEngineContainerBuilder builder)
+    //{
+    //    builder.ContainerBuilder
+    //        .RegisterType<WindowFactory>()
+    //        .As<IWindowFactory>()
+    //        .AsImplementedInterfaces()
+    //        .InstancePerLifetimeScope();
+
+    //    builder.ContainerBuilder
+    //        .Register((cc) =>
+    //        {
+    //            var windowOptions = new WindowOptions
+    //            {
+    //                Title = "Test Window",
+    //                Width = 1024,
+    //                Height = 768
+    //            };
+
+    //            var windowFactory = cc.Resolve<IWindowFactory>();
+    //            return windowFactory.CreateWindow(windowOptions);
+    //        })
+    //        .As<IWindow>()
+    //        .AsImplementedInterfaces()
+    //        .InstancePerLifetimeScope();
+
+    //    builder.ContainerBuilder
+    //        .RegisterType<Input>()
+    //        .As<IInput>()
+    //        .AsImplementedInterfaces()
+    //        .InstancePerLifetimeScope();
+
+    //    return builder;
+    //}
 
     public static IDaemonEngineContainerBuilder RegisterLogging(this IDaemonEngineContainerBuilder builder)
     {

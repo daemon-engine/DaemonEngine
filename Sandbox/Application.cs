@@ -6,7 +6,7 @@ using Serilog;
 using System.Numerics;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
-using DaemonEngine.Inputs;
+using DaemonEngine.Windows.Inputs;
 
 namespace Sandbox;
 

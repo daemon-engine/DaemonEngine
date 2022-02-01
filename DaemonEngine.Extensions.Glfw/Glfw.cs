@@ -69,6 +69,16 @@ public static class Glfw
         GlfwDllImport.glfwSetWindowShouldClose(glfwWindow.WindowHandle, value);
     }
 
+    public static bool IsMouseButtonPressed(GlfwWindow glfwWindow, int button)
+    {
+        return GetMouseButton(glfwWindow, button) == GlfwConstants.GLFW_PRESS;
+    }
+
+    public static int GetMouseButton(GlfwWindow glfwWindow, int button)
+    {
+        return GlfwDllImport.glfwGetMouseButton(glfwWindow.WindowHandle, button);   
+    }
+
     public static bool IsKeyPressed(GlfwWindow glfwWindow, int key)
     {
         return GetKey(glfwWindow, key) == GlfwConstants.GLFW_PRESS;

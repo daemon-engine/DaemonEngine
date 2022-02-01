@@ -18,6 +18,7 @@
     <ProjectReference Include="..\DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj" />
     <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics\DaemonEngine.Graphics.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Windows\DaemonEngine.Windows.csproj" />
   </ItemGroup>
 
 </Project>
