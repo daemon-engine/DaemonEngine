@@ -25,19 +25,16 @@ internal class OpenGLRenderer : RendererBase
         Logger.Information("OpenGL Renderer Shutting down");
     }
 
-    public override void RenderGeometry(IPipeline? pipeline, IVertexBuffer? vertexBuffer, IIndexBuffer? indexBuffer, int indexCount = 0)
+    public override void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0)
     {
         Throw.IfNull(pipeline, nameof(pipeline));
         Throw.IfNull(vertexBuffer, nameof(vertexBuffer));
         Throw.IfNull(indexBuffer, nameof(indexBuffer));
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
         pipeline.Bind();
         indexBuffer.Bind();
 
         var count = indexCount == 0 ? indexBuffer.Count : indexCount;
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
     public override void Clear(GLClearMask clearMask)

@@ -13,7 +13,6 @@ internal class GlfwWindow : WindowBase
     public GlfwWindow(ILogger logger, WindowOptions windowOptions)
         : base(logger, windowOptions)
     {
-        Initialize();
     }
 
     public override void Initialize()

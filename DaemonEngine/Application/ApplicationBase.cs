@@ -5,14 +5,13 @@ using DaemonEngine.Windows;
 using DaemonEngine.Windows.Inputs;
 using Serilog;
 
-namespace DaemonEngine;
+namespace DaemonEngine.Application;
 
 public abstract class ApplicationBase : IApplication, IDisposable
 {
     private bool _disposed;
     private float _lastFrameTime = 0.0f;
     private bool _isRunning = true;
-    private bool _isFocused = true;
 
     protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
@@ -31,11 +30,12 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
     public void Run()
     {
-        OnStart();
-
+        Window.Initialize();
         Window.SetEventCallback(OnEvent);
 
         Renderer.Initialize();
+
+        OnStart();
 
         while (_isRunning)
         {
@@ -74,9 +74,10 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         if (disposing)
         {
+            OnShutdown();
+
             Renderer.Shutdown();
             Window.Shutdown();
-            OnShutdown();
         }
 
         _disposed = true;

@@ -1,5 +1,4 @@
-﻿using DaemonEngine;
-using DaemonEngine.Windows;
+﻿using DaemonEngine.Windows;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using Serilog;
@@ -7,6 +6,7 @@ using System.Numerics;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Windows.Inputs;
+using DaemonEngine.Application;
 
 namespace Sandbox;
 
@@ -87,9 +87,9 @@ public class Application : ApplicationBase
 
             Matrix4x4 model = Matrix4x4.Identity 
                 * Matrix4x4.CreateTranslation(_cubePositions[i]) 
-                * Matrix4x4.CreateRotationX(angle * (3.14f / 180.0f)) 
-                * Matrix4x4.CreateRotationY(angle * (3.14f / 180.0f))
-                * Matrix4x4.CreateRotationZ(angle * (3.14f / 180.0f));
+                * Matrix4x4.CreateRotationX(angle / 0.01745329251f) 
+                * Matrix4x4.CreateRotationY(angle / 0.01745329251f)
+                * Matrix4x4.CreateRotationZ(angle / 0.01745329251f);
 
             _shader.Bind();
             _shader.SetMat4("_Model", model);

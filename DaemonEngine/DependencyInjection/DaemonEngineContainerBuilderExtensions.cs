@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DaemonEngine.Application;
 using DaemonEngine.Windows;
 using DaemonEngine.Windows.DependencyInjection;
 using Serilog;
