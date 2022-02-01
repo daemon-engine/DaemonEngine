@@ -36,7 +36,6 @@ internal class GlfwWindow : WindowBase
             Logger.Fatal("Failed to create Glfw window");
             return;
         }
-        GC.KeepAlive(_glfwWindow);
 
         Glfw.MakeContextCurrent(_glfwWindow);
 

@@ -14,6 +14,9 @@ public abstract class ApplicationBase : IApplication, IDisposable
     private float _lastFrameTime = 0.0f;
     private bool _isRunning = true;
 
+    private bool _isMinimized = false;
+    private bool _isFocused = true;
+
     protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
         Logger = logger;
@@ -40,11 +43,14 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         while (_isRunning)
         {
-            float time = (float)Window.GetTime();
-            float deltaTime = time - _lastFrameTime;
-            _lastFrameTime = time;
+            if (_isFocused && !_isMinimized)
+            {
+                float time = (float)Window.GetTime();
+                float deltaTime = time - _lastFrameTime;
+                _lastFrameTime = time;
 
-            OnUpdate(deltaTime);
+                OnUpdate(deltaTime);
+            }
 
             Window.Update();
         }
@@ -58,10 +64,23 @@ public abstract class ApplicationBase : IApplication, IDisposable
     {
         EventDispatcher dispatcher = new(e);
         dispatcher.Dispatch<WindowResizeEvent>(OnWindowResizeEvent);
+        dispatcher.Dispatch<WindowFocusEvent>(OnWindowFocusEvent);
     }
-    
+
+    private bool OnWindowFocusEvent(WindowFocusEvent e)
+    {
+        _isFocused = e.Focused;
+        return true;
+    }
+
     private bool OnWindowResizeEvent(WindowResizeEvent e)
     {
+        if(e.Width <= 0 || e.Height <= 0)
+        {
+            _isMinimized = true;
+            return true;
+        }
+
         Renderer.SetViewport(0, 0, e.Width, e.Height);
         return true;
     }
