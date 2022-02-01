@@ -1,7 +1,6 @@
-﻿using DaemonEngine.Windows;
-using Serilog;
+﻿using Serilog;
 
-namespace DaemonEngine.Graphics.Windows;
+namespace DaemonEngine.Windows;
 
 public abstract class WindowBase : IWindow
 {
@@ -13,6 +12,7 @@ public abstract class WindowBase : IWindow
 
     protected ILogger Logger { get; }
     protected WindowOptions WindowOptions { get; }
+    protected EventCallbackFn EventCallback { get; private set; }
 
     public int Width { get { return WindowOptions.Width; } }
 
@@ -26,10 +26,13 @@ public abstract class WindowBase : IWindow
         }
     }
 
+    public void SetEventCallback(EventCallbackFn eventCallbackFn)
+    {
+        EventCallback = eventCallbackFn;
+    }
+
     public abstract void Initialize();
     public abstract void Shutdown();
-
-    public abstract void SetEventCallback(EventCallbackFn eventCallbackFn);
 
     public abstract double GetTime();
 

@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Run
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.SixLabors.ImageSharp", "DaemonEngine.Extensions.SixLabors.ImageSharp\DaemonEngine.Extensions.SixLabors.ImageSharp.csproj", "{D4D0BA3B-38B6-47B8-B1C6-52735F8842E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.EventSystem", "DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj", "{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.EventSystem", "DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj", "{3232C3A5-1C12-4CF9-93AF-CAAC7265235B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.EventSystem.Abstractions", "DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj", "{0C48D736-18F3-4966-900C-39E8F52112AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.EventSystem.Abstractions", "DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj", "{0C48D736-18F3-4966-900C-39E8F52112AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

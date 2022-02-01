@@ -5,22 +5,6 @@ using DaemonEngine.Graphics.Renderer;
 
 namespace DaemonEngine.Graphics.DependencyInjection;
 
-public interface ITestRenderer
-{
-}
-
-public class OpenGLRenderer : ITestRenderer
-{
-}
-
-public class VulkanRenderer : ITestRenderer
-{
-}
-
-public class DirectXRenderer : ITestRenderer
-{
-}
-
 public static class GraphicsDaemonEngineContainerBuilderExtensions
 {
     public static IDaemonEngineContainerBuilder RegisterGraphicsModule(this IDaemonEngineContainerBuilder builder, RendererApi rendererApi)

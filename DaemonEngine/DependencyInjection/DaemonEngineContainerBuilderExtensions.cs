@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using DaemonEngine.Graphics.DependencyInjection;
-using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Factories.Windows;
 using DaemonEngine.Inputs;
 using DaemonEngine.Windows;
 using Serilog;
@@ -21,21 +20,36 @@ public static class DaemonEngineContainerBuilderExtensions
         return builder;
     }
 
-    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder)
+    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowApi windowApi)
     {
-        var windowOptions = new WindowOptions
-        {
-            Title = "Test Window",
-            Width = 1024,
-            Height = 768
-        };
+        builder.ContainerBuilder
+            .RegisterType<WindowFactory>()
+            .As<IWindowFactory>()
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
 
-        builder.RegisterWindow(windowOptions);
+        builder.ContainerBuilder
+            .Register((cc) =>
+            {
+                var windowOptions = new WindowOptions
+                {
+                    Title = "Test Window",
+                    Width = 1024,
+                    Height = 768
+                };
+
+                var windowFactory = cc.Resolve<IWindowFactory>();
+                return windowFactory.CreateWindow(windowApi, windowOptions);
+            })
+            .As<IWindow>()
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
 
         builder.ContainerBuilder
             .RegisterType<Input>()
             .As<IInput>()
-            .AsImplementedInterfaces();
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope();
 
         return builder;
     }
