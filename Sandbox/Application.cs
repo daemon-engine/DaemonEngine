@@ -65,8 +65,8 @@ public class Application : ApplicationBase
         _ibo = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
 
         _shader.Bind();
-        _shader.SetInt("Texture1", 0);
-        _shader.SetInt("Texture2", 1);
+        _shader.SetInt("_Texture1", 0);
+        _shader.SetInt("_Texture2", 1);
 
         _camera = new FPSCamera(45.0f, Window.AspectRatio, Input);
     }
