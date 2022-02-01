@@ -48,7 +48,7 @@ public class Application : ApplicationBase
         var cubeVertices = Builder.GenerateCubeVertices();
         var cubeIndices = Builder.GenerateCubeIndices();
 
-        _shader = GraphicsFactory.CreateShader("Assets/Shaders/CoordinateSystem.shader");
+        _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter1/CoordinateSystem.shader");
 
         _texture1 = GraphicsFactory.CreateTexture("Assets/Textures/container.jpg");
         _texture2 = GraphicsFactory.CreateTexture("Assets/Textures/awesomeface.png");
