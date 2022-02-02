@@ -57,7 +57,13 @@ public static class Glfw
         glfwWindow.WindowCloseEventFunc = windowCloseEvent;
         GlfwDllImport.glfwSetWindowCloseCallback(glfwWindow.WindowHandle, windowCloseEvent);
     }
-    #endregion 
+    #endregion
+
+
+    public static void MaximizeWindow(GlfwWindow glfwWindow)
+    {
+        GlfwDllImport.glfwMaximizeWindow(glfwWindow.WindowHandle);
+    }
 
     public static void RestoreWindow(GlfwWindow glfwWindow)
     {

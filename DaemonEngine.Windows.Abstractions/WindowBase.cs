@@ -35,6 +35,8 @@ public abstract class WindowBase : IWindow
     public abstract void Initialize();
     public abstract void Shutdown();
 
+    public abstract void Maximize();
+    public abstract void Restore();
     public abstract double GetTime();
 
     public abstract void Update();

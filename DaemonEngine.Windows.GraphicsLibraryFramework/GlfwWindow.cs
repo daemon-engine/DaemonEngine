@@ -135,6 +135,16 @@ internal class GlfwWindow : WindowBase
         EventCallback?.Invoke(e);
     }
 
+    public override void Maximize()
+    {
+        Glfw.MaximizeWindow(_glfwWindow);
+    }
+
+    public override void Restore()
+    {
+        Glfw.RestoreWindow(_glfwWindow);
+    }
+
     public override double GetTime()
     {
         return Glfw.GetTime();

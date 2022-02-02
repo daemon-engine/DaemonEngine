@@ -15,6 +15,8 @@ public interface IWindow
 
     void SetEventCallback(EventCallbackFn eventCallbackFn);
 
+    void Maximize();
+    void Restore();
     double GetTime();
 
     void Update();

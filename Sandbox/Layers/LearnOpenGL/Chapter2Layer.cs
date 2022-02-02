@@ -34,13 +34,13 @@ internal class Chapter2Layer : LayerBase
         : base(name, serviceProvider)
     {
         _application = ServiceProvider.GetService<IApplication>();
-
-        var cursor = ServiceProvider.GetService<ICursor>();
-        cursor.Disable();
     }
 
     public override void OnStart()
     {
+        var cursor = ServiceProvider.GetService<ICursor>();
+        cursor.Disable();
+
         var input = ServiceProvider.GetService<IInput>();
         _camera = new FPSCamera(45.0f, Window.AspectRatio, input);
 
@@ -70,6 +70,8 @@ internal class Chapter2Layer : LayerBase
 
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(192 * sizeof(float), cubeVertices);
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
+
+        Window.Maximize();
     }
 
     public override void OnShutdown()

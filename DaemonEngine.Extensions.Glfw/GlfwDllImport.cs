@@ -70,6 +70,8 @@ internal unsafe static class GlfwDllImport
     [DllImport(GlfwDllImportBase.LIB_GLFW_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
     public static extern void glfwIconifyWindow(IntPtr window);
     [DllImport(GlfwDllImportBase.LIB_GLFW_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
+    public static extern IntPtr glfwMaximizeWindow(IntPtr window);
+    [DllImport(GlfwDllImportBase.LIB_GLFW_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
     public static extern void glfwRestoreWindow(IntPtr window);
     [DllImport(GlfwDllImportBase.LIB_GLFW_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
     public static extern void glfwShowWindow(IntPtr window);
