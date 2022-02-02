@@ -31,5 +31,8 @@ public abstract class LayerBase : ILayer
     public abstract void OnShutdown();
 
     public abstract void OnUpdate(float deltaTime);
-    public abstract void OnEvent(IEvent e);
+
+    public virtual void OnEvent(IEvent e)
+    {
+    }
 }

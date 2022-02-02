@@ -2,10 +2,8 @@
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Factories;
-using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
-using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -22,26 +20,22 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
     private LayerStack _layerStack;
 
-    private ILayerFactory _layerFactory;
-
-    protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory, IServiceProvider serviceProvider)
+    protected ApplicationBase(IServiceProvider serviceProvider)
     {
-        Logger = logger;
-        Window = window;
-        Input = input;
-        Renderer = renderer;
-        GraphicsFactory = graphicsFactory;
+        Logger = serviceProvider.GetRequiredService<ILogger>();
+        Window = serviceProvider.GetRequiredService<IWindow>();
 
-        _layerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
+        LayerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
+        Renderer = serviceProvider.GetRequiredService<IRenderer>();
 
         _layerStack = new LayerStack();
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
-    protected IInput Input { get; }
-    protected IRenderer Renderer { get; }
-    protected IGraphicsFactory GraphicsFactory { get; }
+
+    private IRenderer Renderer { get; }
+    private ILayerFactory LayerFactory { get; }
 
     public void Run()
     {
@@ -68,17 +62,12 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
             Window.Update();
         }
-
-        foreach (var layer in _layerStack.Layers)
-        {
-            layer.OnShutdown();
-        }
     }
 
     public TLayer AddLayer<TLayer>(string name)
         where TLayer : class, ILayer
     {
-        var layer = _layerFactory.CreateLayer<TLayer>(name);
+        var layer = LayerFactory.CreateLayer<TLayer>(name);
         _layerStack.AddLayer(layer);
         layer.OnStart();
         return layer;
@@ -92,6 +81,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
         EventDispatcher dispatcher = new(e);
         dispatcher.Dispatch<WindowResizeEvent>(OnWindowResizeEvent);
         dispatcher.Dispatch<WindowFocusEvent>(OnWindowFocusEvent);
+        dispatcher.Dispatch<WindowCloseEvent>(OnWindowCloseEvent);
 
         foreach (var layer in _layerStack.Layers)
         {
@@ -117,9 +107,10 @@ public abstract class ApplicationBase : IApplication, IDisposable
         return true;
     }
 
-    protected void Close()
+    private bool OnWindowCloseEvent(WindowCloseEvent e)
     {
         _isRunning = false;
+        return true;
     }
 
     public void Dispose()
@@ -137,6 +128,11 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         if (disposing)
         {
+            foreach (var layer in _layerStack.Layers)
+            {
+                layer.OnShutdown();
+            }
+
             OnShutdown();
 
             Renderer.Shutdown();
