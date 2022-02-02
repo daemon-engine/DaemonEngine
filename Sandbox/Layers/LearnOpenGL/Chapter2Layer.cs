@@ -28,7 +28,7 @@ internal class Chapter2Layer : LayerBase
 
     FPSCamera _camera;
 
-    IApplication _application;
+    private readonly IApplication _application;
 
     public Chapter2Layer(string name, IServiceProvider serviceProvider) 
         : base(name, serviceProvider)
@@ -176,11 +176,26 @@ internal class Chapter2Layer : LayerBase
         dispatcher.Dispatch<KeyPressedEvent>(OnKeyPressedEvent);
     }
 
+    private static bool s_Maximized = true;
+
     private bool OnKeyPressedEvent(KeyPressedEvent e)
     {
         if(e.KeyCode == (int)Keycode.ESCAPE)
         {
             _application.Stop();
+        }
+
+        if(e.KeyCode == (int)Keycode.P)
+        {
+            s_Maximized = !s_Maximized;
+            if(s_Maximized)
+            {
+                Window.Maximize();
+            }
+            else
+            {
+                Window.Restore();
+            }
         }
         return true;
     }
