@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.Application;
+using DaemonEngine.Core;
 using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Key;
@@ -33,6 +34,9 @@ internal class Chapter2Layer : LayerBase
         : base(name, serviceProvider)
     {
         _application = ServiceProvider.GetService<IApplication>();
+
+        var cursor = ServiceProvider.GetService<ICursor>();
+        cursor.Disable();
     }
 
     public override void OnStart()

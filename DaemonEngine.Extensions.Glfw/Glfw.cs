@@ -59,6 +59,11 @@ public static class Glfw
     }
     #endregion 
 
+    public static void SetInputMode(GlfwWindow glfwWindow, int mode, int value)
+    {
+        GlfwDllImport.glfwSetInputMode(glfwWindow.WindowHandle, mode, value);
+    }
+
     public static void GetCursorPos(GlfwWindow glfwWindow, ref double xPos, ref double yPos)
     {
         GlfwDllImport.glfwGetCursorPos(glfwWindow.WindowHandle, ref xPos, ref yPos);

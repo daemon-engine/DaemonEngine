@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DaemonEngine.Application;
+using DaemonEngine.Core;
 using DaemonEngine.Core.Layer;
 using DaemonEngine.Factories;
 using DaemonEngine.Windows;
@@ -19,6 +20,11 @@ public static class DaemonEngineContainerBuilderExtensions
             .RegisterType<TApplication>()
             .As<IApplication>()
             .AutoActivate()
+            .InstancePerLifetimeScope();
+
+        builder.ContainerBuilder
+            .RegisterType<Cursor>()
+            .As<ICursor>()
             .InstancePerLifetimeScope();
 
         builder.ContainerBuilder
