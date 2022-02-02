@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj" />
     <ProjectReference Include="..\DaemonEngine\DaemonEngine.csproj" />
   </ItemGroup>
 

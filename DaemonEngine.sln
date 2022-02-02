@@ -27,11 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.EventSystem", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.EventSystem.Abstractions", "DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj", "{0C48D736-18F3-4966-900C-39E8F52112AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Windows", "DaemonEngine.Windows\DaemonEngine.Windows.csproj", "{681154CD-F8F0-487A-BF2A-1A0BF5FAD0B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows", "DaemonEngine.Windows\DaemonEngine.Windows.csproj", "{681154CD-F8F0-487A-BF2A-1A0BF5FAD0B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Windows.GraphicsLibraryFramework", "DaemonEngine.Windows.GraphicsLibraryFramework\DaemonEngine.Windows.GraphicsLibraryFramework.csproj", "{00E4D7E2-57D4-4419-A043-CA83EC84CD23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.GraphicsLibraryFramework", "DaemonEngine.Windows.GraphicsLibraryFramework\DaemonEngine.Windows.GraphicsLibraryFramework.csproj", "{00E4D7E2-57D4-4419-A043-CA83EC84CD23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Windows.Abstractions", "DaemonEngine.Windows.Abstractions\DaemonEngine.Windows.Abstractions.csproj", "{9708527E-636D-47AA-BB87-5EB7E7EB241F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.Abstractions", "DaemonEngine.Windows.Abstractions\DaemonEngine.Windows.Abstractions.csproj", "{9708527E-636D-47AA-BB87-5EB7E7EB241F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.ImGui", "DaemonEngine.Extensions.ImGui\DaemonEngine.Extensions.ImGui.csproj", "{AE23E0E5-490C-48D7-965C-56367B445D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{9708527E-636D-47AA-BB87-5EB7E7EB241F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9708527E-636D-47AA-BB87-5EB7E7EB241F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9708527E-636D-47AA-BB87-5EB7E7EB241F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE23E0E5-490C-48D7-965C-56367B445D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE23E0E5-490C-48D7-965C-56367B445D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE23E0E5-490C-48D7-965C-56367B445D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE23E0E5-490C-48D7-965C-56367B445D50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

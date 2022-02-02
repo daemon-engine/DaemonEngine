@@ -69,7 +69,15 @@ public static class DaemonEngineContainerBuilderExtensions
 
 
         using var scope = container.BeginLifetimeScope();
-        var application = scope.Resolve<IApplication>();
-        application.Run();
+        try
+        {
+            var application = scope.Resolve<IApplication>();
+            application.Run();
+        }
+        catch (Exception ex)
+        {
+            var logger = scope.Resolve<ILogger>();
+            logger.Error(ex.Message);
+        }
     }
 }
