@@ -1,7 +1,11 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using DaemonEngine.Application;
+using DaemonEngine.Core.Layer;
+using DaemonEngine.Factories;
 using DaemonEngine.Windows;
 using DaemonEngine.Windows.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
@@ -14,7 +18,12 @@ public static class DaemonEngineContainerBuilderExtensions
         builder.ContainerBuilder
             .RegisterType<TApplication>()
             .As<IApplication>()
-            .AsImplementedInterfaces()
+            .AutoActivate()
+            .InstancePerLifetimeScope();
+
+        builder.ContainerBuilder
+            .RegisterType<LayerFactory>()
+            .As<ILayerFactory>()
             .InstancePerLifetimeScope();
 
         var windowOptions = new WindowOptions
@@ -27,40 +36,6 @@ public static class DaemonEngineContainerBuilderExtensions
 
         return builder;
     }
-
-    //public static IDaemonEngineContainerBuilder RegisterWindowOld(this IDaemonEngineContainerBuilder builder)
-    //{
-    //    builder.ContainerBuilder
-    //        .RegisterType<WindowFactory>()
-    //        .As<IWindowFactory>()
-    //        .AsImplementedInterfaces()
-    //        .InstancePerLifetimeScope();
-
-    //    builder.ContainerBuilder
-    //        .Register((cc) =>
-    //        {
-    //            var windowOptions = new WindowOptions
-    //            {
-    //                Title = "Test Window",
-    //                Width = 1024,
-    //                Height = 768
-    //            };
-
-    //            var windowFactory = cc.Resolve<IWindowFactory>();
-    //            return windowFactory.CreateWindow(windowOptions);
-    //        })
-    //        .As<IWindow>()
-    //        .AsImplementedInterfaces()
-    //        .InstancePerLifetimeScope();
-
-    //    builder.ContainerBuilder
-    //        .RegisterType<Input>()
-    //        .As<IInput>()
-    //        .AsImplementedInterfaces()
-    //        .InstancePerLifetimeScope();
-
-    //    return builder;
-    //}
 
     public static IDaemonEngineContainerBuilder RegisterLogging(this IDaemonEngineContainerBuilder builder)
     {
@@ -80,7 +55,18 @@ public static class DaemonEngineContainerBuilderExtensions
 
     public static void BuildAndRun(this IDaemonEngineContainerBuilder builder)
     {
+        builder.ContainerBuilder.Populate(builder.ServiceCollection);
         var container = builder.ContainerBuilder.Build();
+
+        builder.ContainerBuilder
+            .Register((cc) =>
+            {
+                var serviceProvider = new AutofacServiceProvider(container);
+                return serviceProvider;
+            })
+            .As<IServiceProvider>()
+            .InstancePerLifetimeScope();
+
 
         using var scope = container.BeginLifetimeScope();
         var application = scope.Resolve<IApplication>();

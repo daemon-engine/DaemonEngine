@@ -13,6 +13,10 @@
     <ProjectReference Include="..\DaemonEngine\DaemonEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Shaders\LearnOpenGL\Chapter2\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="echo A|xcopy $(ProjectDir)Assets $(ProjectDir)$(OutDir)\Assets /E /C /I" />
   </Target>

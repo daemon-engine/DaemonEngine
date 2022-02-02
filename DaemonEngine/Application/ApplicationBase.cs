@@ -1,9 +1,12 @@
-﻿using DaemonEngine.EventSystem;
+﻿using DaemonEngine.Core.Layer;
+using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
+using DaemonEngine.Factories;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
 using DaemonEngine.Windows.Inputs;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace DaemonEngine.Application;
@@ -17,13 +20,21 @@ public abstract class ApplicationBase : IApplication, IDisposable
     private bool _isMinimized = false;
     private bool _isFocused = true;
 
-    protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory)
+    private LayerStack _layerStack;
+
+    private ILayerFactory _layerFactory;
+
+    protected ApplicationBase(ILogger logger, IWindow window, IInput input, IRenderer renderer, IGraphicsFactory graphicsFactory, IServiceProvider serviceProvider)
     {
         Logger = logger;
         Window = window;
         Input = input;
         Renderer = renderer;
         GraphicsFactory = graphicsFactory;
+
+        _layerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
+
+        _layerStack = new LayerStack();
     }
 
     protected ILogger Logger { get; }
@@ -49,11 +60,24 @@ public abstract class ApplicationBase : IApplication, IDisposable
                 float deltaTime = time - _lastFrameTime;
                 _lastFrameTime = time;
 
-                OnUpdate(deltaTime);
+                foreach (var layer in _layerStack.Layers)
+                {
+                    layer.OnUpdate(deltaTime);
+                }
+                //OnUpdate(deltaTime);
             }
 
             Window.Update();
         }
+    }
+
+    public TLayer AddLayer<TLayer>(string name)
+        where TLayer : class, ILayer
+    {
+        var layer = _layerFactory.CreateLayer<TLayer>(name);
+        _layerStack.AddLayer(layer);
+        layer.OnStart();
+        return layer;
     }
 
     public abstract void OnStart();
@@ -65,6 +89,11 @@ public abstract class ApplicationBase : IApplication, IDisposable
         EventDispatcher dispatcher = new(e);
         dispatcher.Dispatch<WindowResizeEvent>(OnWindowResizeEvent);
         dispatcher.Dispatch<WindowFocusEvent>(OnWindowFocusEvent);
+
+        foreach (var layer in _layerStack.Layers)
+        {
+            layer.OnEvent(e);
+        }
     }
 
     private bool OnWindowFocusEvent(WindowFocusEvent e)
