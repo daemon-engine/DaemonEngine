@@ -59,6 +59,11 @@ public static class Glfw
     }
     #endregion 
 
+    public static void RestoreWindow(GlfwWindow glfwWindow)
+    {
+        GlfwDllImport.glfwRestoreWindow(glfwWindow.WindowHandle);
+    }
+
     public static void SetInputMode(GlfwWindow glfwWindow, int mode, int value)
     {
         GlfwDllImport.glfwSetInputMode(glfwWindow.WindowHandle, mode, value);
