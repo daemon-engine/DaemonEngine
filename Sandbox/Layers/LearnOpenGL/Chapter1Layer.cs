@@ -6,7 +6,7 @@ using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using System.Numerics;
 
-namespace Sandbox.Layers;
+namespace Sandbox.Layers.LearnOpenGL;
 
 public class Chapter1Layer : LayerBase
 {

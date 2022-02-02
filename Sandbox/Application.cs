@@ -1,7 +1,5 @@
-﻿using DaemonEngine.EventSystem;
-using DaemonEngine.EventSystem.Events.Window;
-using DaemonEngine.Application;
-using Sandbox.Layers;
+﻿using DaemonEngine.Application;
+using Sandbox.Layers.LearnOpenGL;
 
 namespace Sandbox;
 
