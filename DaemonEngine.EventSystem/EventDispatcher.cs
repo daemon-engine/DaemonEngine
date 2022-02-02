@@ -2,7 +2,7 @@
 
 public class EventDispatcher
 {
-    private IEvent _event;
+    private readonly IEvent _event;
 
     public EventDispatcher(IEvent @event)
     {

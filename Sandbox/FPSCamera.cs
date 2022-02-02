@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Inputs;
+﻿using DaemonEngine.Windows.Inputs;
 using System.Numerics;
 
 namespace Sandbox;
@@ -38,7 +38,7 @@ public class FPSCamera
 
     public float FieldOfView { get; }
     public float FieldOfViewRadians { get { return FieldOfView * (3.14f / 180.0f); } }
-    public float AspectRatio { get; }
+    public float AspectRatio { get; private set; }
     public float NearClip { get; }
     public float FarClip { get; }
 
@@ -91,23 +91,29 @@ public class FPSCamera
 
     private void Move(float deltaTime)
     {
-        if (_input.IsKeyPressed((int)'W'))
+        if (_input.IsKeyDown(Keycode.W))
         {
             _position += _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyPressed((int)'S'))
+        else if (_input.IsKeyDown(Keycode.S))
         {
             _position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
 
-        if (_input.IsKeyPressed((int)'A'))
+        if (_input.IsKeyDown(Keycode.A))
         {
             _position -= Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyPressed((int)'D'))
+        else if (_input.IsKeyDown(Keycode.D))
         {
             _position += Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
         }
+    }
+
+    public void SetViewport(int width, int height)
+    {
+        AspectRatio = (float)width / (float)height;
+        UpdateProjection();
     }
 
     private void UpdateProjection()

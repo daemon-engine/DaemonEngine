@@ -69,6 +69,16 @@ public static class Glfw
         GlfwDllImport.glfwSetWindowShouldClose(glfwWindow.WindowHandle, value);
     }
 
+    public static bool IsMouseButtonPressed(GlfwWindow glfwWindow, int button)
+    {
+        return GetMouseButton(glfwWindow, button) == GlfwConstants.GLFW_PRESS;
+    }
+
+    public static int GetMouseButton(GlfwWindow glfwWindow, int button)
+    {
+        return GlfwDllImport.glfwGetMouseButton(glfwWindow.WindowHandle, button);   
+    }
+
     public static bool IsKeyPressed(GlfwWindow glfwWindow, int key)
     {
         return GetKey(glfwWindow, key) == GlfwConstants.GLFW_PRESS;
@@ -114,10 +124,17 @@ public static class Glfw
         return GlfwDllImport.glfwGetTime();
     }
 
-    public static GlfwWindow CreateWindow(int width, int height, string title)
+    public static IntPtr GetPrimaryMonitor()
     {
+        return GlfwDllImport.glfwGetPrimaryMonitor();
+    }
+
+    public static GlfwWindow CreateWindow(int width, int height, string title, bool fullscreen = false)
+    {
+        var fullscreenMonitor = fullscreen ? GetPrimaryMonitor() : IntPtr.Zero;
+
         var titleBytes = Encoding.UTF8.GetBytes(title);
-        var windowHandle = GlfwDllImport.glfwCreateWindow(width, height, titleBytes, IntPtr.Zero, IntPtr.Zero);
+        var windowHandle = GlfwDllImport.glfwCreateWindow(width, height, titleBytes, fullscreenMonitor, IntPtr.Zero);
 
         return new GlfwWindow
         {

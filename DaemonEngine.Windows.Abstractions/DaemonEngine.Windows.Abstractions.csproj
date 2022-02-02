@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.EventSystem.Abstractions\DaemonEngine.EventSystem.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj" />
   </ItemGroup>
 
 </Project>

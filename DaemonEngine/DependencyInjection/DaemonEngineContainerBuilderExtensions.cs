@@ -1,7 +1,11 @@
 ﻿using Autofac;
-using DaemonEngine.Factories.Windows;
-using DaemonEngine.Inputs;
+using Autofac.Extensions.DependencyInjection;
+using DaemonEngine.Application;
+using DaemonEngine.Core.Layer;
+using DaemonEngine.Factories;
 using DaemonEngine.Windows;
+using DaemonEngine.Windows.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
@@ -14,42 +18,21 @@ public static class DaemonEngineContainerBuilderExtensions
         builder.ContainerBuilder
             .RegisterType<TApplication>()
             .As<IApplication>()
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
-
-        return builder;
-    }
-
-    public static IDaemonEngineContainerBuilder RegisterWindow(this IDaemonEngineContainerBuilder builder, WindowApi windowApi)
-    {
-        builder.ContainerBuilder
-            .RegisterType<WindowFactory>()
-            .As<IWindowFactory>()
-            .AsImplementedInterfaces()
+            .AutoActivate()
             .InstancePerLifetimeScope();
 
         builder.ContainerBuilder
-            .Register((cc) =>
-            {
-                var windowOptions = new WindowOptions
-                {
-                    Title = "Test Window",
-                    Width = 1024,
-                    Height = 768
-                };
-
-                var windowFactory = cc.Resolve<IWindowFactory>();
-                return windowFactory.CreateWindow(windowApi, windowOptions);
-            })
-            .As<IWindow>()
-            .AsImplementedInterfaces()
+            .RegisterType<LayerFactory>()
+            .As<ILayerFactory>()
             .InstancePerLifetimeScope();
 
-        builder.ContainerBuilder
-            .RegisterType<Input>()
-            .As<IInput>()
-            .AsImplementedInterfaces()
-            .InstancePerLifetimeScope();
+        var windowOptions = new WindowOptions
+        {
+            Title = "Test Window",
+            Width = 1024,
+            Height = 768
+        };
+        builder.RegisterWindow(windowOptions);
 
         return builder;
     }
@@ -72,7 +55,18 @@ public static class DaemonEngineContainerBuilderExtensions
 
     public static void BuildAndRun(this IDaemonEngineContainerBuilder builder)
     {
+        builder.ContainerBuilder.Populate(builder.ServiceCollection);
         var container = builder.ContainerBuilder.Build();
+
+        builder.ContainerBuilder
+            .Register((cc) =>
+            {
+                var serviceProvider = new AutofacServiceProvider(container);
+                return serviceProvider;
+            })
+            .As<IServiceProvider>()
+            .InstancePerLifetimeScope();
+
 
         using var scope = container.BeginLifetimeScope();
         var application = scope.Resolve<IApplication>();
