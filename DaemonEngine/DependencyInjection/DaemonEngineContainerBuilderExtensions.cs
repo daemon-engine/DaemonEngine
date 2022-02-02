@@ -2,11 +2,9 @@
 using Autofac.Extensions.DependencyInjection;
 using DaemonEngine.Application;
 using DaemonEngine.Core;
-using DaemonEngine.Core.Layer;
 using DaemonEngine.Factories;
 using DaemonEngine.Windows;
 using DaemonEngine.Windows.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace DaemonEngine.DependencyInjection;
