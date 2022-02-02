@@ -64,6 +64,11 @@ public abstract class ApplicationBase : IApplication, IDisposable
         }
     }
 
+    public void Stop()
+    {
+        _isRunning = false;
+    }
+
     public TLayer AddLayer<TLayer>(string name)
         where TLayer : class, ILayer
     {

@@ -7,8 +7,6 @@ public class FPSCamera
 {
     private readonly IInput _input;
 
-    private Vector3 _position = new Vector3(0.0f, 0.0f, 5.0f);
-
     private bool _firstMouse = true;
     private float _lastX = 0.0f;
     private float _lastY = 0.0f;
@@ -18,7 +16,7 @@ public class FPSCamera
 
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
 
-    private Vector3 CAMERA_UP = new(0.0f, 1.0f, 0.0f);
+    private Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
 
     private const float MOVEMENT_SPEED = 2.0f;
     private const float SENSITIVITY = 2.0f;
@@ -32,7 +30,7 @@ public class FPSCamera
         NearClip = nearClip;
         FarClip = farClip;
 
-        ViewMatrix = Matrix4x4.CreateLookAt(_position, _position + _cameraFront, CAMERA_UP);
+        ViewMatrix = Matrix4x4.CreateLookAt(Position, Position + _cameraFront, _cameraUp);
         UpdateProjection();
     }
 
@@ -42,6 +40,7 @@ public class FPSCamera
     public float NearClip { get; }
     public float FarClip { get; }
 
+    public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 5.0f);
     public Matrix4x4 ViewMatrix { get; private set; }
     public Matrix4x4 ProjectionMatrix { get; private set; }
 
@@ -49,7 +48,7 @@ public class FPSCamera
     {
         Move(deltaTime);
         Rotate(deltaTime);
-        ViewMatrix = Matrix4x4.CreateLookAt(_position, _position + _cameraFront, CAMERA_UP);
+        ViewMatrix = Matrix4x4.CreateLookAt(Position, Position + _cameraFront, _cameraUp);
     }
 
     private void Rotate(float deltaTime)
@@ -91,22 +90,31 @@ public class FPSCamera
 
     private void Move(float deltaTime)
     {
+        if (_input.IsKeyDown(Keycode.E))
+        {
+            Position += _cameraUp * MOVEMENT_SPEED * deltaTime;
+        }
+        else if (_input.IsKeyDown(Keycode.Q))
+        {
+            Position -= _cameraUp * MOVEMENT_SPEED * deltaTime;
+        }
+
         if (_input.IsKeyDown(Keycode.W))
         {
-            _position += _cameraFront * MOVEMENT_SPEED * deltaTime;
+            Position += _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
         else if (_input.IsKeyDown(Keycode.S))
         {
-            _position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
+            Position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
 
         if (_input.IsKeyDown(Keycode.A))
         {
-            _position -= Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
+            Position -= Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
         }
         else if (_input.IsKeyDown(Keycode.D))
         {
-            _position += Vector3.Normalize(Vector3.Cross(_cameraFront, CAMERA_UP)) * MOVEMENT_SPEED * deltaTime;
+            Position += Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
         }
     }
 

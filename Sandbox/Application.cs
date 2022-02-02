@@ -13,7 +13,8 @@ public class Application : ApplicationBase
     public override void OnStart()
     {
         Logger.Information("Application.OnStart");
-        AddLayer<Chapter1Layer>("Chapter 1 Layer");
+        //AddLayer<Chapter1Layer>("Getting Started Layer");
+        AddLayer<Chapter2Layer>("Lighting Layer");
     }
 
     public override void OnShutdown()

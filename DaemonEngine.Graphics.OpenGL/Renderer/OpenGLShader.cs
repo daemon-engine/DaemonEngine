@@ -43,6 +43,21 @@ internal class OpenGLShader : IShader
         GL.Uniform1i(GL.GetUniformLocation(_id, name), value);
     }
 
+    public void SetFloat(string name, float value)
+    {
+        GL.Uniform1f(GL.GetUniformLocation(_id, name), value);
+    }
+
+    public void SetFloat2(string name, float v0, float v1)
+    {
+        GL.Uniform2f(GL.GetUniformLocation(_id, name), v0, v1);
+    }
+
+    public void SetFloat3(string name, float v0, float v1, float v2)
+    {
+        GL.Uniform3f(GL.GetUniformLocation(_id, name), v0, v1, v2);
+    }
+
     public void SetMat4(string name, Matrix4x4 matrix, bool transpose = false)
     {
         float[] mat =

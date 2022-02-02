@@ -52,6 +52,21 @@ public static class GL
         OpenGLDllImport.glUniform1i(location, value);
     }
 
+    public static void Uniform1f(uint location, float value)
+    {
+        OpenGLDllImport.glUniform1f(location, value);
+    }
+
+    public static void Uniform2f(uint location, float v0, float v1)
+    {
+        OpenGLDllImport.glUniform2f(location, v0, v1);
+    }
+
+    public static void Uniform3f(uint location, float v0, float v1, float v2)
+    {
+        OpenGLDllImport.glUniform3f(location, v0, v1, v2);
+    }
+
     public static uint GetUniformLocation(uint program, string name)
     {
         return OpenGLDllImport.glGetUniformLocation(program, name);
