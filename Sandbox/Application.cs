@@ -29,10 +29,6 @@ public class Application : ApplicationBase
         Logger.Information("Application.OnShutdown");
     }
 
-    public override void OnUpdate(float deltaTime)
-    {
-    }
-
     public override void OnEvent(IEvent e)
     {
         var dispatcher = new EventDispatcher(e);

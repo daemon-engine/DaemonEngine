@@ -64,10 +64,14 @@ public abstract class ApplicationBase : IApplication, IDisposable
                 {
                     layer.OnUpdate(deltaTime);
                 }
-                //OnUpdate(deltaTime);
             }
 
             Window.Update();
+        }
+
+        foreach (var layer in _layerStack.Layers)
+        {
+            layer.OnShutdown();
         }
     }
 
@@ -82,7 +86,6 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
     public abstract void OnStart();
     public abstract void OnShutdown();
-    public abstract void OnUpdate(float deltaTime);
 
     public virtual void OnEvent(IEvent e)
     {
