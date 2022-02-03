@@ -1,9 +1,11 @@
-﻿using DaemonEngine.Core.Layer;
+﻿using DaemonEngine.Core.Inputs;
+using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
+using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -18,22 +20,23 @@ public abstract class ApplicationBase : IApplication, IDisposable
     private bool _isMinimized = false;
     private bool _isFocused = true;
 
-    private LayerStack _layerStack;
+    private readonly LayerStack _layerStack;
 
     protected ApplicationBase(IServiceProvider serviceProvider)
     {
         Logger = serviceProvider.GetRequiredService<ILogger>();
         Window = serviceProvider.GetRequiredService<IWindow>();
-
         LayerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
         Renderer = serviceProvider.GetRequiredService<IRenderer>();
 
         _layerStack = new LayerStack();
+
+        var input = serviceProvider.GetRequiredService<IInput>();
+        _ = new Input(input);
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
-
     private IRenderer Renderer { get; }
     private ILayerFactory LayerFactory { get; }
 

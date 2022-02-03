@@ -1,13 +1,12 @@
 ﻿using DaemonEngine.Application;
 using DaemonEngine.Core;
+using DaemonEngine.Core.Inputs;
 using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Enums;
-using DaemonEngine.OpenGL.DllImport.Enums;
-using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using System.Numerics;
 
@@ -43,8 +42,7 @@ internal class Chapter2Layer : LayerBase
         var cursor = ServiceProvider.GetService<ICursor>();
         cursor.Disable();
 
-        var input = ServiceProvider.GetService<IInput>();
-        _camera = new FPSCamera(45.0f, Window.AspectRatio, input);
+        _camera = new FPSCamera(45.0f, Window.AspectRatio);
 
         _lightingShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/Materials.shader");
         _lightObjectShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/1.LightCube.shader");

@@ -1,4 +1,4 @@
-﻿using DaemonEngine.EventSystem;
+﻿using DaemonEngine.Extensions.Runtime;
 using Serilog;
 
 namespace DaemonEngine.Windows;
@@ -7,6 +7,9 @@ public abstract class WindowBase : IWindow
 {
     public WindowBase(ILogger logger, WindowOptions windowOptions)
     {
+        Throw.IfNull(logger, nameof(logger));
+        Throw.IfNull(windowOptions, nameof(windowOptions));
+
         Logger = logger;
         WindowOptions = windowOptions;
     }

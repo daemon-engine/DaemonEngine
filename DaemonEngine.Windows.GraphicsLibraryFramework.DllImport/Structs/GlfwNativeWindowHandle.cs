@@ -1,6 +1,6 @@
 ﻿namespace DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 
-public struct GlfwWindow
+public struct GlfwNativeWindowHandle
 {
     public IntPtr WindowHandle { get; set; }
 

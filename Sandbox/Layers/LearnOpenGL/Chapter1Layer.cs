@@ -39,10 +39,7 @@ public class Chapter1Layer : LayerBase
     public Chapter1Layer(string name, IServiceProvider serviceProvider) 
         : base(name, serviceProvider)
     {
-        Input = serviceProvider.GetRequiredService<IInput>();
     }
-
-    protected IInput Input { get; }
 
     public override void OnStart()
     {
@@ -73,7 +70,7 @@ public class Chapter1Layer : LayerBase
         _shader.SetInt("_Texture1", 0);
         _shader.SetInt("_Texture2", 1);
 
-        _camera = new FPSCamera(45.0f, Window.AspectRatio, Input);
+        _camera = new FPSCamera(45.0f, Window.AspectRatio);
     }
 
     public override void OnShutdown()

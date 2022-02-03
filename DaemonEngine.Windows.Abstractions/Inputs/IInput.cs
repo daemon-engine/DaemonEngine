@@ -4,8 +4,8 @@ namespace DaemonEngine.Windows.Inputs;
 
 public interface IInput
 {
-    bool IsKeyDown(Keycode keycode);
-    bool IsButtonDown(MouseButton button);
+    bool IsKeyDown(int keycode);
+    bool IsButtonDown(int button);
 
     float GetMousePositionX();
     float GetMousePositionY();
