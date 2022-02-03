@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Core.Layer;
+﻿using DaemonEngine.Core;
+using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
@@ -45,6 +46,9 @@ public class Chapter1Layer : LayerBase
 
     public override void OnStart()
     {
+        var cursor = ServiceProvider.GetService<ICursor>();
+        cursor.Disable();
+
         Logger.Information($"{Name}.OnStart()");
 
         var cubeVertices = Builder.GenerateCubeVertices();
@@ -58,10 +62,11 @@ public class Chapter1Layer : LayerBase
         var layout = new BufferLayout(new List<BufferElement>
         {
             new BufferElement("POSITION", ShaderDataType.Float3),
+            new BufferElement("NORMALS", ShaderDataType.Float3),
             new BufferElement("TEXCOORD", ShaderDataType.Float2)
         });
         _pipeline = GraphicsFactory.CreatePipeline(_shader, layout);
-        _vertexBuffer = GraphicsFactory.CreateVertexBuffer(120 * sizeof(float), cubeVertices);
+        _vertexBuffer = GraphicsFactory.CreateVertexBuffer(192 * sizeof(float), cubeVertices);
         _ibo = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
 
         _shader.Bind();
