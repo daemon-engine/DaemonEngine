@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine", "DaemonEngin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sandbox", "Sandbox\Sandbox.csproj", "{9C2F0AEE-4C4E-4364-ACCA-C37D97DE8CCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Glfw", "DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj", "{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.GraphicsLibraryFramework.DllImport", "DaemonEngine.Extensions.Glfw\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport.csproj", "{0E58AAE0-1D79-4D1E-8E3F-391B4BBDE07F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics", "DaemonEngine.Graphics\DaemonEngine.Graphics.csproj", "{EC9B29F7-4E18-47BB-9D1D-F3341BB31F94}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Abstractions", "DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj", "{E5906F3A-F69A-4310-A523-0966C4B238CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.OpenGL", "DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj", "{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics.OpenGL.DllImport", "DaemonEngine.Extensions.OpenGL\DaemonEngine.Graphics.OpenGL.DllImport.csproj", "{59D95C43-93FE-481C-ADB6-7D9A0DCD0016}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics.OpenGL", "DaemonEngine.Graphics.OpenGL\DaemonEngine.Graphics.OpenGL.csproj", "{30B4E755-C810-43F2-AD1E-92950C5F059A}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.Graphi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.Abstractions", "DaemonEngine.Windows.Abstractions\DaemonEngine.Windows.Abstractions.csproj", "{9708527E-636D-47AA-BB87-5EB7E7EB241F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.ImGui", "DaemonEngine.Extensions.ImGui\DaemonEngine.Extensions.ImGui.csproj", "{AE23E0E5-490C-48D7-965C-56367B445D50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.ImGui", "DaemonEngine.Extensions.ImGui\DaemonEngine.Extensions.ImGui.csproj", "{AE23E0E5-490C-48D7-965C-56367B445D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

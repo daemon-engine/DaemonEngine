@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaemonEngine.Extensions.OpenGL\DaemonEngine.Extensions.OpenGL.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.OpenGL\DaemonEngine.Graphics.OpenGL.DllImport.csproj" />
   </ItemGroup>
 
 </Project>

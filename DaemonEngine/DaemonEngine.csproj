@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Extensions.Glfw.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport.csproj" />
     <ProjectReference Include="..\DaemonEngine.Extensions.ImGui\DaemonEngine.Extensions.ImGui.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics\DaemonEngine.Graphics.csproj" />
     <ProjectReference Include="..\DaemonEngine.Windows\DaemonEngine.Windows.csproj" />
