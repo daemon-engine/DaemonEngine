@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace DaemonEngine.Windows.GraphicsLibraryFramework;
 
-internal class GlfwInput : IInput
+internal class GlfwInput : InputBase
 {
     private readonly IWindow _window;
 
@@ -14,29 +14,19 @@ internal class GlfwInput : IInput
         _window = window;
     }
 
-    public bool IsButtonDown(MouseButton button)
+    public override bool IsButtonDown(int button)
     {
         var glfwNativeWindow = (GlfwNativeWindowHandle)_window.GetNativeWindowHandle();
-        return Glfw.IsMouseButtonPressed(glfwNativeWindow, (int)button);
+        return Glfw.IsMouseButtonPressed(glfwNativeWindow, button);
     }
 
-    public bool IsKeyDown(Keycode keycode)
+    public override bool IsKeyDown(int keycode)
     {
         var glfwNativeWindow = (GlfwNativeWindowHandle)_window.GetNativeWindowHandle();
-        return Glfw.IsKeyPressed(glfwNativeWindow, (int)keycode);
+        return Glfw.IsKeyPressed(glfwNativeWindow, keycode);
     }
 
-    public float GetMousePositionX()
-    {
-        return GetMousePosition().X;
-    }
-
-    public float GetMousePositionY()
-    {
-        return GetMousePosition().Y;
-    }
-
-    public Vector2 GetMousePosition()
+    public override Vector2 GetMousePosition()
     {
         var glfwNativeWindow = (GlfwNativeWindowHandle)_window.GetNativeWindowHandle();
         double mouseX = 0.0, mouseY = 0.0;

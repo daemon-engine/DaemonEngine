@@ -1,12 +1,10 @@
-﻿using DaemonEngine.Windows.Inputs;
+﻿using DaemonEngine.Core.Inputs;
 using System.Numerics;
 
 namespace Sandbox;
 
 public class FPSCamera
 {
-    private readonly IInput _input;
-
     private bool _firstMouse = true;
     private float _lastX = 0.0f;
     private float _lastY = 0.0f;
@@ -21,10 +19,8 @@ public class FPSCamera
     private const float MOVEMENT_SPEED = 2.0f;
     private const float SENSITIVITY = 2.0f;
 
-    public FPSCamera(float fieldOfView, float aspectRatio, IInput input, float nearClip = 0.1f, float farClip = 100.0f)
+    public FPSCamera(float fieldOfView, float aspectRatio, float nearClip = 0.1f, float farClip = 100.0f)
     {
-        _input = input;
-
         FieldOfView = fieldOfView;
         AspectRatio = aspectRatio;
         NearClip = nearClip;
@@ -53,7 +49,7 @@ public class FPSCamera
 
     private void Rotate(float deltaTime)
     {
-        var mousePosition = _input.GetMousePosition();
+        var mousePosition = Input.GetMousePosition();
 
         if (_firstMouse)
         {
@@ -90,29 +86,29 @@ public class FPSCamera
 
     private void Move(float deltaTime)
     {
-        if (_input.IsKeyDown(Keycode.E))
+        if (Input.IsKeyPressed(Keycode.E))
         {
             Position += _cameraUp * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyDown(Keycode.Q))
+        else if (Input.IsKeyPressed(Keycode.Q))
         {
             Position -= _cameraUp * MOVEMENT_SPEED * deltaTime;
         }
 
-        if (_input.IsKeyDown(Keycode.W))
+        if (Input.IsKeyPressed(Keycode.W))
         {
             Position += _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyDown(Keycode.S))
+        else if (Input.IsKeyPressed(Keycode.S))
         {
             Position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
 
-        if (_input.IsKeyDown(Keycode.A))
+        if (Input.IsKeyPressed(Keycode.A))
         {
             Position -= Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
         }
-        else if (_input.IsKeyDown(Keycode.D))
+        else if (Input.IsKeyPressed(Keycode.D))
         {
             Position += Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
         }

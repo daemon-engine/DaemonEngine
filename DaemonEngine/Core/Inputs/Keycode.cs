@@ -1,6 +1,6 @@
 ﻿using DaemonEngine.GraphicsLibraryFramework.DllImport;
 
-namespace DaemonEngine.Windows.Inputs;
+namespace DaemonEngine.Core.Inputs;
 
 public enum Keycode : int
 {

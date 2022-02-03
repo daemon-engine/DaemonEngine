@@ -1,9 +1,11 @@
-﻿using DaemonEngine.Core.Layer;
+﻿using DaemonEngine.Core.Inputs;
+using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Windows;
+using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -29,6 +31,9 @@ public abstract class ApplicationBase : IApplication, IDisposable
         Renderer = serviceProvider.GetRequiredService<IRenderer>();
 
         _layerStack = new LayerStack();
+
+        var input = serviceProvider.GetRequiredService<IInput>();
+        new Input(input);
     }
 
     protected ILogger Logger { get; }
