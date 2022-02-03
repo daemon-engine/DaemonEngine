@@ -2,7 +2,7 @@
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.OpenGL.DllImport.Enums;
+using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using System.Numerics;
@@ -80,7 +80,7 @@ public class Chapter1Layer : LayerBase
     {
         _camera.Update(deltaTime);
 
-        Renderer.Clear(GLClearMask.ColorBufferBit | GLClearMask.DepthBufferBit);
+        Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
         Renderer.ClearColor(0.3f, 0.5f, 0.8f, 1.0f);
 
         for (int i = 0; i < 10; i++)

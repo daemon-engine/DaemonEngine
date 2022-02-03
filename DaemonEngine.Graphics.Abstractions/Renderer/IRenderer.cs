@@ -1,4 +1,4 @@
-﻿using DaemonEngine.OpenGL.DllImport.Enums;
+﻿using DaemonEngine.Graphics.Renderer.Enums;
 
 namespace DaemonEngine.Graphics.Renderer;
 
@@ -11,5 +11,5 @@ public interface IRenderer
 
     void SetViewport(int x, int y, int width, int height);
     void ClearColor(float red, float green, float blue, float alpha);
-    void Clear(GLClearMask clearMask);
+    void Clear(ClearMask clearMask);
 }

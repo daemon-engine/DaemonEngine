@@ -1,4 +1,6 @@
 ﻿using DaemonEngine.Extensions.Runtime;
+using DaemonEngine.Graphics.Renderer.Enums;
+using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
@@ -42,9 +44,9 @@ internal class OpenGLRenderer : RendererBase
         GL.Viewport(x, y, width, height);
     }
 
-    public override void Clear(GLClearMask clearMask)
+    public override void Clear(ClearMask clearMask)
     {
-        GL.Clear(clearMask);
+        GL.Clear(OpenGLHelper.ClearMaskToOpenGLType(clearMask));
     }
 
     public override void ClearColor(float red, float green, float blue, float alpha)
