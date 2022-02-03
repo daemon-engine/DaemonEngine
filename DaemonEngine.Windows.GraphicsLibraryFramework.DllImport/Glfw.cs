@@ -6,103 +6,102 @@ namespace DaemonEngine.GraphicsLibraryFramework.DllImport;
 public static class Glfw
 {
     #region Mouse callback methods
-    public static void SetScrollCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWscrollfun scrollEvent)
+    public static void SetScrollCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWscrollfun scrollEvent)
     {
-        glfwWindow.ScrollFunc = scrollEvent;
-        GlfwDllImport.glfwSetScrollCallback(glfwWindow.WindowHandle, scrollEvent);
+        glfwNativeWindowHandle.ScrollFunc = scrollEvent;
+        GlfwDllImport.glfwSetScrollCallback(glfwNativeWindowHandle.WindowHandle, scrollEvent);
     }
 
-    public static void SetCursorPosCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWcursorposfun mouseMovedEvent)
+    public static void SetCursorPosCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWcursorposfun mouseMovedEvent)
     {
-        glfwWindow.MouseMovedFunc = mouseMovedEvent;
-        GlfwDllImport.glfwSetCursorPosCallback(glfwWindow.WindowHandle, mouseMovedEvent);
+        glfwNativeWindowHandle.MouseMovedFunc = mouseMovedEvent;
+        GlfwDllImport.glfwSetCursorPosCallback(glfwNativeWindowHandle.WindowHandle, mouseMovedEvent);
     }
 
-    public static void SetMouseButtonCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWmousebuttonfun mouseButtonEvent)
+    public static void SetMouseButtonCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWmousebuttonfun mouseButtonEvent)
     {
-        glfwWindow.MouseButtonFunc = mouseButtonEvent;
-        GlfwDllImport.glfwSetMouseButtonCallback(glfwWindow.WindowHandle, mouseButtonEvent);
+        glfwNativeWindowHandle.MouseButtonFunc = mouseButtonEvent;
+        GlfwDllImport.glfwSetMouseButtonCallback(glfwNativeWindowHandle.WindowHandle, mouseButtonEvent);
     }
     #endregion
 
     #region Key callback methods
-    public static void SetCharCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWcharfun keyTypedEvent)
+    public static void SetCharCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWcharfun keyTypedEvent)
     {
-        glfwWindow.KeyTypedFunc = keyTypedEvent;
-        GlfwDllImport.glfwSetCharCallback(glfwWindow.WindowHandle, keyTypedEvent);
+        glfwNativeWindowHandle.KeyTypedFunc = keyTypedEvent;
+        GlfwDllImport.glfwSetCharCallback(glfwNativeWindowHandle.WindowHandle, keyTypedEvent);
     }
 
-    public static void SetKeyCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWkeyfun keyEvent)
+    public static void SetKeyCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWkeyfun keyEvent)
     {
-        glfwWindow.KeyEventFunc = keyEvent;
-        GlfwDllImport.glfwSetKeyCallback(glfwWindow.WindowHandle, keyEvent);
+        glfwNativeWindowHandle.KeyEventFunc = keyEvent;
+        GlfwDllImport.glfwSetKeyCallback(glfwNativeWindowHandle.WindowHandle, keyEvent);
     }
     #endregion
 
     #region Window callback methods
-    public static void SetWindowResizeCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowsizefun windowResizeEvent)
+    public static void SetWindowResizeCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWwindowsizefun windowResizeEvent)
     {
-        glfwWindow.WindowResizeEventFunc = windowResizeEvent;
-        GlfwDllImport.glfwSetWindowSizeCallback(glfwWindow.WindowHandle, windowResizeEvent);
+        glfwNativeWindowHandle.WindowResizeEventFunc = windowResizeEvent;
+        GlfwDllImport.glfwSetWindowSizeCallback(glfwNativeWindowHandle.WindowHandle, windowResizeEvent);
     }
 
-    public static void SetWindowFocusCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowfocusfun windowFocusEvent)
+    public static void SetWindowFocusCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWwindowfocusfun windowFocusEvent)
     {
-        glfwWindow.WindowFocusEventFunc = windowFocusEvent;
-        GlfwDllImport.glfwSetWindowFocusCallback(glfwWindow.WindowHandle, windowFocusEvent);
+        glfwNativeWindowHandle.WindowFocusEventFunc = windowFocusEvent;
+        GlfwDllImport.glfwSetWindowFocusCallback(glfwNativeWindowHandle.WindowHandle, windowFocusEvent);
     }
 
-    public static void SetWindowCloseCallback(ref GlfwWindow glfwWindow, GlfwCallbacks.GLFWwindowclosefun windowCloseEvent)
+    public static void SetWindowCloseCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWwindowclosefun windowCloseEvent)
     {
-        glfwWindow.WindowCloseEventFunc = windowCloseEvent;
-        GlfwDllImport.glfwSetWindowCloseCallback(glfwWindow.WindowHandle, windowCloseEvent);
+        glfwNativeWindowHandle.WindowCloseEventFunc = windowCloseEvent;
+        GlfwDllImport.glfwSetWindowCloseCallback(glfwNativeWindowHandle.WindowHandle, windowCloseEvent);
     }
     #endregion
 
-
-    public static void MaximizeWindow(GlfwWindow glfwWindow)
+    public static void MaximizeWindow(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        GlfwDllImport.glfwMaximizeWindow(glfwWindow.WindowHandle);
+        GlfwDllImport.glfwMaximizeWindow(glfwNativeWindowHandle.WindowHandle);
     }
 
-    public static void RestoreWindow(GlfwWindow glfwWindow)
+    public static void RestoreWindow(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        GlfwDllImport.glfwRestoreWindow(glfwWindow.WindowHandle);
+        GlfwDllImport.glfwRestoreWindow(glfwNativeWindowHandle.WindowHandle);
     }
 
-    public static void SetInputMode(GlfwWindow glfwWindow, int mode, int value)
+    public static void SetInputMode(GlfwNativeWindowHandle glfwNativeWindowHandle, int mode, int value)
     {
-        GlfwDllImport.glfwSetInputMode(glfwWindow.WindowHandle, mode, value);
+        GlfwDllImport.glfwSetInputMode(glfwNativeWindowHandle.WindowHandle, mode, value);
     }
 
-    public static void GetCursorPos(GlfwWindow glfwWindow, ref double xPos, ref double yPos)
+    public static void GetCursorPos(GlfwNativeWindowHandle glfwNativeWindowHandle, ref double xPos, ref double yPos)
     {
-        GlfwDllImport.glfwGetCursorPos(glfwWindow.WindowHandle, ref xPos, ref yPos);
+        GlfwDllImport.glfwGetCursorPos(glfwNativeWindowHandle.WindowHandle, ref xPos, ref yPos);
     }
 
-    public static void SetWindowShouldClose(GlfwWindow glfwWindow, int value)
+    public static void SetWindowShouldClose(GlfwNativeWindowHandle glfwNativeWindowHandle, int value)
     {
-        GlfwDllImport.glfwSetWindowShouldClose(glfwWindow.WindowHandle, value);
+        GlfwDllImport.glfwSetWindowShouldClose(glfwNativeWindowHandle.WindowHandle, value);
     }
 
-    public static bool IsMouseButtonPressed(GlfwWindow glfwWindow, int button)
+    public static bool IsMouseButtonPressed(GlfwNativeWindowHandle glfwNativeWindowHandle, int button)
     {
-        return GetMouseButton(glfwWindow, button) == GlfwConstants.GLFW_PRESS;
+        return GetMouseButton(glfwNativeWindowHandle, button) == GlfwConstants.GLFW_PRESS;
     }
 
-    public static int GetMouseButton(GlfwWindow glfwWindow, int button)
+    public static int GetMouseButton(GlfwNativeWindowHandle glfwNativeWindowHandle, int button)
     {
-        return GlfwDllImport.glfwGetMouseButton(glfwWindow.WindowHandle, button);   
+        return GlfwDllImport.glfwGetMouseButton(glfwNativeWindowHandle.WindowHandle, button);   
     }
 
-    public static bool IsKeyPressed(GlfwWindow glfwWindow, int key)
+    public static bool IsKeyPressed(GlfwNativeWindowHandle glfwNativeWindowHandle, int key)
     {
-        return GetKey(glfwWindow, key) == GlfwConstants.GLFW_PRESS;
+        return GetKey(glfwNativeWindowHandle, key) == GlfwConstants.GLFW_PRESS;
     }
 
-    public static int GetKey(GlfwWindow glfwWindow, int key)
+    public static int GetKey(GlfwNativeWindowHandle glfwNativeWindowHandle, int key)
     {
-        return GlfwDllImport.glfwGetKey(glfwWindow.WindowHandle, key);
+        return GlfwDllImport.glfwGetKey(glfwNativeWindowHandle.WindowHandle, key);
     }
 
     public static void SetErrorCallback(GlfwCallbacks.GLFWerrorfun callback)
@@ -115,9 +114,9 @@ public static class Glfw
         GlfwDllImport.glfwWindowHint(target, hint);
     }
 
-    public static void SwapBuffers(GlfwWindow glfwWindow)
+    public static void SwapBuffers(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        GlfwDllImport.glfwSwapBuffers(glfwWindow.WindowHandle);
+        GlfwDllImport.glfwSwapBuffers(glfwNativeWindowHandle.WindowHandle);
     }
 
     public static void PollEvents()
@@ -125,14 +124,14 @@ public static class Glfw
         GlfwDllImport.glfwPollEvents();
     }
 
-    public static bool WindowShouldClose(GlfwWindow glfwWindow)
+    public static bool WindowShouldClose(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        return GlfwDllImport.glfwWindowShouldClose(glfwWindow.WindowHandle) == GlfwConstants.GLFW_TRUE;
+        return GlfwDllImport.glfwWindowShouldClose(glfwNativeWindowHandle.WindowHandle) == GlfwConstants.GLFW_TRUE;
     }
 
-    public static void MakeContextCurrent(GlfwWindow glfwWindow)
+    public static void MakeContextCurrent(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        GlfwDllImport.glfwMakeContextCurrent(glfwWindow.WindowHandle);
+        GlfwDllImport.glfwMakeContextCurrent(glfwNativeWindowHandle.WindowHandle);
     }
 
     public static double GetTime()
@@ -145,22 +144,22 @@ public static class Glfw
         return GlfwDllImport.glfwGetPrimaryMonitor();
     }
 
-    public static GlfwWindow CreateWindow(int width, int height, string title, bool fullscreen = false)
+    public static GlfwNativeWindowHandle CreateWindow(int width, int height, string title, bool fullscreen = false)
     {
         var fullscreenMonitor = fullscreen ? GetPrimaryMonitor() : IntPtr.Zero;
 
         var titleBytes = Encoding.UTF8.GetBytes(title);
         var windowHandle = GlfwDllImport.glfwCreateWindow(width, height, titleBytes, fullscreenMonitor, IntPtr.Zero);
 
-        return new GlfwWindow
+        return new GlfwNativeWindowHandle
         {
             WindowHandle = windowHandle
         };
     }
 
-    public static void DestroyWindow(GlfwWindow glfwWindow)
+    public static void DestroyWindow(GlfwNativeWindowHandle glfwNativeWindowHandle)
     {
-        GlfwDllImport.glfwDestroyWindow(glfwWindow.WindowHandle);
+        GlfwDllImport.glfwDestroyWindow(glfwNativeWindowHandle.WindowHandle);
     }
 
     public static void Terminate()

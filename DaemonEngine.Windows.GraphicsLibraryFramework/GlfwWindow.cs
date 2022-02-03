@@ -2,13 +2,14 @@
 using DaemonEngine.EventSystem.Events.Mouse;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.GraphicsLibraryFramework.DllImport;
+using DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 using Serilog;
 
 namespace DaemonEngine.Windows.GraphicsLibraryFramework;
 
 internal class GlfwWindow : WindowBase
 {
-    private DaemonEngine.GraphicsLibraryFramework.DllImport.Structs.GlfwWindow _glfwWindow;
+    private GlfwNativeWindowHandle _glfwNativeWindowHandle;
 
     public GlfwWindow(ILogger logger, WindowOptions windowOptions)
         : base(logger, windowOptions)
@@ -33,26 +34,26 @@ internal class GlfwWindow : WindowBase
         Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MINOR, 3);
         Glfw.WindowHint(GlfwConstants.GLFW_OPENGL_PROFILE, GlfwConstants.GLFW_OPENGL_CORE_PROFILE);
 
-        _glfwWindow = Glfw.CreateWindow(WindowOptions.Width, WindowOptions.Height, WindowOptions.Title);
-        if (_glfwWindow.Equals(null))
+        _glfwNativeWindowHandle = Glfw.CreateWindow(WindowOptions.Width, WindowOptions.Height, WindowOptions.Title);
+        if (_glfwNativeWindowHandle.Equals(null))
         {
             Glfw.Terminate();
             Logger.Fatal("Failed to create Glfw window");
             return;
         }
 
-        Glfw.MakeContextCurrent(_glfwWindow);
+        Glfw.MakeContextCurrent(_glfwNativeWindowHandle);
 
-        Glfw.SetWindowCloseCallback(ref _glfwWindow, WindowCloseEventFn);
-        Glfw.SetWindowFocusCallback(ref _glfwWindow, WindowFocusEventFn);
-        Glfw.SetWindowResizeCallback(ref _glfwWindow, WindowResizeEventFn);
+        Glfw.SetWindowCloseCallback(ref _glfwNativeWindowHandle, WindowCloseEventFn);
+        Glfw.SetWindowFocusCallback(ref _glfwNativeWindowHandle, WindowFocusEventFn);
+        Glfw.SetWindowResizeCallback(ref _glfwNativeWindowHandle, WindowResizeEventFn);
 
-        Glfw.SetKeyCallback(ref _glfwWindow, KeyEventFn);
-        Glfw.SetCharCallback(ref _glfwWindow, KeyTypedFn);
+        Glfw.SetKeyCallback(ref _glfwNativeWindowHandle, KeyEventFn);
+        Glfw.SetCharCallback(ref _glfwNativeWindowHandle, KeyTypedFn);
 
-        Glfw.SetCursorPosCallback(ref _glfwWindow, MouseMovedEventFn);
-        Glfw.SetMouseButtonCallback(ref _glfwWindow, MouseButtonEventFn);
-        Glfw.SetScrollCallback(ref _glfwWindow, MouseScrollEventFn);
+        Glfw.SetCursorPosCallback(ref _glfwNativeWindowHandle, MouseMovedEventFn);
+        Glfw.SetMouseButtonCallback(ref _glfwNativeWindowHandle, MouseButtonEventFn);
+        Glfw.SetScrollCallback(ref _glfwNativeWindowHandle, MouseScrollEventFn);
     }
 
     private void MouseButtonEventFn(IntPtr window, int button, int action, int mods)
@@ -137,12 +138,12 @@ internal class GlfwWindow : WindowBase
 
     public override void Maximize()
     {
-        Glfw.MaximizeWindow(_glfwWindow);
+        Glfw.MaximizeWindow(_glfwNativeWindowHandle);
     }
 
     public override void Restore()
     {
-        Glfw.RestoreWindow(_glfwWindow);
+        Glfw.RestoreWindow(_glfwNativeWindowHandle);
     }
 
     public override double GetTime()
@@ -152,18 +153,18 @@ internal class GlfwWindow : WindowBase
 
     public override void Shutdown()
     {
-        Glfw.DestroyWindow(_glfwWindow);
+        Glfw.DestroyWindow(_glfwNativeWindowHandle);
         Glfw.Terminate();
     }
 
     public override void Update()
     {
-        Glfw.SwapBuffers(_glfwWindow);
+        Glfw.SwapBuffers(_glfwNativeWindowHandle);
         Glfw.PollEvents();
     }
 
     public override object GetNativeWindowHandle()
     {
-        return _glfwWindow;
+        return _glfwNativeWindowHandle;
     }
 }
