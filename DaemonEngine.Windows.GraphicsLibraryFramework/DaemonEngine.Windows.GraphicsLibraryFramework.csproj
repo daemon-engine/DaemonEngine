@@ -13,8 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Extensions.Glfw\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport.csproj" />
     <ProjectReference Include="..\DaemonEngine.Windows.Abstractions\DaemonEngine.Windows.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport.csproj" />
   </ItemGroup>
 
 </Project>

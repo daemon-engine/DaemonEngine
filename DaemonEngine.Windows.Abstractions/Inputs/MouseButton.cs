@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Extensions.Glfw;
+﻿using DaemonEngine.GraphicsLibraryFramework.DllImport;
 
 namespace DaemonEngine.Windows.Inputs;
 

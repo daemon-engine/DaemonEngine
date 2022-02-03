@@ -1,7 +1,7 @@
-﻿using DaemonEngine.Extensions.Glfw.Structs;
+﻿using DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 using System.Text;
 
-namespace DaemonEngine.Extensions.Glfw;
+namespace DaemonEngine.GraphicsLibraryFramework.DllImport;
 
 public static class Glfw
 {

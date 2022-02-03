@@ -1,7 +1,7 @@
-﻿using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Extensions.Runtime;
+﻿using DaemonEngine.Extensions.Runtime;
 using DaemonEngine.Graphics.Helpers;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 

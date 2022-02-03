@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Extensions.OpenGL;
+﻿namespace DaemonEngine.OpenGL.DllImport;
 
 public static class GLConstants
 {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DaemonEngine.Extensions.Glfw;
+namespace DaemonEngine.GraphicsLibraryFramework.DllImport;
 
 internal unsafe static class GlfwDllImport
 {

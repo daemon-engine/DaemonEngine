@@ -1,14 +1,14 @@
 ﻿using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Mouse;
 using DaemonEngine.EventSystem.Events.Window;
-using DaemonEngine.Extensions.Glfw;
+using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using Serilog;
 
 namespace DaemonEngine.Windows.GraphicsLibraryFramework;
 
 internal class GlfwWindow : WindowBase
 {
-    private Extensions.Glfw.Structs.GlfwWindow _glfwWindow;
+    private DaemonEngine.GraphicsLibraryFramework.DllImport.Structs.GlfwWindow _glfwWindow;
 
     public GlfwWindow(ILogger logger, WindowOptions windowOptions)
         : base(logger, windowOptions)

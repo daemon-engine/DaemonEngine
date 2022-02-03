@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Extensions.Glfw;
+﻿using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.Windows;
 
 namespace DaemonEngine.Core;
@@ -52,7 +52,7 @@ internal class Cursor : ICursor
             CursorMode.Hidden => GlfwConstants.GLFW_CURSOR_HIDDEN,
             _ => GlfwConstants.GLFW_CURSOR_NORMAL,
         };
-        var glfwWindow = (Extensions.Glfw.Structs.GlfwWindow)_window.GetNativeWindowHandle();
+        var glfwWindow = (GraphicsLibraryFramework.DllImport.Structs.GlfwWindow)_window.GetNativeWindowHandle();
         Glfw.SetInputMode(glfwWindow, GlfwConstants.GLFW_CURSOR, value);
     }
 }

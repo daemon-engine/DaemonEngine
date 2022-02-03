@@ -1,8 +1,8 @@
-﻿using DaemonEngine.Extensions.OpenGL.Enums;
+﻿using DaemonEngine.OpenGL.DllImport.Enums;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DaemonEngine.Extensions.OpenGL;
+namespace DaemonEngine.OpenGL.DllImport;
 
 public static class GL
 {

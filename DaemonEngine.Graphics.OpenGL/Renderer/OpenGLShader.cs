@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Numerics;
-using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Extensions.OpenGL.Enums;
+﻿using System.Numerics;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport;
+using DaemonEngine.OpenGL.DllImport.Enums;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 

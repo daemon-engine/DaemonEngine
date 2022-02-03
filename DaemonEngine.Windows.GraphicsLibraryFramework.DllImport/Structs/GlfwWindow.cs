@@ -1,5 +1,4 @@
-﻿
-namespace DaemonEngine.Extensions.Glfw.Structs;
+﻿namespace DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 
 public struct GlfwWindow
 {

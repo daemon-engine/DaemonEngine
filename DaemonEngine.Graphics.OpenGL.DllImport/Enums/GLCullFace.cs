@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Extensions.OpenGL.Enums;
+﻿namespace DaemonEngine.OpenGL.DllImport.Enums;
 
 public enum GLCullFace : uint
 {

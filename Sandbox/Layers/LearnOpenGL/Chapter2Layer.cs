@@ -5,6 +5,7 @@ using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport.Enums;
 using DaemonEngine.Windows.Inputs;
 using Microsoft.Extensions.DependencyInjection;
 using System.Numerics;
@@ -85,7 +86,7 @@ internal class Chapter2Layer : LayerBase
 
         var model = Matrix4x4.Identity;
 
-        Renderer.Clear(DaemonEngine.Extensions.OpenGL.Enums.GLClearMask.ColorBufferBit | DaemonEngine.Extensions.OpenGL.Enums.GLClearMask.DepthBufferBit);
+        Renderer.Clear(GLClearMask.ColorBufferBit | GLClearMask.DepthBufferBit);
         Renderer.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
         DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(-90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);

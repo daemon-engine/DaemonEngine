@@ -1,5 +1,5 @@
-﻿using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Graphics.Renderer;
+﻿using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport;
 
 namespace DaemonEngine.Graphics.Helpers;
 

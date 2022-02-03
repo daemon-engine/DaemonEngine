@@ -1,6 +1,6 @@
-﻿using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Extensions.OpenGL.Enums;
-using DaemonEngine.Graphics.Renderer;
+﻿using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport;
+using DaemonEngine.OpenGL.DllImport.Enums;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 

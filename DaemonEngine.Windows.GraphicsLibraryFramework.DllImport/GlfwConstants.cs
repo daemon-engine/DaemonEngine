@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Extensions.Glfw;
+﻿namespace DaemonEngine.GraphicsLibraryFramework.DllImport;
 
 public static class GlfwConstants
 {

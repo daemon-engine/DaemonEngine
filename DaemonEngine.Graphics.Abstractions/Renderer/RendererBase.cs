@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Extensions.OpenGL.Enums;
+﻿using DaemonEngine.OpenGL.DllImport.Enums;
 using Serilog;
 
 namespace DaemonEngine.Graphics.Renderer;

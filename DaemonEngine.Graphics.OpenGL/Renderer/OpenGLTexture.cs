@@ -1,6 +1,6 @@
-﻿using DaemonEngine.Extensions.OpenGL;
-using DaemonEngine.Extensions.SixLabors.ImageSharp;
+﻿using DaemonEngine.Extensions.SixLabors.ImageSharp;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.OpenGL.DllImport;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 

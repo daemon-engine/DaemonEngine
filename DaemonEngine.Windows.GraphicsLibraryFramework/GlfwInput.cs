@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Extensions.Glfw;
+﻿using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.Windows.Inputs;
 using System.Numerics;
 
@@ -15,13 +15,13 @@ internal class GlfwInput : IInput
 
     public bool IsButtonDown(MouseButton button)
     {
-        var glfwNativeWindow = (Extensions.Glfw.Structs.GlfwWindow)_window.GetNativeWindowHandle();
+        var glfwNativeWindow = (DaemonEngine.GraphicsLibraryFramework.DllImport.Structs.GlfwWindow)_window.GetNativeWindowHandle();
         return Glfw.IsMouseButtonPressed(glfwNativeWindow, (int)button);
     }
 
     public bool IsKeyDown(Keycode keycode)
     {
-        var glfwNativeWindow = (Extensions.Glfw.Structs.GlfwWindow)_window.GetNativeWindowHandle();
+        var glfwNativeWindow = (DaemonEngine.GraphicsLibraryFramework.DllImport.Structs.GlfwWindow)_window.GetNativeWindowHandle();
         return Glfw.IsKeyPressed(glfwNativeWindow, (int)keycode);
     }
 
@@ -37,7 +37,7 @@ internal class GlfwInput : IInput
 
     public Vector2 GetMousePosition()
     {
-        var glfwNativeWindow = (Extensions.Glfw.Structs.GlfwWindow)_window.GetNativeWindowHandle();
+        var glfwNativeWindow = (DaemonEngine.GraphicsLibraryFramework.DllImport.Structs.GlfwWindow)_window.GetNativeWindowHandle();
         double mouseX = 0.0, mouseY = 0.0;
         Glfw.GetCursorPos(glfwNativeWindow, ref mouseX, ref mouseY);
         return new Vector2 { X = (float)mouseX, Y = (float)mouseY };

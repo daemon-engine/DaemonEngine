@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace DaemonEngine.Extensions.OpenGL;
+namespace DaemonEngine.OpenGL.DllImport;
 
 internal class OpenGLDllImportBase
 {
