@@ -20,25 +20,23 @@ public abstract class ApplicationBase : IApplication, IDisposable
     private bool _isMinimized = false;
     private bool _isFocused = true;
 
-    private LayerStack _layerStack;
+    private readonly LayerStack _layerStack;
 
     protected ApplicationBase(IServiceProvider serviceProvider)
     {
         Logger = serviceProvider.GetRequiredService<ILogger>();
         Window = serviceProvider.GetRequiredService<IWindow>();
-
         LayerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
         Renderer = serviceProvider.GetRequiredService<IRenderer>();
 
         _layerStack = new LayerStack();
 
         var input = serviceProvider.GetRequiredService<IInput>();
-        new Input(input);
+        _ = new Input(input);
     }
 
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
-
     private IRenderer Renderer { get; }
     private ILayerFactory LayerFactory { get; }
 
