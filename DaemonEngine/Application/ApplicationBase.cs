@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Core.Inputs;
+﻿using DaemonEngine.Core.ImGui;
+using DaemonEngine.Core.Inputs;
 using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
@@ -24,6 +25,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
     protected ApplicationBase(IServiceProvider serviceProvider)
     {
+        ServiceProvider = serviceProvider;
         Logger = serviceProvider.GetRequiredService<ILogger>();
         Window = serviceProvider.GetRequiredService<IWindow>();
         LayerFactory = serviceProvider.GetRequiredService<ILayerFactory>();
@@ -35,6 +37,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
         _ = new Input(input);
     }
 
+    protected IServiceProvider ServiceProvider { get; }
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
     private IRenderer Renderer { get; }
@@ -47,6 +50,7 @@ public abstract class ApplicationBase : IApplication, IDisposable
 
         Renderer.Initialize();
 
+        var imguiLayer = AddLayer<ImGuiLayer>("ImGui Layer");
         OnStart();
 
         while (_isRunning)
@@ -61,6 +65,13 @@ public abstract class ApplicationBase : IApplication, IDisposable
                 {
                     layer.OnUpdate(deltaTime);
                 }
+
+                imguiLayer.Start();
+                foreach (var layer in _layerStack.Layers)
+                {
+                    layer.OnGUI();
+                }
+                imguiLayer.End();
             }
 
             Window.Update();

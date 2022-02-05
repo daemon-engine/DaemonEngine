@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
@@ -24,6 +25,12 @@ internal class OpenGLShader : IShader
 
         var vertexShader = CreateShader(GLShaderType.VertexShader, vertexSource);
         var fragmentShader = CreateShader(GLShaderType.FragmentShader, fragmentSource);
+        _id = CreateShaderProgram(vertexShader, fragmentShader);
+    }
+    public OpenGLShader(string vertexShaderSource, string fragmentShaderSource)
+    {
+        var vertexShader = CreateShader(GLShaderType.VertexShader, vertexShaderSource);
+        var fragmentShader = CreateShader(GLShaderType.FragmentShader, fragmentShaderSource);
         _id = CreateShaderProgram(vertexShader, fragmentShader);
     }
 

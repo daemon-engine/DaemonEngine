@@ -33,7 +33,7 @@ public static class DaemonEngineContainerBuilderExtensions
         var windowOptions = new WindowOptions
         {
             Title = "Test Window",
-            Width = 1024,
+            Width = 1366,
             Height = 768
         };
         builder.RegisterWindow(windowOptions);
@@ -47,6 +47,7 @@ public static class DaemonEngineContainerBuilderExtensions
             .Register((cc) =>
         {
             return new LoggerConfiguration()
+                .MinimumLevel.Verbose()
                 .WriteTo.Console()
                 .CreateLogger();
         })

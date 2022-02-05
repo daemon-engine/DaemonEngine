@@ -18,6 +18,10 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
     {
         return new OpenGLShader(filepath);
     }
+    public IShader CreateShader(string vertexShaderSource, string fragmentShaderSource)
+    {
+        return new OpenGLShader(vertexShaderSource, fragmentShaderSource);
+    }
 
     public IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout)
     {
@@ -37,5 +41,9 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
     public ITexture CreateTexture(string filepath)
     {
         return new OpenGLTexture(filepath);
+    }
+    public ITexture CreateTexture(int width, int height)
+    {
+        return new OpenGLTexture(width, height);
     }
 }

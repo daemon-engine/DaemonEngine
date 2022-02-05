@@ -35,4 +35,8 @@ public abstract class LayerBase : ILayer
     public virtual void OnEvent(IEvent e)
     {
     }
+
+    public virtual void OnGUI()
+    {
+    }
 }
