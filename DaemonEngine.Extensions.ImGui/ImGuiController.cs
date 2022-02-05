@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.OpenGL.DllImport;
@@ -10,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace ImGuiNET;
 
-public class ImGuiController
+public class ImGuiController : IDisposable
 {
     private IShader _shader;
     private ITexture _texture;
@@ -27,6 +28,7 @@ public class ImGuiController
     private int _height;
 
     private Vector2 _scaleFactor = Vector2.One;
+    private static int _sizeOfImDrawVert = Unsafe.SizeOf<ImDrawVert>();
 
     public ImGuiController(ILogger logger, IGraphicsFactory graphicsFactory, IInput input, int width, int height)
     {
@@ -46,7 +48,6 @@ public class ImGuiController
         io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
 
         CreateDeviceResources();
-        SetKeyMappings();
 
         SetPerFrameImGuiData(1f / 60f);
 
@@ -103,7 +104,7 @@ void main()
 
         _shader = GraphicsFactory.CreateShader(VertexSource, FragmentSource);
 
-        GL.VertexArrayVertexBuffer(_vertexArray, 0, _vertexBuffer, IntPtr.Zero, Unsafe.SizeOf<ImDrawVert>());
+        GL.VertexArrayVertexBuffer(_vertexArray, 0, _vertexBuffer, IntPtr.Zero, _sizeOfImDrawVert);
         GL.VertexArrayElementBuffer(_vertexArray, _indexBuffer);
 
         GL.EnableVertexArrayAttrib(_vertexArray, 0);
@@ -142,15 +143,12 @@ void main()
         io.Fonts.ClearTexData();
     }
 
-    public void Update(float deltaTime)
+    public void BeginImGuiFrame()
     {
         if (_frameBegun)
         {
             ImGui.Render();
         }
-
-        SetPerFrameImGuiData(deltaTime);
-        UpdateImGuiInput();
 
         _frameBegun = true;
         ImGui.NewFrame();
@@ -166,59 +164,82 @@ void main()
         }
     }
 
-    private void SetPerFrameImGuiData(float deltaTime)
+    public void SetPerFrameImGuiData(float deltaTime)
     {
         ImGuiIOPtr io = ImGui.GetIO();
-        io.DisplaySize = new Vector2(
-            _width / _scaleFactor.X,
-            _height / _scaleFactor.Y);
+        io.DisplaySize = new Vector2(_width / _scaleFactor.X, _height / _scaleFactor.Y);
         io.DisplayFramebufferScale = _scaleFactor;
         io.DeltaTime = deltaTime; // DeltaTime is in seconds.
     }
 
     readonly List<char> PressedChars = new List<char>();
 
-    private void UpdateImGuiInput()
+    public void UpdateImGuiKeyDownState(int keycode, bool isDown)
     {
-        var mousePosition = Input.GetMousePosition();
-
         ImGuiIOPtr io = ImGui.GetIO();
 
-        io.MouseDown[0] = Input.IsButtonDown(GlfwConstants.GLFW_MOUSE_BUTTON_LEFT);
-        io.MouseDown[1] = Input.IsButtonDown(GlfwConstants.GLFW_MOUSE_BUTTON_RIGHT);
-        io.MouseDown[2] = Input.IsButtonDown(GlfwConstants.GLFW_MOUSE_BUTTON_MIDDLE);
+        io.KeysDown[keycode] = isDown;
+    }
 
-        var screenPoint = mousePosition;
-        var point = screenPoint;//wnd.PointToClient(screenPoint);
-        io.MousePos = new Vector2(point.X, point.Y);
+    public void UpdateImGuiMouseButtonDownState(int button, bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
 
-        //foreach (Keycode key in Enum.GetValues(typeof(Keys)))
-        //{
-        //    if (key == GlfwConstants.GLFW_KEY_UNKNOWN)
-        //    {
-        //        continue;
-        //    }
-        //    io.KeysDown[(int)key] = Input.IsKeyDown(key);
-        //}
+        io.MouseDown[button] = isDown;
+    }
+
+    public void UpdateImGuiMousePosition(Vector2 mousePosition)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.MousePos = mousePosition;
+    }
+
+    public void UpdateImGuiControlKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyCtrl = isDown;
+    }
+
+    public void UpdateImGuiAltKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyAlt = isDown;
+    }
+
+    public void UpdateImGuiShiftKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyShift = isDown;
+    }
+
+    public void UpdateImGuiSuperKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeySuper = isDown;
+    }
+
+    public void UpdateImGuiPressedCharacters()
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
 
         foreach (var c in PressedChars)
         {
             io.AddInputCharacter(c);
         }
         PressedChars.Clear();
-
-        io.KeyCtrl = Input.IsKeyDown(GlfwConstants.GLFW_KEY_LEFT_CONTROL) || Input.IsKeyDown(GlfwConstants.GLFW_KEY_RIGHT_CONTROL);
-        io.KeyAlt = Input.IsKeyDown(GlfwConstants.GLFW_KEY_LEFT_ALT) || Input.IsKeyDown(GlfwConstants.GLFW_KEY_RIGHT_ALT);
-        io.KeyShift = Input.IsKeyDown(GlfwConstants.GLFW_KEY_LEFT_SHIFT) || Input.IsKeyDown(GlfwConstants.GLFW_KEY_RIGHT_SHIFT);
-        io.KeySuper = Input.IsKeyDown(GlfwConstants.GLFW_KEY_LEFT_SUPER) || Input.IsKeyDown(GlfwConstants.GLFW_KEY_RIGHT_SUPER);
     }
 
-    internal void PressChar(char keyChar)
+    public void PressKey(char keyChar)
     {
         PressedChars.Add(keyChar);
     }
 
-    internal void MouseScroll(Vector2 offset)
+    public void UpdateMouseScroll(Vector2 offset)
     {
         ImGuiIOPtr io = ImGui.GetIO();
 
@@ -226,28 +247,11 @@ void main()
         io.MouseWheelH = offset.X;
     }
 
-    private static void SetKeyMappings()
+    public void MapImGuiKey(ImGuiKey imGuiKey, int keycode)
     {
         ImGuiIOPtr io = ImGui.GetIO();
-        io.KeyMap[(int)ImGuiKey.Tab] = (int)GlfwConstants.GLFW_KEY_TAB;
-        io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)GlfwConstants.GLFW_KEY_LEFT;
-        io.KeyMap[(int)ImGuiKey.RightArrow] = (int)GlfwConstants.GLFW_KEY_RIGHT;
-        io.KeyMap[(int)ImGuiKey.UpArrow] = (int)GlfwConstants.GLFW_KEY_UP;
-        io.KeyMap[(int)ImGuiKey.DownArrow] = (int)GlfwConstants.GLFW_KEY_DOWN;
-        io.KeyMap[(int)ImGuiKey.PageUp] = (int)GlfwConstants.GLFW_KEY_PAGE_UP;
-        io.KeyMap[(int)ImGuiKey.PageDown] = (int)GlfwConstants.GLFW_KEY_PAGE_DOWN;
-        io.KeyMap[(int)ImGuiKey.Home] = (int)GlfwConstants.GLFW_KEY_HOME;
-        io.KeyMap[(int)ImGuiKey.End] = (int)GlfwConstants.GLFW_KEY_END;
-        io.KeyMap[(int)ImGuiKey.Delete] = (int)GlfwConstants.GLFW_KEY_DELETE;
-        io.KeyMap[(int)ImGuiKey.Backspace] = (int)GlfwConstants.GLFW_KEY_BACKSPACE;
-        io.KeyMap[(int)ImGuiKey.Enter] = (int)GlfwConstants.GLFW_KEY_ENTER;
-        io.KeyMap[(int)ImGuiKey.Escape] = (int)GlfwConstants.GLFW_KEY_ESCAPE;
-        io.KeyMap[(int)ImGuiKey.A] = GlfwConstants.GLFW_KEY_A;
-        io.KeyMap[(int)ImGuiKey.C] = GlfwConstants.GLFW_KEY_C;
-        io.KeyMap[(int)ImGuiKey.V] = GlfwConstants.GLFW_KEY_V;
-        io.KeyMap[(int)ImGuiKey.X] = GlfwConstants.GLFW_KEY_X;
-        io.KeyMap[(int)ImGuiKey.Y] = GlfwConstants.GLFW_KEY_Y;
-        io.KeyMap[(int)ImGuiKey.Z] = GlfwConstants.GLFW_KEY_Z;
+
+        io.KeyMap[(int)imGuiKey] = keycode;
     }
 
     private void RenderImDrawData(ImDrawDataPtr draw_data)
@@ -261,7 +265,7 @@ void main()
         {
             ImDrawListPtr cmd_list = draw_data.CmdListsRange[i];
 
-            int vertexSize = cmd_list.VtxBuffer.Size * Unsafe.SizeOf<ImDrawVert>();
+            int vertexSize = cmd_list.VtxBuffer.Size * _sizeOfImDrawVert;
             if (vertexSize > _vertexBufferSize)
             {
                 int newSize = (int)Math.Max(_vertexBufferSize * 1.5f, vertexSize);
@@ -316,7 +320,7 @@ void main()
         {
             ImDrawListPtr cmd_list = draw_data.CmdListsRange[n];
 
-            GL.NamedBufferSubData(_vertexBuffer, IntPtr.Zero, new IntPtr(cmd_list.VtxBuffer.Size * Unsafe.SizeOf<ImDrawVert>()), cmd_list.VtxBuffer.Data);
+            GL.NamedBufferSubData(_vertexBuffer, IntPtr.Zero, new IntPtr(cmd_list.VtxBuffer.Size * _sizeOfImDrawVert), cmd_list.VtxBuffer.Data);
             CheckGLError($"Data Vert {n}");
 
             GL.NamedBufferSubData(_indexBuffer, IntPtr.Zero, new IntPtr(cmd_list.IdxBuffer.Size * sizeof(ushort)), cmd_list.IdxBuffer.Data);
@@ -360,9 +364,13 @@ void main()
     private void CheckGLError(string title)
     {
         var error = GL.GetError();
-        if (error != GLConstants.GL_NO_ERROR)
+        if (error != GLError.NoError)
         {
-            Logger.Fatal($"ImGuiController: ({error}) {title}");
+            Logger.Fatal($"ImGuiController: ({error}|{Enum.GetName(error)}) {title}");
         }
+    }
+
+    public void Dispose()
+    {
     }
 }

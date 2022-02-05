@@ -1,4 +1,5 @@
-﻿using DaemonEngine.OpenGL.DllImport.Enums;
+﻿using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
+using DaemonEngine.OpenGL.DllImport.Enums;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -98,9 +99,9 @@ public static class GL
         return output;
     }
 
-    public static uint GetError()
+    public static GLError GetError()
     {
-        return OpenGLDllImport.glGetError();
+        return (GLError)OpenGLDllImport.glGetError();
     }
 
     public static void UseProgram(uint program)
