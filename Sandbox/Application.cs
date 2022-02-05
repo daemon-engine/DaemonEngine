@@ -15,8 +15,8 @@ public class Application : ApplicationBase
     {
         Logger.Information("Application.OnStart");
         //AddLayer<Chapter1Layer>("Getting Started Layer");
-        //AddLayer<Chapter2Layer>("Lighting Layer");
-        AddLayer<ImGuiTestLayer>("ImGui Test Layer");
+        AddLayer<Chapter2Layer>("Lighting Layer");
+        //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
     }
 
     public override void OnShutdown()

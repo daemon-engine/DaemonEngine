@@ -145,8 +145,19 @@ internal class Chapter2Layer : LayerBase
         Renderer.RenderGeometry(_lightObjectPipeline, _vertexBuffer, _indexBuffer);
     }
 
+    public override void OnGUI()
+    {
+        ImGuiNET.ImGui.Begin("Test");
+        ImGuiNET.ImGui.Text("Hello, world!!");
+        ImGuiNET.ImGui.End();
+
+        ImGuiNET.ImGui.ShowDemoWindow();
+    }
+
     private void DrawQuad(Vector3 position, Vector3 rotation, float scale, Vector3 cameraPosition, Vector3 lightPosition)
     {
+        _lightingShader.Bind();
+
         Matrix4x4 model = Matrix4x4.Identity;
         model *= Matrix4x4.CreateTranslation(position);
         model *= Matrix4x4.CreateScale(scale, position);

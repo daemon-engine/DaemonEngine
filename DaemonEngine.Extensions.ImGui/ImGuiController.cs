@@ -125,7 +125,7 @@ void main()
     public void ResizeImGuiContext(int width, int height)
     {
         _width = width;
-        _height = height;    
+        _height = height;
     }
 
     public void RecreateFontDeviceTexture()
@@ -162,96 +162,6 @@ void main()
             ImGui.Render();
             RenderImDrawData(ImGui.GetDrawData());
         }
-    }
-
-    public void SetPerFrameImGuiData(float deltaTime)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-        io.DisplaySize = new Vector2(_width / _scaleFactor.X, _height / _scaleFactor.Y);
-        io.DisplayFramebufferScale = _scaleFactor;
-        io.DeltaTime = deltaTime; // DeltaTime is in seconds.
-    }
-
-    readonly List<char> PressedChars = new List<char>();
-
-    public void UpdateImGuiKeyDownState(int keycode, bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeysDown[keycode] = isDown;
-    }
-
-    public void UpdateImGuiMouseButtonDownState(int button, bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.MouseDown[button] = isDown;
-    }
-
-    public void UpdateImGuiMousePosition(Vector2 mousePosition)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.MousePos = mousePosition;
-    }
-
-    public void UpdateImGuiControlKeyDownState(bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeyCtrl = isDown;
-    }
-
-    public void UpdateImGuiAltKeyDownState(bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeyAlt = isDown;
-    }
-
-    public void UpdateImGuiShiftKeyDownState(bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeyShift = isDown;
-    }
-
-    public void UpdateImGuiSuperKeyDownState(bool isDown)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeySuper = isDown;
-    }
-
-    public void UpdateImGuiPressedCharacters()
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        foreach (var c in PressedChars)
-        {
-            io.AddInputCharacter(c);
-        }
-        PressedChars.Clear();
-    }
-
-    public void PressKey(char keyChar)
-    {
-        PressedChars.Add(keyChar);
-    }
-
-    public void UpdateMouseScroll(Vector2 offset)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.MouseWheel = offset.Y;
-        io.MouseWheelH = offset.X;
-    }
-
-    public void MapImGuiKey(ImGuiKey imGuiKey, int keycode)
-    {
-        ImGuiIOPtr io = ImGui.GetIO();
-
-        io.KeyMap[(int)imGuiKey] = keycode;
     }
 
     private void RenderImDrawData(ImDrawDataPtr draw_data)
@@ -359,6 +269,97 @@ void main()
 
         GL.Disable(GLCapabilities.Blend);
         GL.Disable(GLCapabilities.ScissorTest);
+        GL.Enable(GLCapabilities.DepthTest);
+    }
+
+    public void SetPerFrameImGuiData(float deltaTime)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+        io.DisplaySize = new Vector2(_width / _scaleFactor.X, _height / _scaleFactor.Y);
+        io.DisplayFramebufferScale = _scaleFactor;
+        io.DeltaTime = deltaTime; // DeltaTime is in seconds.
+    }
+
+    readonly List<char> PressedChars = new List<char>();
+
+    public void UpdateImGuiKeyDownState(int keycode, bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeysDown[keycode] = isDown;
+    }
+
+    public void UpdateImGuiMouseButtonDownState(int button, bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.MouseDown[button] = isDown;
+    }
+
+    public void UpdateImGuiMousePosition(Vector2 mousePosition)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.MousePos = mousePosition;
+    }
+
+    public void UpdateImGuiControlKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyCtrl = isDown;
+    }
+
+    public void UpdateImGuiAltKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyAlt = isDown;
+    }
+
+    public void UpdateImGuiShiftKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyShift = isDown;
+    }
+
+    public void UpdateImGuiSuperKeyDownState(bool isDown)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeySuper = isDown;
+    }
+
+    public void UpdateImGuiPressedCharacters()
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        foreach (var c in PressedChars)
+        {
+            io.AddInputCharacter(c);
+        }
+        PressedChars.Clear();
+    }
+
+    public void PressKey(char keyChar)
+    {
+        PressedChars.Add(keyChar);
+    }
+
+    public void UpdateMouseScroll(Vector2 offset)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.MouseWheel = offset.Y;
+        io.MouseWheelH = offset.X;
+    }
+
+    public void MapImGuiKey(ImGuiKey imGuiKey, int keycode)
+    {
+        ImGuiIOPtr io = ImGui.GetIO();
+
+        io.KeyMap[(int)imGuiKey] = keycode;
     }
 
     private void CheckGLError(string title)
@@ -366,7 +367,7 @@ void main()
         var error = GL.GetError();
         if (error != GLError.NoError)
         {
-            Logger.Fatal($"ImGuiController: ({error}|{Enum.GetName(error)}) {title}");
+            Logger.Fatal($"ImGuiController: ({error}|{(uint)error}) {title}");
         }
     }
 
