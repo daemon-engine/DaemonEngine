@@ -36,11 +36,6 @@ internal class OpenGLShader : IShader
 
     public void Bind()
     {
-        var error = GL.GetError();
-        if (error != GLError.NoError)
-        {
-            Console.WriteLine($"OpenGLShader: ({error}|{(uint)error}) Program bind");
-        }
         GL.UseProgram(_id);
     }
 
