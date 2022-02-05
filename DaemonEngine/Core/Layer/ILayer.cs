@@ -8,4 +8,5 @@ public interface ILayer
     void OnShutdown();
     void OnUpdate(float deltaTime);
     void OnEvent(IEvent e);
+    void OnGUI();
 }

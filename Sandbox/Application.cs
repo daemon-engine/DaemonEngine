@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.Application;
+using Sandbox.Layers;
 using Sandbox.Layers.LearnOpenGL;
 
 namespace Sandbox;
@@ -14,7 +15,8 @@ public class Application : ApplicationBase
     {
         Logger.Information("Application.OnStart");
         //AddLayer<Chapter1Layer>("Getting Started Layer");
-        AddLayer<Chapter2Layer>("Lighting Layer");
+        //AddLayer<Chapter2Layer>("Lighting Layer");
+        AddLayer<ImGuiTestLayer>("ImGui Test Layer");
     }
 
     public override void OnShutdown()

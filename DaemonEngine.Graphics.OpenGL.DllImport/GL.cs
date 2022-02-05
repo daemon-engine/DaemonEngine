@@ -17,6 +17,16 @@ public static class GL
         OpenGLDllImport.glGenerateMipmap(target);
     }
 
+    public static void TextureSubImage2D(uint texture, int level, int xOffset, int yOffset, int width, int height, uint format, uint type, IntPtr pixels)
+    {
+        OpenGLDllImport.glTextureSubImage2D(texture, level, xOffset, yOffset, width, height, format, type, pixels);
+    }
+
+    public static void TextureStorage2D(uint texture, int levels, uint internalFormat, int width, int height)
+    {
+        OpenGLDllImport.glTextureStorage2D(texture, levels, internalFormat, width, height);
+    }
+
     public static void TexImage2D(uint target, int level, uint internalFormat, int width, int height, int border, uint format, uint type, byte[] pixels)
     {
         IntPtr pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
@@ -86,6 +96,11 @@ public static class GL
         int output = 1;
         OpenGLDllImport.glGetProgramiv(program, pname, new int[] { output });
         return output;
+    }
+
+    public static uint GetError()
+    {
+        return OpenGLDllImport.glGetError();
     }
 
     public static void UseProgram(uint program)
@@ -173,6 +188,11 @@ public static class GL
         OpenGLDllImport.glBindVertexArray(array);
     }
 
+    public static void CreateVertexArrays(int count, ref uint[] arrays)
+    {
+        OpenGLDllImport.glCreateVertexArrays(count, arrays);
+    }
+
     public static void GenVertexArrays(int count, ref uint[] arrays)
     {
         OpenGLDllImport.glGenVertexArrays(count, arrays);
@@ -190,6 +210,16 @@ public static class GL
     #endregion
 
     #region Buffer methods
+    public static void NamedBufferData(uint buffer, IntPtr size, IntPtr data, GLBufferUsage bufferUsage)
+    {
+        OpenGLDllImport.glNamedBufferData(buffer, size, data, (uint)bufferUsage);
+    }
+
+    public static void NamedBufferSubData(uint buffer, IntPtr offset, IntPtr size, IntPtr data)
+    {
+        OpenGLDllImport.glNamedBufferSubData(buffer, offset, size, data);
+    }
+
     public static void BufferData(uint type, int size, uint[] indices, GLBufferUsage usage)
     {
         OpenGLDllImport.glBufferData(type, size, indices, (uint)usage);
@@ -205,11 +235,58 @@ public static class GL
         OpenGLDllImport.glBindBuffer(type, buffer);
     }
 
+    public static void CreateBuffers(int v, ref uint[] ids)
+    {
+        OpenGLDllImport.glCreateBuffers(v, ids);
+    }
+
     public static void GenBuffers(int count, ref uint[] buffers)
     {
         OpenGLDllImport.glGenBuffers(count, buffers);
     }
     #endregion
+
+    #region Blend methods
+    public static void BlendEquation(uint mode)
+    {
+        OpenGLDllImport.glBlendEquation(mode);
+    }
+
+    public static void BlendFunc(uint sfactor, uint dfactor)
+    {
+        OpenGLDllImport.glBlendFunc(sfactor, dfactor);
+    }
+    #endregion
+
+    public static void VertexArrayAttribFormat(uint vao, uint attribIndex, int size, uint type, bool normalized, uint relativeOffset)
+    {
+        OpenGLDllImport.glVertexArrayAttribFormat(vao, attribIndex, size, type, normalized, relativeOffset);
+    }
+
+    public static void VertexArrayAttribBinding(uint vao, uint attribIndex, uint bindingIndex)
+    {
+        OpenGLDllImport.glVertexArrayAttribBinding(vao, attribIndex, bindingIndex);
+    }
+
+    public static void EnableVertexArrayAttrib(uint vao, uint index)
+    {
+        OpenGLDllImport.glEnableVertexArrayAttrib(vao, index);
+    }
+
+    public static void VertexArrayVertexBuffer(uint vao, uint bindingIndex, uint vbo, IntPtr offset, int stride)
+    {
+        OpenGLDllImport.glVertexArrayVertexBuffer(vao, bindingIndex, vbo, offset, stride);
+    }
+
+    public static void VertexArrayElementBuffer(uint vao, uint ebo)
+    {
+        OpenGLDllImport.glVertexArrayElementBuffer(vao, ebo);
+    }
+
+    public static void Scissor(int x, int y, int width, int height)
+    {
+        OpenGLDllImport.glScissor(x, y, width, height);
+    }
 
     public static void Enable(GLCapabilities capabilities)
     {
@@ -249,5 +326,10 @@ public static class GL
     public static void Viewport(int x, int y, int width, int height)
     {
         OpenGLDllImport.glViewport(x, y, width, height);
+    }
+
+    public static void DrawElementsBaseVertex(uint mode, int count, uint type, IntPtr indices, int baseVertex)
+    {
+        OpenGLDllImport.glDrawElementsBaseVertex(mode, count, type, indices, baseVertex);
     }
 }
