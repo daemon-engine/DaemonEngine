@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DaemonEngine.DependencyInjection;
+﻿using DaemonEngine.DependencyInjection;
 using DaemonEngine.Graphics.OpenGL.DependencyInjection;
 using DaemonEngine.Graphics.Renderer;
 
@@ -11,7 +10,7 @@ public static class GraphicsDaemonEngineContainerBuilderExtensions
     {
         switch (rendererApi)
         {
-            case RendererApi.OpenGL: builder.RegisterOpenGLFactory().RegisterOpenGLRenderer(); break;
+            case RendererApi.OpenGL: builder.RegisterOpenGL(); break;
             case RendererApi.Vulkan:
             case RendererApi.DirectX:
             case RendererApi.None:
