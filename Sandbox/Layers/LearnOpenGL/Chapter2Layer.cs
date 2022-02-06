@@ -156,7 +156,7 @@ internal class Chapter2Layer : LayerBase
 
         ImGuiNET.ImGui.Begin("Performace");
         ImGuiNET.ImGui.Text($"State: {(s_MovedDisabled ? "Playing" : "Paused")}");
-        ImGuiNET.ImGui.Text($"Delta Time: {io.DeltaTime:f5}ms");
+        ImGuiNET.ImGui.Text($"Delta Time: {(io.DeltaTime * 1000.0f):f4}ms/frame");
         ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1}");
         ImGuiNET.ImGui.End();
 
