@@ -333,4 +333,13 @@ public static class GL
     {
         OpenGLDllImport.glDrawElementsBaseVertex(mode, count, type, indices, baseVertex);
     }
+
+    public static string GetString(uint name)
+    {
+        unsafe
+        {
+            var result = OpenGLDllImport.glGetString(name);
+            return new string(result);
+        }
+    }
 }

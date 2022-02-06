@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.Extensions.Runtime;
+using DaemonEngine.Graphics.Renderer;
 using Serilog;
 
 namespace DaemonEngine.Windows;
@@ -15,6 +16,7 @@ public abstract class WindowBase : IWindow
     }
 
     protected ILogger Logger { get; }
+    protected IGraphicsContext GraphicsContext { get; set; }
     protected WindowOptions WindowOptions { get; }
     protected EventCallbackFn EventCallback { get; private set; }
 

@@ -1,6 +1,8 @@
 ﻿using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Mouse;
 using DaemonEngine.EventSystem.Events.Window;
+using DaemonEngine.Graphics.OpenGL.Renderer;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 using Serilog;
@@ -42,7 +44,9 @@ internal class GlfwWindow : WindowBase
             return;
         }
 
-        Glfw.MakeContextCurrent(_glfwNativeWindowHandle);
+        GraphicsContext = new OpenGLContext(Logger, _glfwNativeWindowHandle);
+        GraphicsContext.Initialize();
+        //Glfw.MakeContextCurrent(_glfwNativeWindowHandle);
 
         Glfw.SetWindowCloseCallback(ref _glfwNativeWindowHandle, WindowCloseEventFn);
         Glfw.SetWindowFocusCallback(ref _glfwNativeWindowHandle, WindowFocusEventFn);
