@@ -2,7 +2,6 @@
 using DaemonEngine.EventSystem.Events.Mouse;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.OpenGL.Renderer;
-using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.GraphicsLibraryFramework.DllImport.Structs;
 using Serilog;
