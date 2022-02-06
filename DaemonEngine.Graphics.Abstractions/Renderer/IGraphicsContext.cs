@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DaemonEngine.Graphics.Renderer;
 
-namespace DaemonEngine.Graphics.Renderer
+public interface IGraphicsContext
 {
-    public interface IGraphicsContext
-    {
-        void Initialize ();
-    }
+    void Initialize();
 }
