@@ -30,17 +30,18 @@ internal class Chapter2Layer : LayerBase
     FPSCamera _camera;
 
     private readonly IApplication _application;
+    private readonly ICursor _cursor;
 
-    public Chapter2Layer(string name, IServiceProvider serviceProvider) 
+    public Chapter2Layer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
     {
         _application = ServiceProvider.GetService<IApplication>();
+        _cursor = ServiceProvider.GetService<ICursor>();
     }
 
     public override void OnStart()
     {
-        var cursor = ServiceProvider.GetService<ICursor>();
-        cursor.Disable();
+        _cursor.Disable();
 
         _camera = new FPSCamera(45.0f, Window.AspectRatio);
 
@@ -80,8 +81,12 @@ internal class Chapter2Layer : LayerBase
 
     public override void OnUpdate(float deltaTime)
     {
+        if (s_MovedDisabled)
+        {
+            _camera.Update(deltaTime);
+        }
+
         var lightPosition = new Vector3(1.2f, 1.0f, 0.2f);
-        _camera.Update(deltaTime);
 
         var model = Matrix4x4.Identity;
 
@@ -147,8 +152,12 @@ internal class Chapter2Layer : LayerBase
 
     public override void OnGUI()
     {
-        ImGuiNET.ImGui.Begin("Test");
-        ImGuiNET.ImGui.Text("Hello, world!!");
+        var io = ImGuiNET.ImGui.GetIO();
+
+        ImGuiNET.ImGui.Begin("Performace");
+        ImGuiNET.ImGui.Text($"State: {(s_MovedDisabled ? "Playing" : "Paused")}");
+        ImGuiNET.ImGui.Text($"Delta Time: {io.DeltaTime:f5}ms");
+        ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1}");
         ImGuiNET.ImGui.End();
 
         ImGuiNET.ImGui.ShowDemoWindow();
@@ -188,18 +197,32 @@ internal class Chapter2Layer : LayerBase
     }
 
     private static bool s_Maximized = true;
+    private static bool s_MovedDisabled = true;
 
     private bool OnKeyPressedEvent(KeyPressedEvent e)
     {
-        if(e.KeyCode == (int)Keycode.ESCAPE)
+        if (e.KeyCode == (int)Keycode.ESCAPE)
         {
             _application.Stop();
         }
 
-        if(e.KeyCode == (int)Keycode.P)
+        if (e.KeyCode == (int)Keycode.O)
+        {
+            s_MovedDisabled = !s_MovedDisabled;
+            if (s_MovedDisabled)
+            {
+                _cursor.Disable();
+            }
+            else
+            {
+                _cursor.Show();
+            }
+        }
+
+        if (e.KeyCode == (int)Keycode.P)
         {
             s_Maximized = !s_Maximized;
-            if(s_Maximized)
+            if (s_Maximized)
             {
                 Window.Maximize();
             }
