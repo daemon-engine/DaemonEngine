@@ -17,10 +17,6 @@ public static class OpenGLDaemonEngineContainerBuilderExtensions
             .As<IGraphicsFactory>()
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
-        builder.ContainerBuilder
-            .RegisterType<OpenGLContext>()
-            .As<IGraphicsContext>()
-            .InstancePerLifetimeScope();
 
         return builder;
     }
