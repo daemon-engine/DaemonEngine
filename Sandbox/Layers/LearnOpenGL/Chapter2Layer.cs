@@ -93,8 +93,11 @@ internal class Chapter2Layer : LayerBase
         Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
         Renderer.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
+        // Ground / Floor
         DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(-90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
-        DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
+        //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
+        //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, -90.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
+        //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 90.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
         //DrawQuad(new Vector3(-90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
 
         _lightingShader.Bind();
@@ -171,8 +174,8 @@ internal class Chapter2Layer : LayerBase
         model *= Matrix4x4.CreateTranslation(position);
         model *= Matrix4x4.CreateScale(scale, position);
         model *= Matrix4x4.CreateRotationX(rotation.X * (3.14f / 180.0f), position);
-        model *= Matrix4x4.CreateRotationX(rotation.Y * (3.14f / 180.0f), position);
-        model *= Matrix4x4.CreateRotationX(rotation.Z * (3.14f / 180.0f), position);
+        model *= Matrix4x4.CreateRotationY(rotation.Y * (3.14f / 180.0f), position);
+        model *= Matrix4x4.CreateRotationZ(rotation.Z * (3.14f / 180.0f), position);
         _lightingShader.SetMat4("_Model", model);
 
         _lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
