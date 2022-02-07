@@ -28,7 +28,7 @@ internal class Chapter2Layer : LayerBase
 
     FPSCamera _camera;
 
-    private Vector3 _directionalLightDirection = new Vector3(-0.2f, -1.0f, -0.3f);
+    private Vector3 _pointLightPosition = Vector3.Zero;
 
     private readonly IApplication _application;
     private readonly ICursor _cursor;
@@ -68,7 +68,7 @@ internal class Chapter2Layer : LayerBase
         _container = GraphicsFactory.CreateTexture("Assets/Textures/container2.png");
         _containerSpecular = GraphicsFactory.CreateTexture("Assets/Textures/container2_specular.png");
 
-        _lightingShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/LightCasters_DirectionalLight.shader");
+        _lightingShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/LightCasters_SpotLight.shader");
         _lightObjectShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/1.LightCube.shader");
 
         var layout = new BufferLayout(new List<BufferElement>
@@ -115,10 +115,17 @@ internal class Chapter2Layer : LayerBase
         _lightingShader.SetMat4("_Projection", _camera.ProjectionMatrix);
         _lightingShader.SetFloat3("_ViewPos", _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
 
-        _lightingShader.SetFloat3("_DirectionalLight.direction", _directionalLightDirection.X, _directionalLightDirection.Y, _directionalLightDirection.Z);
-        _lightingShader.SetFloat3("_DirectionalLight.ambient", 0.2f, 0.2f, 0.2f);
-        _lightingShader.SetFloat3("_DirectionalLight.diffuse", 0.5f, 0.5f, 0.5f);
-        _lightingShader.SetFloat3("_DirectionalLight.specular", 1.0f, 1.0f, 1.0f);
+        _lightingShader.SetFloat3("_SpotLight.position", _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
+        _lightingShader.SetFloat3("_SpotLight.direction", _camera.Front.X, _camera.Front.Y, _camera.Front.Z);
+        _lightingShader.SetFloat3("_SpotLight.ambient", 0.1f, 0.1f, 0.1f);
+        _lightingShader.SetFloat3("_SpotLight.diffuse", 0.8f, 0.8f, 0.8f);
+        _lightingShader.SetFloat3("_SpotLight.specular", 1.0f, 1.0f, 1.0f);
+        _lightingShader.SetFloat("_SpotLight.cutOff", (float)Math.Cos(12.5f * 0.01745329251f));
+        _lightingShader.SetFloat("_SpotLight.outerCutOff", (float)Math.Cos(17.5f * 0.01745329251f));
+
+        _lightingShader.SetFloat("_SpotLight.constant", 1.0f);
+        _lightingShader.SetFloat("_SpotLight.linear", 0.09f);
+        _lightingShader.SetFloat("_SpotLight.quadratic", 0.032f);
 
         _lightingShader.SetFloat("_Material.shininess", 32.0f);
 
@@ -131,9 +138,9 @@ internal class Chapter2Layer : LayerBase
 
             Matrix4x4 model = Matrix4x4.Identity
                 * Matrix4x4.CreateTranslation(_cubePositions[i])
-                * Matrix4x4.CreateRotationX(angle / 0.01745329251f)
-                * Matrix4x4.CreateRotationY(angle / 0.01745329251f)
-                * Matrix4x4.CreateRotationZ(angle / 0.01745329251f);
+                * Matrix4x4.CreateRotationX(angle * 0.01745329251f)
+                * Matrix4x4.CreateRotationY(angle * 0.01745329251f)
+                * Matrix4x4.CreateRotationZ(angle * 0.01745329251f);
 
             _lightingShader.Bind();
             _lightingShader.SetMat4("_Model", model);
@@ -142,8 +149,8 @@ internal class Chapter2Layer : LayerBase
         }
 
         var lightObjectModel = Matrix4x4.Identity
-            * Matrix4x4.CreateTranslation(new Vector3(0.0f, 0.0f, 0.0f))
-            * Matrix4x4.CreateScale(0.2f);
+            * Matrix4x4.CreateScale(0.2f)
+            * Matrix4x4.CreateTranslation(_pointLightPosition);
 
         _lightObjectShader.Bind();
         _lightObjectShader.SetMat4("_Model", lightObjectModel);
@@ -164,7 +171,7 @@ internal class Chapter2Layer : LayerBase
 
         ImGuiNET.ImGui.Spacing();
 
-        ImGuiNET.ImGui.SliderFloat3("Light", ref _directionalLightDirection, 0.0f, 1.0f);
+        ImGuiNET.ImGui.SliderFloat3("Light", ref _pointLightPosition, -10.0f, 10.0f);
         ImGuiNET.ImGui.End();
 
         ImGuiNET.ImGui.ShowDemoWindow();
