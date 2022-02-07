@@ -1,5 +1,4 @@
 ﻿using DaemonEngine.Application;
-using Sandbox.Layers;
 using Sandbox.Layers.LearnOpenGL;
 
 namespace Sandbox;

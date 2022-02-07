@@ -10,13 +10,10 @@ public static class GlfwDaemonEngineContainerBuilderExtensions
     public static IDaemonEngineContainerBuilder RegisterGlfwWindow(this IDaemonEngineContainerBuilder builder, WindowOptions windowOptions)
     {
         builder.ContainerBuilder
-            .Register((cc) =>
-            {
-                var logger = cc.Resolve<ILogger>();
-                return new GlfwWindow(logger, windowOptions);
-            })
+            .RegisterType<GlfwWindow>()
+            .UsingConstructor(typeof(ILogger), typeof(WindowOptions))
+            .WithParameter(TypedParameter.From(windowOptions))
             .As<IWindow>()
-            .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
         return builder;

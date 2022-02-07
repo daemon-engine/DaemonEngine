@@ -37,6 +37,7 @@ public class FPSCamera
     public float FarClip { get; }
 
     public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 5.0f);
+    public Vector3 Front { get { return _cameraFront; } }
     public Matrix4x4 ViewMatrix { get; private set; }
     public Matrix4x4 ProjectionMatrix { get; private set; }
 

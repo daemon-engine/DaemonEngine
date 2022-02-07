@@ -4,13 +4,12 @@ using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.OpenGL.Factories;
 using DaemonEngine.Graphics.OpenGL.Renderer;
 using DaemonEngine.Graphics.Renderer;
-using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.DependencyInjection;
 
 public static class OpenGLDaemonEngineContainerBuilderExtensions
 {
-    public static IDaemonEngineContainerBuilder RegisterOpenGLFactory(this IDaemonEngineContainerBuilder builder)
+    public static IDaemonEngineContainerBuilder RegisterOpenGL(this IDaemonEngineContainerBuilder builder)
     {
         builder.ContainerBuilder
             .RegisterType<OpenGLGraphicsFactory>()
@@ -18,23 +17,9 @@ public static class OpenGLDaemonEngineContainerBuilderExtensions
             .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
-        return builder;
-    }
-
-    public static IDaemonEngineContainerBuilder RegisterOpenGLRenderer(this IDaemonEngineContainerBuilder builder)
-    {
         builder.ContainerBuilder
             .RegisterType<OpenGLRenderer>()
-            .Keyed<IRenderer>(RendererApi.OpenGL);
-
-        builder.ContainerBuilder
-            .Register((cc) =>
-        {
-            var logger = cc.Resolve<ILogger>();
-            return new OpenGLRenderer(logger);
-        })
             .As<IRenderer>()
-            .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
         return builder;
