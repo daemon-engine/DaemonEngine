@@ -27,6 +27,9 @@ internal class Chapter2Layer : LayerBase
     IVertexBuffer _vertexBuffer;
     IIndexBuffer _indexBuffer;
 
+    ITexture _container;
+    ITexture _containerSpecular;
+
     FPSCamera _camera;
 
     private readonly IApplication _application;
@@ -50,7 +53,10 @@ internal class Chapter2Layer : LayerBase
 
         _camera = new FPSCamera(45.0f, Window.AspectRatio);
 
-        _lightingShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/Materials.shader");
+        _container = GraphicsFactory.CreateTexture("Assets/Textures/container2.png");
+        _containerSpecular = GraphicsFactory.CreateTexture("Assets/Textures/container2_specular.png");
+
+        _lightingShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/LightingMaps_Specular.shader");
         _lightObjectShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter2/1.LightCube.shader");
 
         var layout = new BufferLayout(new List<BufferElement>
@@ -77,6 +83,10 @@ internal class Chapter2Layer : LayerBase
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(192 * sizeof(float), cubeVertices);
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
 
+        _lightingShader.Bind();
+        _lightingShader.SetInt("_Material.diffuse", 0);
+        _lightingShader.SetInt("_Material.specular", 1);
+
         Window.Maximize();
     }
 
@@ -99,7 +109,7 @@ internal class Chapter2Layer : LayerBase
         Renderer.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
         // Ground / Floor
-        DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(-90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
+        //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(-90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
         //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(90.0f, 0.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
         //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, -90.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
         //DrawQuad(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 90.0f, 0.0f), 5.0f, _camera.Position, lightPosition);
@@ -112,9 +122,11 @@ internal class Chapter2Layer : LayerBase
         model = Matrix4x4.Identity;
         _lightingShader.SetMat4("_Model", model);
 
-        _lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.diffuse", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.specular", 0.5f, 0.5f, 0.5f);
+        _container.Bind();
+        _containerSpecular.Bind(1);
+        //_lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
+        //_lightingShader.SetFloat3("_Material.diffuse", 1.0f, 0.5f, 0.31f);
+        //_lightingShader.SetFloat3("_Material.specular", 0.5f, 0.5f, 0.5f);
         _lightingShader.SetFloat("_Material.shininess", 32.0f);
 
         _lightingShader.SetFloat3("_Light.ambient", 0.2f, 0.2f, 0.2f);
