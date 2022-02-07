@@ -202,6 +202,10 @@ internal class Chapter2Layer : LayerBase
         ImGuiNET.ImGui.Text($"Delta Time: {(io.DeltaTime * 1000.0f):f4}ms/frame");
         ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1}");
 
+        ImGuiNET.ImGui.Spacing();
+
+        ImGuiNET.ImGui.Text($"Position: {_camera.Position.X},{_camera.Position.Y},{_camera.Position.Z}");
+
         ImGuiNET.ImGui.End();
 
         ImGuiNET.ImGui.ShowDemoWindow();

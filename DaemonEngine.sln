@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Graphics.OpenG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.GraphicsLibraryFramework.DllImport", "DaemonEngine.Windows.GraphicsLibraryFramework.DllImport\DaemonEngine.Windows.GraphicsLibraryFramework.DllImport.csproj", "{7C12E250-5B10-4A11-BA28-0013431A3A71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Maths", "DaemonEngine.Maths\DaemonEngine.Maths.csproj", "{CD8BF739-6521-443A-ADC8-FFA1C34CB2A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{7C12E250-5B10-4A11-BA28-0013431A3A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C12E250-5B10-4A11-BA28-0013431A3A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C12E250-5B10-4A11-BA28-0013431A3A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD8BF739-6521-443A-ADC8-FFA1C34CB2A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD8BF739-6521-443A-ADC8-FFA1C34CB2A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8BF739-6521-443A-ADC8-FFA1C34CB2A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8BF739-6521-443A-ADC8-FFA1C34CB2A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

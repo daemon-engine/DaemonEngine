@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Maths;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 
@@ -54,9 +55,19 @@ internal class OpenGLShader : IShader
         GL.Uniform1f(GL.GetUniformLocation(_id, name), value);
     }
 
+    public void SetFloat2(string name, Maths.Vector2 values)
+    {
+        SetFloat2(name, values.X, values.Y);
+    }
+
     public void SetFloat2(string name, float v0, float v1)
     {
         GL.Uniform2f(GL.GetUniformLocation(_id, name), v0, v1);
+    }
+
+    public void SetFloat3(string name, Maths.Vector3 values)
+    {
+        SetFloat3(name, values.X, values.Y, values.Z);
     }
 
     public void SetFloat3(string name, float v0, float v1, float v2)
@@ -72,6 +83,19 @@ internal class OpenGLShader : IShader
             matrix.M21, matrix.M22, matrix.M23, matrix.M24,
             matrix.M31, matrix.M32, matrix.M33, matrix.M34,
             matrix.M41, matrix.M42, matrix.M43, matrix.M44,
+        };
+
+        GL.UniformMatrix4fv(GL.GetUniformLocation(_id, name), 1, transpose, mat);
+    }
+
+    public void SetMat4(string name, Matrix4 matrix, bool transpose = false)
+    {
+        float[] mat =
+        {
+            matrix.Rows[0].X, matrix.Rows[0].Y, matrix.Rows[0].Z, matrix.Rows[0].W,
+            matrix.Rows[1].X, matrix.Rows[1].Y, matrix.Rows[1].Z, matrix.Rows[1].W,
+            matrix.Rows[2].X, matrix.Rows[2].Y, matrix.Rows[2].Z, matrix.Rows[2].W,
+            matrix.Rows[3].X, matrix.Rows[3].Y, matrix.Rows[3].Z, matrix.Rows[3].W
         };
 
         GL.UniformMatrix4fv(GL.GetUniformLocation(_id, name), 1, transpose, mat);

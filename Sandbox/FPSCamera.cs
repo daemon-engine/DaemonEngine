@@ -13,7 +13,6 @@ public class FPSCamera
     private float _pitch;
 
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
-
     private Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
 
     private const float MOVEMENT_SPEED = 2.0f;
