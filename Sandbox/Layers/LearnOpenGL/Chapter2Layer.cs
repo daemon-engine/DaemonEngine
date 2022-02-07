@@ -32,6 +32,11 @@ internal class Chapter2Layer : LayerBase
     private readonly IApplication _application;
     private readonly ICursor _cursor;
 
+    public Vector3 CopperAmbient = new(0.19125f, 0.0735f, 0.0225f);
+    public Vector3 CopperDiffuse = new(0.7038f, 0.27048f, 0.0828f);
+    public Vector3 CopperSpecular = new(0.256777f, 0.137622f, 0.086014f);
+    public float CopperShininess = 0.1f;
+
     public Chapter2Layer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
     {
@@ -105,28 +110,6 @@ internal class Chapter2Layer : LayerBase
         _lightingShader.SetMat4("_Projection", _camera.ProjectionMatrix);
 
         model = Matrix4x4.Identity;
-        model *= Matrix4x4.CreateRotationX(-90.0f * (3.14f / 180.0f));
-        model *= Matrix4x4.CreateScale(5.0f);
-        _lightingShader.SetMat4("_Model", model);
-
-        _lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.diffuse", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.specular", 0.5f, 0.5f, 0.5f);
-        _lightingShader.SetFloat("_Material.shininess", 32.0f);
-
-        _lightingShader.SetFloat3("_Light.ambient", 0.2f, 0.2f, 0.2f);
-        _lightingShader.SetFloat3("_Light.diffuse", 0.5f, 0.5f, 0.5f);
-        _lightingShader.SetFloat3("_Light.specular", 1.0f, 1.0f, 1.0f);
-
-        _lightingShader.SetFloat3("_LightPos", lightPosition.X, lightPosition.Y, lightPosition.Z);
-        _lightingShader.SetFloat3("_ViewPos", _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
-        Renderer.RenderGeometry(_quadPipeline, _quadVertexBuffer, _quadIndexBuffer);
-
-        _lightingShader.Bind();
-        _lightingShader.SetMat4("_View", _camera.ViewMatrix);
-        _lightingShader.SetMat4("_Projection", _camera.ProjectionMatrix);
-
-        model = Matrix4x4.Identity;
         _lightingShader.SetMat4("_Model", model);
 
         _lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
@@ -178,10 +161,10 @@ internal class Chapter2Layer : LayerBase
         model *= Matrix4x4.CreateRotationZ(rotation.Z * (3.14f / 180.0f), position);
         _lightingShader.SetMat4("_Model", model);
 
-        _lightingShader.SetFloat3("_Material.ambient", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.diffuse", 1.0f, 0.5f, 0.31f);
-        _lightingShader.SetFloat3("_Material.specular", 0.5f, 0.5f, 0.5f);
-        _lightingShader.SetFloat("_Material.shininess", 32.0f);
+        _lightingShader.SetFloat3("_Material.ambient", CopperAmbient.X, CopperAmbient.Y, CopperAmbient.Z);
+        _lightingShader.SetFloat3("_Material.diffuse", CopperDiffuse.X, CopperDiffuse.Y, CopperDiffuse.Z);
+        _lightingShader.SetFloat3("_Material.specular", CopperSpecular.X, CopperSpecular.Y, CopperSpecular.Z);
+        _lightingShader.SetFloat("_Material.shininess", CopperShininess * 128.0f);
 
         _lightingShader.SetFloat3("_Light.ambient", 0.2f, 0.2f, 0.2f);
         _lightingShader.SetFloat3("_Light.diffuse", 0.5f, 0.5f, 0.5f);
