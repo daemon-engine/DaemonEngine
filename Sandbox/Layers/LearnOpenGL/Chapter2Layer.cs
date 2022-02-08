@@ -9,7 +9,6 @@ using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
-using Math = DaemonEngine.Mathematics.Math;
 
 namespace Sandbox.Layers.LearnOpenGL;
 
@@ -143,8 +142,8 @@ internal class Chapter2Layer : LayerBase
         _lightingShader.SetFloat("_SpotLight.constant", 1.0f);
         _lightingShader.SetFloat("_SpotLight.linear", 0.09f);
         _lightingShader.SetFloat("_SpotLight.quadratic", 0.032f);
-        _lightingShader.SetFloat("_SpotLight.cutOff", Math.Cos(12.5f * 0.01745329251f));
-        _lightingShader.SetFloat("_SpotLight.outerCutOff", Math.Cos(15.0f * 0.01745329251f));
+        _lightingShader.SetFloat("_SpotLight.cutOff", Maths.Cos(12.5f * 0.01745329251f));
+        _lightingShader.SetFloat("_SpotLight.outerCutOff", Maths.Cos(15.0f * 0.01745329251f));
 
         _container.Bind();
         _containerSpecular.Bind(1);

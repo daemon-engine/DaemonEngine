@@ -32,8 +32,8 @@ public class Matrix4 : IEquatable<Matrix4>
 
     public static Matrix4 RotateX(float angle)
     {
-        var cos = Math.Cos(angle);
-        var sin = Math.Sin(angle);
+        var cos = Maths.Cos(angle);
+        var sin = Maths.Sin(angle);
 
         var result = Identity;
         result.Row1.Y = cos;
@@ -45,8 +45,8 @@ public class Matrix4 : IEquatable<Matrix4>
     }
     public static Matrix4 RotateY(float angle)
     {
-        var cos = Math.Cos(angle);
-        var sin = Math.Sin(angle);
+        var cos = Maths.Cos(angle);
+        var sin = Maths.Sin(angle);
 
         var result = Identity;
         result.Row0.X = cos;
@@ -58,8 +58,8 @@ public class Matrix4 : IEquatable<Matrix4>
     }
     public static Matrix4 RotateZ(float angle)
     {
-        var cos = Math.Cos(angle);
-        var sin = Math.Sin(angle);
+        var cos = Maths.Cos(angle);
+        var sin = Maths.Sin(angle);
 
         var result = Identity;
         result.Row0.X = cos;
@@ -85,7 +85,7 @@ public class Matrix4 : IEquatable<Matrix4>
     {
         var result = Identity;
 
-        var maxY = near * Math.Tan(0.5f * fieldOfView);
+        var maxY = near * Maths.Tan(0.5f * fieldOfView);
         var minY = -maxY;
         var minX = minY * aspectRatio;
         var maxX = maxY * aspectRatio;

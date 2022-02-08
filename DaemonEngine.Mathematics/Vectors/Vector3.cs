@@ -85,7 +85,7 @@ public class Vector3 : IEquatable<Vector3>
 
     public static float Distance(Vector3 left, Vector3 right)
     {
-        return Math.Sqrt(((right.X - left.X) * (right.X - left.X)) + ((right.Y - left.Y) * (right.Y - left.Y)) + ((right.Z - left.Z) * (right.Z - left.Z)));
+        return Maths.Sqrt(((right.X - left.X) * (right.X - left.X)) + ((right.Y - left.Y) * (right.Y - left.Y)) + ((right.Z - left.Z) * (right.Z - left.Z)));
     }
     #endregion
 

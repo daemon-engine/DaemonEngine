@@ -1,6 +1,5 @@
 ﻿using DaemonEngine.Core.Inputs;
 using DaemonEngine.Mathematics;
-using Math = DaemonEngine.Mathematics.Math;
 
 namespace Sandbox;
 
@@ -78,9 +77,9 @@ public class FPSCamera
 
         Vector3 front_ = new()
         {
-            X = Math.Cos(_yaw * (3.14 / 180.0f)) * Math.Cos(_pitch * (3.14 / 180.0f)),
-            Y = Math.Sin(_pitch * (3.14 / 180.0f)),
-            Z = Math.Sin(_yaw * (3.14 / 180.0f)) * Math.Cos(_pitch * (3.14 / 180.0f))
+            X = Maths.Cos(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f)),
+            Y = Maths.Sin(_pitch * (3.14 / 180.0f)),
+            Z = Maths.Sin(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f))
         };
         _cameraFront = Vector3.Normalize(front_);
     }

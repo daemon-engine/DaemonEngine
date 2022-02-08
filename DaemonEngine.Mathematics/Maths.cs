@@ -1,6 +1,6 @@
 ﻿namespace DaemonEngine.Mathematics;
 
-public class Math
+public class Maths
 {
     public const float PI = 3.14159265358979323846f;
 

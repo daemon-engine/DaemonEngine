@@ -26,7 +26,7 @@ public class Vector2 : IEquatable<Vector2>
     public static Vector2 Zero => new(0, 0);
     public static Vector2 One => new(1, 1);
 
-    public float Length => Math.Sqrt((X * X) + (Y * Y));
+    public float Length => Maths.Sqrt((X * X) + (Y * Y));
 
     public Vector2 Normalize()
     {
@@ -54,7 +54,7 @@ public class Vector2 : IEquatable<Vector2>
 
     public static float Distance(Vector2 vec1, Vector2 vec2)
     {
-        return Math.Sqrt((vec2.X - vec1.X) * (vec2.X - vec1.X) + (vec2.Y - vec1.Y) * (vec2.Y - vec1.Y));
+        return Maths.Sqrt((vec2.X - vec1.X) * (vec2.X - vec1.X) + (vec2.Y - vec1.Y) * (vec2.Y - vec1.Y));
     }
     #endregion
 

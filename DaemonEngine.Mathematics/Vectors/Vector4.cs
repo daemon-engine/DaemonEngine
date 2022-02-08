@@ -39,7 +39,7 @@ public class Vector4 : IEquatable<Vector4>
     public static Vector4 ZAxis => new(0.0f, 0.0f, 1.0f, 0.0f);
     public static Vector4 WAxis => new(0.0f, 0.0f, 0.0f, 1.0f);
 
-    public float Length => Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
+    public float Length => Maths.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
 
     public Vector4 Normalize()
     {
