@@ -1,7 +1,14 @@
 ﻿namespace DaemonEngine.Maths;
 
-public class Vector3
+public class Vector3 : IEquatable<Vector3>
 {
+    public static readonly Vector3 Zero = new(0.0f, 0.0f, 0.0f);
+    public static readonly Vector3 One = new(1.0f, 1.0f, 1.0f);
+
+    public static readonly Vector3 XAxis = new(1.0f, 0.0f, 0.0f);
+    public static readonly Vector3 YAxis = new(0.0f, 1.0f, 0.0f);
+    public static readonly Vector3 ZAxis = new(0.0f, 0.0f, 1.0f);
+
     public Vector3()
     {
         X = default;
@@ -27,21 +34,47 @@ public class Vector3
     public float Y { get; set; }
     public float Z { get; set; }
 
-    #region Vector3 math
-    public Vector3 Cross(Vector3 other)
-    {
-        return new Vector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
-    }
+    public float Length => Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
 
     public Vector3 Normalize()
     {
-        float length = Magnitude();
-        return new Vector3(X / length, Y / length, Z / length);
+        var scale = 1.0f / Length;
+
+        X *= scale;
+        Y *= scale;
+        Z *= scale;
+
+        return this;
     }
 
-    public float Magnitude()
+    #region Static vector math methods
+    public static Vector3 Lerp(Vector3 a, Vector3 b, float time)
     {
-        return Math.Sqrt(X * X + Y * Y + Z * Z);
+        a.X = (time * (b.X - a.X)) + a.X;
+        a.Y = (time * (b.Y - a.Y)) + a.Y;
+        a.Z = (time * (b.Z - a.Z)) + a.Z;
+
+        return a;
+    }
+
+    public static Vector3 Cross(Vector3 left, Vector3 right)
+    {
+        return new Vector3
+        {
+            X = (left.Y * right.Z) - (left.Z * right.Y),
+            Y = (left.Z * right.X) - (left.X * right.Z),
+            Z = (left.X * right.Y) - (left.Y * right.X)
+        };
+    }
+
+    public static float Dot(Vector3 left, Vector3 right)
+    {
+        return (left.X * right.X) + (left.Y * right.Y) + (left.Z * right.Z);
+    }
+
+    public static float Distance(Vector3 left, Vector3 right)
+    {
+        return Math.Sqrt(((right.X - left.X) * (right.X - left.X)) + ((right.Y - left.Y) * (right.Y - left.Y)) + ((right.Z - left.Z) * (right.Z - left.Z)));
     }
     #endregion
 
@@ -170,4 +203,19 @@ public class Vector3
         return left.Divide(right);
     }
     #endregion
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Vector3 vector && Equals(vector);
+    }
+
+    public bool Equals(Vector3 other)
+    {
+        return X == other.X && Y == other.Y && Z == other.Z;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y, Z);
+    }
 }
