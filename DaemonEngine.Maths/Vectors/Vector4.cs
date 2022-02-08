@@ -2,14 +2,6 @@
 
 public class Vector4 : IEquatable<Vector4>
 {
-    public static readonly Vector4 Zero = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
-    public static readonly Vector4 One = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-
-    public static readonly Vector4 XAxis = new(1.0f, 0.0f, 0.0f, 0.0f);
-    public static readonly Vector4 YAxis = new(0.0f, 1.0f, 0.0f, 0.0f);
-    public static readonly Vector4 ZAxis = new(0.0f, 0.0f, 1.0f, 0.0f);
-    public static readonly Vector4 WAxis = new(0.0f, 0.0f, 0.0f, 1.0f);
-
     public Vector4()
     {
         X = default;
@@ -38,6 +30,14 @@ public class Vector4 : IEquatable<Vector4>
     public float Y { get; set; }
     public float Z { get; set; }
     public float W { get; set; }
+
+    public static Vector4 Zero => new(0.0f, 0.0f, 0.0f, 0.0f);
+    public static Vector4 One => new(1.0f, 1.0f, 1.0f, 1.0f);
+
+    public static Vector4 XAxis => new(1.0f, 0.0f, 0.0f, 0.0f);
+    public static Vector4 YAxis => new(0.0f, 1.0f, 0.0f, 0.0f);
+    public static Vector4 ZAxis => new(0.0f, 0.0f, 1.0f, 0.0f);
+    public static Vector4 WAxis => new(0.0f, 0.0f, 0.0f, 1.0f);
 
     public float Length => Math.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
 
@@ -70,67 +70,57 @@ public class Vector4 : IEquatable<Vector4>
     }
     #endregion
 
-    #region Math methods
-    public Vector4 Add(Vector4 other)
-    {
-        X += other.X;
-        Y += other.Y;
-        Z += other.Z;
-        W += other.W;
-
-        return this;
-    }
-
-    public Vector4 Subtract(Vector4 other)
-    {
-        X -= other.X;
-        Y -= other.Y;
-        Z -= other.Z;
-        W -= other.W;
-
-        return this;
-    }
-
-    public Vector4 Multiply(Vector4 other)
-    {
-        X *= other.X;
-        Y *= other.Y;
-        Z *= other.Z;
-        W *= other.W;
-
-        return this;
-    }
-
-    public Vector4 Divide(Vector4 other)
-    {
-        X /= other.X;
-        Y /= other.Y;
-        Z /= other.Z;
-        W /= other.W;
-
-        return this;
-    }
-    #endregion
-
     #region Operators
     public static Vector4 operator +(Vector4 left, Vector4 right)
     {
-        return left.Add(right);
+        var result = new Vector4
+        {
+            X = left.X + right.X,
+            Y = left.Y + right.Y,
+            Z = left.Z + right.Z,
+            W = left.W + right.W
+        };
+
+        return result;
     }
 
     public static Vector4 operator -(Vector4 left, Vector4 right)
     {
-        return left.Subtract(right);
+        var result = new Vector4
+        {
+            X = left.X - right.X,
+            Y = left.Y - right.Y,
+            Z = left.Z - right.Z,
+            W = left.W - right.W
+        };
+
+        return result;
     }
 
     public static Vector4 operator *(Vector4 left, Vector4 right)
     {
-        return left.Multiply(right);
+        var result = new Vector4
+        {
+            X = left.X * right.X,
+            Y = left.Y * right.Y,
+            Z = left.Z * right.Z,
+            W = left.W * right.W
+        };
+
+        return result;
     }
 
     public static Vector4 operator /(Vector4 left, Vector4 right)
     {
-        return left.Divide(right);
+        var result = new Vector4
+        {
+            X = left.X / right.X,
+            Y = left.Y / right.Y,
+            Z = left.Z / right.Z,
+            W = left.W / right.W
+        };
+
+        return result;
     }
     #endregion
 

@@ -9,6 +9,16 @@ public class Math
         return a * a;
     }
 
+    public static float Sin(double angle)
+    {
+        return (float)global::System.Math.Sin(angle);
+    }
+
+    public static float Cos(double angle)
+    {
+        return (float)global::System.Math.Cos(angle);
+    }
+
     public static float Tan(float angle)
     {
         return (float)global::System.Math.Tan(angle);

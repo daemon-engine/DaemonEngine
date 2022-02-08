@@ -7,6 +7,15 @@ namespace DaemonEngine.OpenGL.DllImport;
 
 public static class GL
 {
+    public static void CheckGLError(string title)
+    {
+        var error = GL.GetError();
+        if (error != GLError.NoError)
+        {
+            Console.WriteLine($"({error}) {title}");
+        }
+    }
+
     #region Texture methods
     public static void TexParameteri(uint target, uint pname, uint param)
     {

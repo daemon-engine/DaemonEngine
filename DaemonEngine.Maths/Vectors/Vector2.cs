@@ -2,9 +2,6 @@
 
 public class Vector2 : IEquatable<Vector2>
 {
-    public static readonly Vector2 Zero = new(0, 0);
-    public static readonly Vector2 One = new(1, 1);
-
     public Vector2()
     {
         X = default;
@@ -25,6 +22,9 @@ public class Vector2 : IEquatable<Vector2>
 
     public float X { get; set; }
     public float Y { get; set; }
+
+    public static Vector2 Zero => new(0, 0);
+    public static Vector2 One => new(1, 1);
 
     public float Length => Math.Sqrt((X * X) + (Y * Y));
 
@@ -58,73 +58,71 @@ public class Vector2 : IEquatable<Vector2>
     }
     #endregion
 
-    #region Math methods
-    public Vector2 Add(Vector2 other)
-    {
-        X += other.X;
-        Y += other.Y;
-
-        return this;
-    }
-
-    public Vector2 Subtract(Vector2 other)
-    {
-        X -= other.X;
-        Y -= other.Y;
-
-        return this;
-    }
-
-    public Vector2 Multiply(Vector2 other)
-    {
-        X *= other.X;
-        Y *= other.Y;
-
-        return this;
-    }
-
-    public Vector2 Divide(Vector2 other)
-    {
-        X /= other.X;
-        Y /= other.Y;
-
-        return this;
-    }
-    #endregion
-
     #region Operators
     public static Vector2 operator *(Vector2 left, float right)
     {
-        left.X *= right;
-        left.Y *= right;
-        return left;
+        var result = new Vector2
+        {
+            X = left.X * right,
+            Y = left.Y * right
+        };
+
+        return result;
     }
 
     public static Vector2 operator *(float right, Vector2 left)
     {
-        left.X *= right;
-        left.Y *= right;
-        return left;
+        var result = new Vector2
+        {
+            X = left.X * right,
+            Y = left.Y * right
+        };
+
+        return result;
     }
 
     public static Vector2 operator +(Vector2 left, Vector2 right)
     {
-        return left.Add(right);
+        var result = new Vector2
+        {
+            X = left.X + right.X,
+            Y = left.Y + right.Y
+        };
+
+        return result;
     }
 
     public static Vector2 operator -(Vector2 left, Vector2 right)
     {
-        return left.Subtract(right);
+        var result = new Vector2
+        {
+            X = left.X - right.X,
+            Y = left.Y - right.Y
+        };
+
+        return result;
     }
 
     public static Vector2 operator *(Vector2 left, Vector2 right)
     {
-        return left.Multiply(right);
+        var result = new Vector2
+        {
+            X = left.X * right.X,
+            Y = left.Y * right.Y
+        };
+
+        return result;
     }
 
     public static Vector2 operator /(Vector2 left, Vector2 right)
     {
-        return left.Divide(right);
+        var result = new Vector2
+        {
+            X = left.X / right.X,
+            Y = left.Y / right.Y
+        };
+
+        return result;
     }
 
     public static Vector2 operator -(Vector2 vector)

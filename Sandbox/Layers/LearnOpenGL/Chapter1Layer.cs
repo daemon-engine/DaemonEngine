@@ -70,7 +70,7 @@ public class Chapter1Layer : LayerBase
         _shader.SetInt("_Texture1", 0);
         _shader.SetInt("_Texture2", 1);
 
-        _camera = new FPSCamera(45.0f, Window.AspectRatio);
+        //_camera = new FPSCamera(45.0f, Window.AspectRatio);
     }
 
     public override void OnShutdown()

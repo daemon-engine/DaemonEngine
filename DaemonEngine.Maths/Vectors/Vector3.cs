@@ -2,13 +2,6 @@
 
 public class Vector3 : IEquatable<Vector3>
 {
-    public static readonly Vector3 Zero = new(0.0f, 0.0f, 0.0f);
-    public static readonly Vector3 One = new(1.0f, 1.0f, 1.0f);
-
-    public static readonly Vector3 XAxis = new(1.0f, 0.0f, 0.0f);
-    public static readonly Vector3 YAxis = new(0.0f, 1.0f, 0.0f);
-    public static readonly Vector3 ZAxis = new(0.0f, 0.0f, 1.0f);
-
     public Vector3()
     {
         X = default;
@@ -34,7 +27,14 @@ public class Vector3 : IEquatable<Vector3>
     public float Y { get; set; }
     public float Z { get; set; }
 
-    public float Length => Math.Sqrt((X * X) + (Y * Y) + (Z * Z));
+    public static Vector3 Zero => new(0, 0, 0);
+    public static Vector3 One => new(1, 1, 1);
+
+    public static Vector3 XAxis => new(1, 0, 0);
+    public static Vector3 YAxis => new(0, 1, 0);
+    public static Vector3 ZAxis => new(0, 0, 1);
+
+    public float Length => MathF.Sqrt((X * X) + (Y * Y) + (Z * Z));
 
     public Vector3 Normalize()
     {
@@ -89,129 +89,101 @@ public class Vector3 : IEquatable<Vector3>
     }
     #endregion
 
-    #region Math methods
-    public Vector3 Add(Vector3 other)
-    {
-        X += other.X;
-        Y += other.Y;
-        Z += other.Z;
-
-        return this;
-    }
-
-    public Vector3 Subtract(Vector3 other)
-    {
-        X -= other.X;
-        Y -= other.Y;
-        Z -= other.Z;
-
-        return this;
-    }
-
-    public Vector3 Multiply(Vector3 other)
-    {
-        X *= other.X;
-        Y *= other.Y;
-        Z *= other.Z;
-
-        return this;
-    }
-
-    public Vector3 Divide(Vector3 other)
-    {
-        X /= other.X;
-        Y /= other.Y;
-        Z /= other.Z;
-
-        return this;
-    }
-
-    public Vector3 Multiply(Matrix4 transform)
-    {
-        return new Vector3
-        {
-            X = transform.Rows[0].X * X + transform.Rows[0].Y * Y + transform.Rows[0].Z * Z + transform.Rows[0].W,
-            Y = transform.Rows[1].X * X + transform.Rows[1].Y * Y + transform.Rows[1].Z * Z + transform.Rows[1].W,
-            Z = transform.Rows[2].X * X + transform.Rows[2].Y * Y + transform.Rows[2].Z * Z + transform.Rows[2].W
-        };
-    }
-
-    public Vector3 Add(float value)
-    {
-        X += value;
-        Y += value;
-        Z += value;
-
-        return this;
-    }
-
-    public Vector3 Subtract(float value)
-    {
-        X -= value;
-        Y -= value;
-        Z -= value;
-
-        return this;
-    }
-
-    public Vector3 Multiply(float value)
-    {
-        X *= value;
-        Y *= value;
-        Z *= value;
-
-        return this;
-    }
-
-    public Vector3 Divide(float value)
-    {
-        X /= value;
-        Y /= value;
-        Z /= value;
-
-        return this;
-    }
-    #endregion
-
     #region Operators
     public static Vector3 operator +(Vector3 left, Vector3 right)
     {
-        return left.Add(right);
+        var result = new Vector3
+        {
+            X = left.X + right.X,
+            Y = left.Y + right.Y,
+            Z = left.Z + right.Z
+        };
+
+        return result;
     }
 
     public static Vector3 operator -(Vector3 left, Vector3 right)
     {
-        return left.Subtract(right);
+        var result = new Vector3
+        {
+            X = left.X - right.X,
+            Y = left.Y - right.Y,
+            Z = left.Z - right.Z
+        };
+
+        return result;
     }
 
     public static Vector3 operator *(Vector3 left, Vector3 right)
     {
-        return left.Multiply(right);
+        var result = new Vector3
+        {
+            X = left.X * right.X,
+            Y = left.Y * right.Y,
+            Z = left.Z * right.Z
+        };
+
+        return result;
     }
 
     public static Vector3 operator /(Vector3 left, Vector3 right)
     {
-        return left.Divide(right);
+        var result = new Vector3
+        {
+            X = left.X / right.X,
+            Y = left.Y / right.Y,
+            Z = left.Z / right.Z
+        };
+
+        return result;
     }
 
     public static Vector3 operator +(Vector3 left, float right)
     {
-        return left.Add(right);
+        var result = new Vector3
+        {
+            X = left.X + right,
+            Y = left.Y + right,
+            Z = left.Z + right
+        };
+
+        return result;
     }
 
     public static Vector3 operator -(Vector3 left, float right)
     {
-        return left.Subtract(right);
+        var result = new Vector3
+        {
+            X = left.X - right,
+            Y = left.Y - right,
+            Z = left.Z - right
+        };
+
+        return result;
     }
 
     public static Vector3 operator *(Vector3 left, float right)
     {
-        return left.Multiply(right);
+        var result = new Vector3
+        {
+            X = left.X * right,
+            Y = left.Y * right,
+            Z = left.Z * right
+        };
+
+        return result;
     }
 
     public static Vector3 operator /(Vector3 left, float right)
     {
-        return left.Divide(right);
+        var result = new Vector3
+        {
+            X = left.X / right,
+            Y = left.Y / right,
+            Z = left.Z / right
+        };
+
+        return result;
     }
     #endregion
 

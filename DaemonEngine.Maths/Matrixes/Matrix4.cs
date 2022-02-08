@@ -2,9 +2,6 @@
 
 public class Matrix4 : IEquatable<Matrix4>
 {
-    public static readonly Matrix4 Zero = new(Vector4.Zero, Vector4.Zero, Vector4.Zero, Vector4.Zero);
-    public static readonly Matrix4 Identity = new(Vector4.XAxis, Vector4.YAxis, Vector4.ZAxis, Vector4.WAxis);
-
     public Matrix4(Vector4 row0, Vector4 row1, Vector4 row2, Vector4 row3)
     {
         Row0 = row0;
@@ -18,7 +15,72 @@ public class Matrix4 : IEquatable<Matrix4>
     public Vector4 Row2 { get; private set; }
     public Vector4 Row3 { get; private set; }
 
+    public static Matrix4 Zero => new(Vector4.Zero, Vector4.Zero, Vector4.Zero, Vector4.Zero);
+    public static Matrix4 Identity => new(Vector4.XAxis, Vector4.YAxis, Vector4.ZAxis, Vector4.WAxis);
+
     #region Static matrix4 math methods
+    public static Matrix4 Translate(Vector3 translation)
+    {
+        var result = Identity;
+
+        result.Row3.X = translation.X;
+        result.Row3.Y = translation.Y;
+        result.Row3.Z = translation.Z;
+
+        return result;
+    }
+
+    public static Matrix4 RotateX(float angle)
+    {
+        var cos = Math.Cos(angle);
+        var sin = Math.Sin(angle);
+
+        var result = Identity;
+        result.Row1.Y = cos;
+        result.Row1.Z = sin;
+        result.Row2.Y = -sin;
+        result.Row2.Z = cos;
+
+        return result;
+    }
+    public static Matrix4 RotateY(float angle)
+    {
+        var cos = Math.Cos(angle);
+        var sin = Math.Sin(angle);
+
+        var result = Identity;
+        result.Row0.X = cos;
+        result.Row0.Z = -sin;
+        result.Row2.X = sin;
+        result.Row2.Z = cos;
+
+        return result;
+    }
+    public static Matrix4 RotateZ(float angle)
+    {
+        var cos = Math.Cos(angle);
+        var sin = Math.Sin(angle);
+
+        var result = Identity;
+        result.Row0.X = cos;
+        result.Row0.Y = sin;
+        result.Row1.X = -sin;
+        result.Row1.Y = cos;
+
+        return result;
+    }
+
+    public static Matrix4 Scale(float scale)
+    {
+        var result = Identity;
+
+        result.Row0.X = scale;
+        result.Row1.Y = scale;
+        result.Row2.Z = scale;
+
+        return result;
+    }
+
     public static Matrix4 Perspective(float fieldOfView, float aspectRatio, float near, float far)
     {
         var result = Identity;

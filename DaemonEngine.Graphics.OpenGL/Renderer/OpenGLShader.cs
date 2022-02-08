@@ -92,10 +92,10 @@ internal class OpenGLShader : IShader
     {
         float[] mat =
         {
-            matrix.Rows[0].X, matrix.Rows[0].Y, matrix.Rows[0].Z, matrix.Rows[0].W,
-            matrix.Rows[1].X, matrix.Rows[1].Y, matrix.Rows[1].Z, matrix.Rows[1].W,
-            matrix.Rows[2].X, matrix.Rows[2].Y, matrix.Rows[2].Z, matrix.Rows[2].W,
-            matrix.Rows[3].X, matrix.Rows[3].Y, matrix.Rows[3].Z, matrix.Rows[3].W
+            matrix.Row0.X, matrix.Row0.Y, matrix.Row0.Z, matrix.Row0.W,
+            matrix.Row1.X, matrix.Row1.Y, matrix.Row1.Z, matrix.Row1.W,
+            matrix.Row2.X, matrix.Row2.Y, matrix.Row2.Z, matrix.Row2.W,
+            matrix.Row3.X, matrix.Row3.Y, matrix.Row3.Z, matrix.Row3.W
         };
 
         GL.UniformMatrix4fv(GL.GetUniformLocation(_id, name), 1, transpose, mat);
