@@ -48,6 +48,17 @@ public class Vector3 : IEquatable<Vector3>
     }
 
     #region Static vector math methods
+    public static Vector3 Normalize(Vector3 vector)
+    {
+        var scale = 1.0f / vector.Length;
+
+        vector.X *= scale;
+        vector.Y *= scale;
+        vector.Z *= scale;
+
+        return vector;
+    }
+
     public static Vector3 Lerp(Vector3 a, Vector3 b, float time)
     {
         a.X = (time * (b.X - a.X)) + a.X;
