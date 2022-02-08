@@ -1,5 +1,5 @@
 ﻿using DaemonEngine.Core.Inputs;
-using System.Numerics;
+using DaemonEngine.Mathematics;
 
 namespace Sandbox;
 
@@ -9,12 +9,11 @@ public class FPSCamera
     private float _lastX = 0.0f;
     private float _lastY = 0.0f;
 
-    private float _yaw;
+    private float _yaw = -90;
     private float _pitch;
 
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
-
-    private Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
+    private readonly Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
 
     private const float MOVEMENT_SPEED = 2.0f;
     private const float SENSITIVITY = 2.0f;
@@ -26,7 +25,7 @@ public class FPSCamera
         NearClip = nearClip;
         FarClip = farClip;
 
-        ViewMatrix = Matrix4x4.CreateLookAt(Position, Position + _cameraFront, _cameraUp);
+        ViewMatrix = Matrix4.LookAt(Position, Position + _cameraFront, _cameraUp);
         UpdateProjection();
     }
 
@@ -37,15 +36,15 @@ public class FPSCamera
     public float FarClip { get; }
 
     public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 5.0f);
-    public Vector3 Front { get { return _cameraFront; } }
-    public Matrix4x4 ViewMatrix { get; private set; }
-    public Matrix4x4 ProjectionMatrix { get; private set; }
+    public Vector3 Front => _cameraFront;
+    public Matrix4 ViewMatrix { get; private set; }
+    public Matrix4 ProjectionMatrix { get; private set; }
 
     public void Update(float deltaTime)
     {
         Move(deltaTime);
         Rotate(deltaTime);
-        ViewMatrix = Matrix4x4.CreateLookAt(Position, Position + _cameraFront, _cameraUp);
+        ViewMatrix = Matrix4.LookAt(Position, Position + _cameraFront, _cameraUp);
     }
 
     private void Rotate(float deltaTime)
@@ -76,13 +75,13 @@ public class FPSCamera
         if (_pitch < -89.0f)
             _pitch = -89.0f;
 
-        Vector3 front = new()
+        Vector3 front_ = new()
         {
-            X = (float)Math.Cos(_yaw * (3.14 / 180.0f)) * (float)Math.Cos(_pitch * (3.14 / 180.0f)),
-            Y = (float)Math.Sin(_pitch * (3.14 / 180.0f)),
-            Z = (float)Math.Sin(_yaw * (3.14 / 180.0f)) * (float)Math.Cos(_pitch * (3.14 / 180.0f))
+            X = Maths.Cos(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f)),
+            Y = Maths.Sin(_pitch * (3.14 / 180.0f)),
+            Z = Maths.Sin(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f))
         };
-        _cameraFront = Vector3.Normalize(front);
+        _cameraFront = Vector3.Normalize(front_);
     }
 
     private void Move(float deltaTime)
@@ -123,6 +122,6 @@ public class FPSCamera
 
     private void UpdateProjection()
     {
-        ProjectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(FieldOfViewRadians, AspectRatio, NearClip, FarClip);
+        ProjectionMatrix = Matrix4.Perspective(FieldOfViewRadians, AspectRatio, NearClip, FarClip);
     }
 }

@@ -7,8 +7,8 @@ using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Enums;
+using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
-using System.Numerics;
 
 namespace Sandbox.Layers.LearnOpenGL;
 
@@ -31,7 +31,7 @@ internal class Chapter2Layer : LayerBase
     private readonly IApplication _application;
     private readonly ICursor _cursor;
 
-    Vector3[] _cubePositions = new Vector3[10]
+    readonly Vector3[] _cubePositions = new Vector3[10]
     {
         new Vector3( 0.0f,  0.0f,  0.0f),
         new Vector3( 2.0f,  5.0f, -15.0f),
@@ -45,7 +45,7 @@ internal class Chapter2Layer : LayerBase
         new Vector3(-1.3f,  1.0f, -1.5f)
     };
 
-    Vector3[] _pointLightPositions = {
+    readonly Vector3[] _pointLightPositions = {
         new Vector3( 0.7f,  0.2f,  2.0f),
         new Vector3( 2.3f, -3.3f, -4.0f),
         new Vector3(-4.0f,  2.0f, -12.0f),
@@ -115,11 +115,13 @@ internal class Chapter2Layer : LayerBase
         Renderer.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
         _lightingShader.Bind();
-        _lightingShader.SetMat4("_Model", Matrix4x4.Identity);
+        _lightingShader.SetMat4("_Model", DaemonEngine.Mathematics.Matrix4.Identity);
         _lightingShader.SetMat4("_View", _camera.ViewMatrix);
         _lightingShader.SetMat4("_Projection", _camera.ProjectionMatrix);
+
         _lightingShader.SetFloat3("_ViewPos", _camera.Position.X, _camera.Position.Y, _camera.Position.Z);
         _lightingShader.SetFloat("_Material.shininess", 32.0f);
+
 
         _lightingShader.SetFloat3("_DirLight.direction", -0.2f, -1.0f, -0.3f);
         _lightingShader.SetFloat3("_DirLight.ambient", 0.05f, 0.05f, 0.05f);
@@ -140,23 +142,21 @@ internal class Chapter2Layer : LayerBase
         _lightingShader.SetFloat("_SpotLight.constant", 1.0f);
         _lightingShader.SetFloat("_SpotLight.linear", 0.09f);
         _lightingShader.SetFloat("_SpotLight.quadratic", 0.032f);
-        _lightingShader.SetFloat("_SpotLight.cutOff", (float)Math.Cos(12.5f * 0.01745329251f));
-        _lightingShader.SetFloat("_SpotLight.outerCutOff", (float)Math.Cos(15.0f * 0.01745329251f));
-
-        var model = Matrix4x4.Identity;
+        _lightingShader.SetFloat("_SpotLight.cutOff", Maths.Cos(12.5f * 0.01745329251f));
+        _lightingShader.SetFloat("_SpotLight.outerCutOff", Maths.Cos(15.0f * 0.01745329251f));
 
         _container.Bind();
         _containerSpecular.Bind(1);
-
+        
         for (int i = 0; i < _cubePositions.Length; i++)
         {
             float angle = 20.0f * i;
 
-            model = Matrix4x4.Identity
-                * Matrix4x4.CreateRotationX(angle * 0.01745329251f)
-                * Matrix4x4.CreateRotationY(angle * 0.01745329251f)
-                * Matrix4x4.CreateRotationZ(angle * 0.01745329251f)
-                * Matrix4x4.CreateTranslation(_cubePositions[i]);
+            var model = Matrix4.Identity
+                * Matrix4.RotateX(angle)
+                * Matrix4.RotateY(angle)
+                * Matrix4.RotateZ(angle)
+                * Matrix4.Translate(_cubePositions[i]);
 
             _lightingShader.SetMat4("_Model", model);
             Renderer.RenderGeometry(_lightingPipeline, _vertexBuffer, _indexBuffer);
@@ -164,15 +164,15 @@ internal class Chapter2Layer : LayerBase
 
         // Point light cubes
         _lightObjectShader.Bind();
-        _lightObjectShader.SetMat4("_Model", Matrix4x4.Identity);
+        _lightObjectShader.SetMat4("_Model", DaemonEngine.Mathematics.Matrix4.Identity);
         _lightObjectShader.SetMat4("_View", _camera.ViewMatrix);
         _lightObjectShader.SetMat4("_Projection", _camera.ProjectionMatrix);
 
         for (int i = 0; i < _pointLightPositions.Length; i++)
         {
-            model = Matrix4x4.Identity
-                * Matrix4x4.CreateScale(0.2f)
-                * Matrix4x4.CreateTranslation(_pointLightPositions[i]);
+            var model = Matrix4.Identity
+                * Matrix4.Scale(0.2f)
+                * Matrix4.Translate(_pointLightPositions[i]);
 
             _lightObjectShader.SetMat4("_Model", model);
 
@@ -201,6 +201,11 @@ internal class Chapter2Layer : LayerBase
         ImGuiNET.ImGui.Text($"State: {(s_MovedDisabled ? "Playing" : "Paused")}");
         ImGuiNET.ImGui.Text($"Delta Time: {(io.DeltaTime * 1000.0f):f4}ms/frame");
         ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1}");
+
+        ImGuiNET.ImGui.Spacing();
+
+        ImGuiNET.ImGui.Text($"Position: {_camera.Position.X},{_camera.Position.Y},{_camera.Position.Z}");
+        //ImGuiNET.ImGui.Text($"Position: {_camera.Position.X},{_camera.Position.Y},{_camera.Position.Z}");
 
         ImGuiNET.ImGui.End();
 

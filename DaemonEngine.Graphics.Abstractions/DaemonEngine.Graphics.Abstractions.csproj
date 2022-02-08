@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Graphics.OpenGL.DllImport\DaemonEngine.Graphics.OpenGL.DllImport.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Maths\DaemonEngine.Mathematics.csproj" />
   </ItemGroup>
 
 </Project>

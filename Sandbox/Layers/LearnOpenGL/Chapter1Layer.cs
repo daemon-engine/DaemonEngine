@@ -4,9 +4,8 @@ using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Enums;
-using DaemonEngine.Windows.Inputs;
+using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
-using System.Numerics;
 
 namespace Sandbox.Layers.LearnOpenGL;
 
@@ -19,8 +18,8 @@ public class Chapter1Layer : LayerBase
     ITexture _texture2;
 
     IShader _shader;
-
-    Vector3[] _cubePositions = new Vector3[10]
+    
+    readonly Vector3[] _cubePositions = new Vector3[10]
     {
         new Vector3( 0.0f,  0.0f,  0.0f),
         new Vector3( 2.0f,  5.0f, -15.0f),
@@ -89,11 +88,11 @@ public class Chapter1Layer : LayerBase
         {
             float angle = 20.0f * i;
 
-            Matrix4x4 model = Matrix4x4.Identity
-                * Matrix4x4.CreateTranslation(_cubePositions[i])
-                * Matrix4x4.CreateRotationX(angle / 0.01745329251f)
-                * Matrix4x4.CreateRotationY(angle / 0.01745329251f)
-                * Matrix4x4.CreateRotationZ(angle / 0.01745329251f);
+            Matrix4 model = Matrix4.Identity
+                * Matrix4.Translate(_cubePositions[i])
+                * Matrix4.RotateX(angle / 0.01745329251f)
+                * Matrix4.RotateY(angle / 0.01745329251f)
+                * Matrix4.RotateZ(angle / 0.01745329251f);
 
             _shader.Bind();
             _shader.SetMat4("_Model", model);

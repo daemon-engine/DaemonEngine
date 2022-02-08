@@ -7,6 +7,15 @@ namespace DaemonEngine.OpenGL.DllImport;
 
 public static class GL
 {
+    public static void CheckGLError(string title)
+    {
+        var error = GL.GetError();
+        if (error != GLError.NoError)
+        {
+            Console.WriteLine($"({error}) {title}");
+        }
+    }
+
     #region Texture methods
     public static void TexParameteri(uint target, uint pname, uint param)
     {
@@ -76,6 +85,11 @@ public static class GL
     public static void Uniform3f(uint location, float v0, float v1, float v2)
     {
         OpenGLDllImport.glUniform3f(location, v0, v1, v2);
+    }
+
+    public static void Uniform4f(uint location, float v0, float v1, float v2, float v3)
+    {
+        OpenGLDllImport.glUniform4f(location, v0, v1, v2, v3);
     }
 
     public static uint GetUniformLocation(uint program, string name)
