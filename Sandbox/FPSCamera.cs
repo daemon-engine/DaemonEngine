@@ -1,6 +1,6 @@
 ﻿using DaemonEngine.Core.Inputs;
-using DaemonEngine.Maths;
-using Math = DaemonEngine.Maths.Math;
+using DaemonEngine.Mathematics;
+using Math = DaemonEngine.Mathematics.Math;
 
 namespace Sandbox;
 

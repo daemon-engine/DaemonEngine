@@ -1,7 +1,6 @@
 ﻿using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.GraphicsLibraryFramework.DllImport;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 using DaemonEngine.Windows.Inputs;
@@ -209,7 +208,7 @@ void main()
             1.0f);
 
         _shader.Bind();
-        _shader.SetMat4("projection_matrix", mvp);
+        _shader.SetMat4("projection_matrix", (DaemonEngine.Mathematics.Matrix4)mvp);
         _shader.SetInt("in_fontTexture", 0);
         CheckGLError("Projection");
 

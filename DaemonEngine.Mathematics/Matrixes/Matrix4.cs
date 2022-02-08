@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Maths;
+﻿namespace DaemonEngine.Mathematics;
 
 public class Matrix4 : IEquatable<Matrix4>
 {
@@ -266,6 +266,28 @@ public class Matrix4 : IEquatable<Matrix4>
     public static bool operator !=(Matrix4 left, Matrix4 right)
     {
         return !(left == right);
+    }
+    #endregion
+
+    #region Conversion operators
+    public static implicit operator System.Numerics.Matrix4x4(Matrix4 matrix)
+    {
+        return new System.Numerics.Matrix4x4(
+            matrix.Row0.X, matrix.Row0.Y, matrix.Row0.Z, matrix.Row0.W,
+            matrix.Row1.X, matrix.Row1.Y, matrix.Row1.Z, matrix.Row1.W,
+            matrix.Row2.X, matrix.Row2.Y, matrix.Row2.Z, matrix.Row2.W,
+            matrix.Row3.X, matrix.Row3.Y, matrix.Row3.Z, matrix.Row3.W
+            );
+    }
+
+    public static explicit operator Matrix4(System.Numerics.Matrix4x4 matrix)
+    {
+        return new Matrix4(
+            new Vector4(matrix.M11, matrix.M12, matrix.M13, matrix.M14),
+            new Vector4(matrix.M21, matrix.M22, matrix.M23, matrix.M24),
+            new Vector4(matrix.M31, matrix.M32, matrix.M33, matrix.M34),
+            new Vector4(matrix.M41, matrix.M42, matrix.M43, matrix.M44)
+            );
     }
     #endregion
 

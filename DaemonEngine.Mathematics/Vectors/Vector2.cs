@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Maths;
+﻿namespace DaemonEngine.Mathematics;
 
 public class Vector2 : IEquatable<Vector2>
 {

@@ -7,9 +7,9 @@ using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Enums;
-using DaemonEngine.Maths;
+using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
-using Math = DaemonEngine.Maths.Math;
+using Math = DaemonEngine.Mathematics.Math;
 
 namespace Sandbox.Layers.LearnOpenGL;
 
@@ -116,7 +116,7 @@ internal class Chapter2Layer : LayerBase
         Renderer.ClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
         _lightingShader.Bind();
-        _lightingShader.SetMat4("_Model", DaemonEngine.Maths.Matrix4.Identity);
+        _lightingShader.SetMat4("_Model", DaemonEngine.Mathematics.Matrix4.Identity);
         _lightingShader.SetMat4("_View", _camera.ViewMatrix);
         _lightingShader.SetMat4("_Projection", _camera.ProjectionMatrix);
 
@@ -146,20 +146,14 @@ internal class Chapter2Layer : LayerBase
         _lightingShader.SetFloat("_SpotLight.cutOff", Math.Cos(12.5f * 0.01745329251f));
         _lightingShader.SetFloat("_SpotLight.outerCutOff", Math.Cos(15.0f * 0.01745329251f));
 
-        var model = Matrix4.Identity;
-
-        DaemonEngine.OpenGL.DllImport.GL.CheckGLError("texture bind");
-
         _container.Bind();
         _containerSpecular.Bind(1);
         
-        DaemonEngine.OpenGL.DllImport.GL.CheckGLError("texture bind0");
-
         for (int i = 0; i < _cubePositions.Length; i++)
         {
             float angle = 20.0f * i;
 
-            model = Matrix4.Identity
+            var model = Matrix4.Identity
                 * Matrix4.RotateX(angle)
                 * Matrix4.RotateY(angle)
                 * Matrix4.RotateZ(angle)
@@ -169,19 +163,15 @@ internal class Chapter2Layer : LayerBase
             Renderer.RenderGeometry(_lightingPipeline, _vertexBuffer, _indexBuffer);
         }
 
-        DaemonEngine.OpenGL.DllImport.GL.CheckGLError("awd123");
-
         // Point light cubes
         _lightObjectShader.Bind();
-        _lightObjectShader.SetMat4("_Model", DaemonEngine.Maths.Matrix4.Identity);
+        _lightObjectShader.SetMat4("_Model", DaemonEngine.Mathematics.Matrix4.Identity);
         _lightObjectShader.SetMat4("_View", _camera.ViewMatrix);
         _lightObjectShader.SetMat4("_Projection", _camera.ProjectionMatrix);
 
-        DaemonEngine.OpenGL.DllImport.GL.CheckGLError("awd");
-
         for (int i = 0; i < _pointLightPositions.Length; i++)
         {
-            model = Matrix4.Identity
+            var model = Matrix4.Identity
                 * Matrix4.Scale(0.2f)
                 * Matrix4.Translate(_pointLightPositions[i]);
 
