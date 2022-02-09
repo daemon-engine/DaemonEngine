@@ -47,7 +47,7 @@ internal class Chapter3Layer : LayerBase
         _mesh = _meshFactory.CreateMesh(vertices, indices, _shader, bufferLayout);
 
         _model = new Model(_meshFactory, _shader, bufferLayout, "Assets/Models/cube.obj");
-        //_sphere = new Model(_meshFactory, _shader, bufferLayout, "Assets/Models/Sphere/sphere.obj");
+        _sphere = new Model(_meshFactory, _shader, bufferLayout, "Assets/Models/Sphere/sphere.obj");
     }
 
     public override void OnShutdown()
@@ -67,7 +67,7 @@ internal class Chapter3Layer : LayerBase
         _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
         Renderer.RenderMesh(_mesh);
 
-        _shader.Bind();
+        //_shader.Bind();
         _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(2.5f, 0.0f, 2.5f)));
         _shader.SetMat4("_View", _camera.ViewMatrix);
         _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
