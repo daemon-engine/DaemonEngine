@@ -31,9 +31,9 @@ internal class GlfwWindow : WindowBase
             return;
         }
 
-        //Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MAJOR, 4);
-        //Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MINOR, 5);
-        //Glfw.WindowHint(GlfwConstants.GLFW_OPENGL_PROFILE, GlfwConstants.GLFW_OPENGL_CORE_PROFILE);
+        Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MAJOR, 3);
+        Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MINOR, 3);
+        Glfw.WindowHint(GlfwConstants.GLFW_OPENGL_PROFILE, GlfwConstants.GLFW_OPENGL_CORE_PROFILE);
 
         _glfwNativeWindowHandle = Glfw.CreateWindow(WindowOptions.Width, WindowOptions.Height, WindowOptions.Title);
         if (_glfwNativeWindowHandle.Equals(null))

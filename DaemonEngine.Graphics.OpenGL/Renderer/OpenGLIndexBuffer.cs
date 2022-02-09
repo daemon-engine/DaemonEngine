@@ -13,7 +13,7 @@ internal class OpenGLIndexBuffer : IIndexBuffer
         Count = count;
 
         uint[] ids = new uint[1];
-        GL.GenBuffers(1, ref ids);
+        GL.CreateBuffers(1, ref ids);
         _id = ids[0];
 
         GL.BindBuffer(GLConstants.GL_ELEMENT_ARRAY_BUFFER, _id);

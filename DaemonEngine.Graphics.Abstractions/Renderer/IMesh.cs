@@ -5,4 +5,5 @@ public interface IMesh
     int GetIndexBufferCount();
 
     void Bind();
+    void Unbind();
 }

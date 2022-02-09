@@ -45,6 +45,8 @@ internal class OpenGLRenderer : RendererBase
 
         var count = mesh.GetIndexBufferCount();
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
+
+        mesh.Unbind();
     }
 
     public override void SetViewport(int x, int y, int width, int height)

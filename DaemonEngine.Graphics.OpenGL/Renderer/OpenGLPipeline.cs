@@ -18,7 +18,7 @@ internal class OpenGLPipeline : IPipeline
         BufferLayout = bufferLayout;
 
         uint[] ids = new uint[1];
-        GL.GenVertexArrays(1, ref ids);
+        GL.CreateVertexArrays(1, ref ids);
         _id = ids[0];
         GL.BindVertexArray(_id);
     }

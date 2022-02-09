@@ -11,7 +11,7 @@ internal class OpenGLVertexBuffer : IVertexBuffer
     public OpenGLVertexBuffer(int size, float[] vertices)
     {
         uint[] ids = new uint[1];
-        GL.GenBuffers(1, ref ids);
+        GL.CreateBuffers(1, ref ids);
         _id = ids[0];
 
         GL.BindBuffer(GLConstants.GL_ARRAY_BUFFER, _id);

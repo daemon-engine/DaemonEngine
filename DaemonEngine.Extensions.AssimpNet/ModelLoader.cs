@@ -12,20 +12,20 @@ public class ModelLoader
 
         if (scene == default || scene.SceneFlags == SceneFlags.Incomplete || scene.RootNode == default)
         {
-            return (new float[0], new uint[0]);
+            return (Array.Empty<float>(), Array.Empty<uint>());
         }
 
         var node = scene.RootNode;
 
         List<float> vertices = new();
-        uint[] indices = null;
+        uint[] indices = Array.Empty<uint>();
         foreach (var child in node.Children)
         {
             for (int i = 0; i < child.MeshCount; i++)
             {
                 var mesh = scene.Meshes[i];
 
-                if (indices == null)
+                if (indices == null || indices.Length == 0)
                 {
                     indices = mesh.GetUnsignedIndices();
                 }
@@ -40,8 +40,8 @@ public class ModelLoader
                     vertices.Add(mesh.Normals[j].Y);
                     vertices.Add(mesh.Normals[j].Z);
 
-                    vertices.Add(0.0f);
-                    vertices.Add(0.0f);
+                    vertices.Add(mesh.TextureCoordinateChannels[0][j].X);
+                    vertices.Add(mesh.TextureCoordinateChannels[0][j].Y);
                 }
             }
         }

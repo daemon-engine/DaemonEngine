@@ -8,33 +8,48 @@ public class Mesh : IMesh
     private IVertexBuffer _vertexBuffer;
     private IIndexBuffer _indexBuffer;
 
+    private float[] _vertices;
+    private uint[] _indices;
+    private int _count;
+
     internal Mesh(IGraphicsFactory graphicsFactory, float[] vertices, uint[] indices, IShader shader, BufferLayout bufferLayout)
     {
-        GraphicsFactory = graphicsFactory; 
-        Setup(vertices, indices, shader, bufferLayout);
+        _vertices = vertices;
+        _indices = indices;
+
+        GraphicsFactory = graphicsFactory;
+        Setup(shader, bufferLayout);
     }
 
-    protected IGraphicsFactory GraphicsFactory { get; }
+    protected IGraphicsFactory GraphicsFactory { get; } = default!;
 
-    private void Setup(float[] vertices, uint[] indices, IShader shader, BufferLayout bufferLayout)
+    private void Setup(IShader shader, BufferLayout bufferLayout)
     {
         _pipeline = GraphicsFactory.CreatePipeline(shader, bufferLayout);
 
-        int verticesSize = sizeof(float) * vertices.Length;
-        _vertexBuffer = GraphicsFactory.CreateVertexBuffer(verticesSize, vertices);
+        int verticesSize = sizeof(float) * _vertices.Length;
+        _vertexBuffer = GraphicsFactory.CreateVertexBuffer(verticesSize, _vertices);
 
-        _indexBuffer = GraphicsFactory.CreateIndexBuffer(indices.Length, indices);
+        _indexBuffer = GraphicsFactory.CreateIndexBuffer(_indices.Length, _indices);
+        _count = _indexBuffer.Count;
     }
 
     public void Bind()
     {
         _pipeline.Bind();
-        _vertexBuffer.Bind();
-        _indexBuffer.Bind();
+        //_vertexBuffer.Bind();
+        //_indexBuffer.Bind();
+    }
+
+    public void Unbind()
+    {
+        _pipeline.Unbind();
+        //_vertexBuffer.Unbind();
+        //_indexBuffer.Unbind();
     }
 
     public int GetIndexBufferCount()
     {
-        return _indexBuffer.Count;
+        return _count;
     }
 }
