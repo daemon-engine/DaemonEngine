@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Windows.Graphi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Mathematics", "DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj", "{3A0FA215-1E76-4611-B25D-028961D58447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.Assimp", "DaemonEngine.Extensions.Assimp\DaemonEngine.Extensions.Assimp.csproj", "{CB457D14-8879-4F65-AFB0-F380BD041077}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaemonEngine.Extensions.AssimpNet", "DaemonEngine.Extensions.AssimpNet\DaemonEngine.Extensions.AssimpNet.csproj", "{CB457D14-8879-4F65-AFB0-F380BD041077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
