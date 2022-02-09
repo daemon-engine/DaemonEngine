@@ -14,7 +14,8 @@ public class Application : ApplicationBase
     {
         Logger.Information("Application.OnStart");
         //AddLayer<Chapter1Layer>("Getting Started Layer");
-        AddLayer<Chapter2Layer>("Lighting Layer");
+        //AddLayer<Chapter2Layer>("Lighting Layer");
+        AddLayer<Chapter3Layer>("Model Loading Layer");
         //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
     }
 
