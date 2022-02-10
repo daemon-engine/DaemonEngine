@@ -9,12 +9,34 @@ public static class GL
 {
     public static void CheckGLError(string title)
     {
-        var error = GL.GetError();
+        var error = GetError();
         if (error != GLError.NoError)
         {
             Console.WriteLine($"({error}) {title}");
         }
     }
+
+    #region Framebuffer methods
+    public static void FramebufferTexture2D(uint target, uint attachment, uint textureTarget, uint texture, int level)
+    {
+        OpenGLDllImport.glFramebufferTexture2D(target, attachment, textureTarget, texture, level);
+    }
+
+    public static GLFramebufferStatus CheckFramebufferStatus(uint target)
+    {
+        return (GLFramebufferStatus)OpenGLDllImport.glCheckFramebufferStatus(target);
+    }
+
+    public static void BindFramebuffer(uint target, uint framebuffer)
+    {
+        OpenGLDllImport.glBindFramebuffer(target, framebuffer);
+    }
+
+    public static void GenFramebuffers(int count, ref uint[] framebuffers)
+    {
+        OpenGLDllImport.glGenFramebuffers(count, framebuffers);
+    }
+    #endregion
 
     #region Texture methods
     public static void TexParameteri(uint target, uint pname, uint param)
@@ -37,10 +59,19 @@ public static class GL
         OpenGLDllImport.glTextureStorage2D(texture, levels, internalFormat, width, height);
     }
 
+    public static void TexStorage2D(uint target, int levels, uint internalFormat, int width, int height)
+    {
+        OpenGLDllImport.glTexStorage2D(target, levels, internalFormat, width, height);
+    }
+
     public static void TexImage2D(uint target, int level, uint internalFormat, int width, int height, int border, uint format, uint type, byte[] pixels)
     {
-        IntPtr pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
-        Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
+        IntPtr pixelsPtr = IntPtr.Zero;
+        if (pixels != null)
+        {
+            pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
+            Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
+        }
 
         OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelsPtr);
     }

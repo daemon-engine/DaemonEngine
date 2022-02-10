@@ -11,6 +11,8 @@ public interface IGraphicsFactory
     IVertexBuffer CreateVertexBuffer(int size, float[] vertices);
     IIndexBuffer CreateIndexBuffer(int count, uint[] indices);
 
+    IFramebuffer CreateFramebuffer();
+
     ITexture CreateTexture(string filepath);
     ITexture CreateTexture(int width, int height);
 }
