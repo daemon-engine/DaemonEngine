@@ -32,20 +32,21 @@ public class Mesh : IMesh
 
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(_indices.Length, _indices);
         _count = _indexBuffer.Count;
+
     }
 
     public void Bind()
     {
+        _vertexBuffer.Bind();
         _pipeline.Bind();
-        //_vertexBuffer.Bind();
-        //_indexBuffer.Bind();
+        _indexBuffer.Bind();
     }
 
     public void Unbind()
     {
+        _vertexBuffer.Unbind();
         _pipeline.Unbind();
-        //_vertexBuffer.Unbind();
-        //_indexBuffer.Unbind();
+        _indexBuffer.Unbind();
     }
 
     public int GetIndexBufferCount()

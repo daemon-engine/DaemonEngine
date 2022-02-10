@@ -31,6 +31,8 @@ internal class GlfwWindow : WindowBase
             return;
         }
 
+        Glfw.SetErrorCallback(ref _glfwNativeWindowHandle, OnGlfwErrorFn);
+
         Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MAJOR, 3);
         Glfw.WindowHint(GlfwConstants.GLFW_CONTEXT_VERSION_MINOR, 3);
         Glfw.WindowHint(GlfwConstants.GLFW_OPENGL_PROFILE, GlfwConstants.GLFW_OPENGL_CORE_PROFILE);
@@ -45,7 +47,6 @@ internal class GlfwWindow : WindowBase
 
         GraphicsContext = new OpenGLContext(Logger, _glfwNativeWindowHandle);
         GraphicsContext.Initialize();
-        //Glfw.MakeContextCurrent(_glfwNativeWindowHandle);
 
         Glfw.SetWindowCloseCallback(ref _glfwNativeWindowHandle, WindowCloseEventFn);
         Glfw.SetWindowFocusCallback(ref _glfwNativeWindowHandle, WindowFocusEventFn);
@@ -57,6 +58,11 @@ internal class GlfwWindow : WindowBase
         Glfw.SetCursorPosCallback(ref _glfwNativeWindowHandle, MouseMovedEventFn);
         Glfw.SetMouseButtonCallback(ref _glfwNativeWindowHandle, MouseButtonEventFn);
         Glfw.SetScrollCallback(ref _glfwNativeWindowHandle, MouseScrollEventFn);
+    }
+
+    private void OnGlfwErrorFn(int errorCode, string description)
+    {
+        Logger.Error($"(Glfw) [{errorCode}] {description}");
     }
 
     private void MouseButtonEventFn(IntPtr window, int button, int action, int mods)

@@ -4,6 +4,8 @@ public struct GlfwNativeWindowHandle
 {
     public IntPtr WindowHandle { get; set; }
 
+    public GlfwCallbacks.GLFWerrorfun GlfwErrorFunc { get; set; }
+
     #region Window callbacks
     public GlfwCallbacks.GLFWwindowclosefun WindowCloseEventFunc { get; set; }
     public GlfwCallbacks.GLFWwindowfocusfun WindowFocusEventFunc { get; set; }

@@ -15,9 +15,9 @@ namespace Sandbox.Layers.LearnOpenGL;
 
 internal class Chapter3Layer : LayerBase
 {
-    //private Mesh _mesh;
     private Model _cube;
     private Model _sphere;
+    private Model _rocket;
     private FPSCamera _camera;
     private IShader _shader;
 
@@ -43,19 +43,9 @@ internal class Chapter3Layer : LayerBase
 
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/LitBasic.shader");
 
-        //var bufferLayout = new BufferLayout(new List<BufferElement>
-        //{
-        //    new BufferElement("POSITION", ShaderDataType.Float3),
-        //    new BufferElement("NORMAL", ShaderDataType.Float3),
-        //    new BufferElement("TEXCOORD", ShaderDataType.Float2)
-        //});
-
-        //var vertices = Builder.GenerateCubeVertices();
-        //var indices = Builder.GenerateCubeIndices();
-        //_mesh = _meshFactory.CreateMesh(vertices, indices, _shader, bufferLayout);
-
         _cube = new Model(_meshFactory, _shader, "Assets/Models/cube.obj");
         _sphere = new Model(_meshFactory, _shader, "Assets/Models/Sphere/sphere.obj");
+        _rocket = new Model(_meshFactory, _shader, "Assets/Models/Rocket/rocket.obj");
     }
 
     public override void OnShutdown()
@@ -83,12 +73,12 @@ internal class Chapter3Layer : LayerBase
         _shader.SetFloat3("_DirectionalLight.diffuse", 0.4f, 0.4f, 0.4f);
         _shader.SetFloat3("_DirectionalLight.specular", 1.0f, 1.0f, 1.0f);
 
-        //_shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(0.0f, 2.5f, 0.0f)));
-        //_shader.SetFloat3("_Material.ambient", new Vector3(0.24725f, 0.1995f, 0.0745f));
-        //_shader.SetFloat3("_Material.diffuse", new Vector3(0.75164f, 0.60648f, 0.22648f));
-        //_shader.SetFloat3("_Material.specular", new Vector3(0.628281f, 0.555802f, 0.366065f));
-        //_shader.SetFloat("_Material.shininess", 0.4f * 128.0f);
-        //Renderer.RenderMesh(_mesh);
+        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(0.0f, 2.5f, 0.0f)));
+        _shader.SetFloat3("_Material.ambient", new Vector3(0.24725f, 0.1995f, 0.0745f));
+        _shader.SetFloat3("_Material.diffuse", new Vector3(0.75164f, 0.60648f, 0.22648f));
+        _shader.SetFloat3("_Material.specular", new Vector3(0.628281f, 0.555802f, 0.366065f));
+        _shader.SetFloat("_Material.shininess", 0.4f * 128.0f);
+        Renderer.RenderMesh(_rocket.Mesh);
 
         _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(0.0f, -2.5f, 0.0f)));
         _shader.SetFloat3("_Material.ambient", new Vector3(0.24725f, 0.1995f, 0.0745f));
