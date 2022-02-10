@@ -36,7 +36,6 @@ internal class OpenGLRenderer : RendererBase
 
         var count = indexCount == 0 ? indexBuffer.Count : indexCount;
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
-        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
     }
 
     public override void RenderMesh(IMesh mesh)
@@ -47,7 +46,6 @@ internal class OpenGLRenderer : RendererBase
         mesh.Bind();
 
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
-        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
     }
 
     public override void SetViewport(int x, int y, int width, int height)

@@ -18,6 +18,8 @@ internal class Chapter3Layer : LayerBase
     private Model _cube;
     private Model _sphere;
     private Model _rocket;
+    private Model _joe;
+
     private FPSCamera _camera;
     private IShader _shader;
 
@@ -46,6 +48,7 @@ internal class Chapter3Layer : LayerBase
         _cube = new Model(_meshFactory, _shader, "Assets/Models/cube.obj");
         _sphere = new Model(_meshFactory, _shader, "Assets/Models/Sphere/sphere.obj");
         _rocket = new Model(_meshFactory, _shader, "Assets/Models/Rocket/rocket.obj");
+        _joe = new Model(_meshFactory, _shader, "Assets/Models/Joe/joe.obj");
     }
 
     public override void OnShutdown()
@@ -72,6 +75,13 @@ internal class Chapter3Layer : LayerBase
         _shader.SetFloat3("_DirectionalLight.ambient", 0.05f, 0.05f, 0.05f);
         _shader.SetFloat3("_DirectionalLight.diffuse", 0.4f, 0.4f, 0.4f);
         _shader.SetFloat3("_DirectionalLight.specular", 1.0f, 1.0f, 1.0f);
+
+        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(2.5f, 2.5f, 2.5f)));
+        _shader.SetFloat3("_Material.ambient", new Vector3(0.05375f, 0.05f, 0.06625f));
+        _shader.SetFloat3("_Material.diffuse", new Vector3(0.18275f, 0.17f, 0.22525f));
+        _shader.SetFloat3("_Material.specular", new Vector3(0.332741f, 0.328634f, 0.346435f));
+        _shader.SetFloat("_Material.shininess", 0.3f * 128.0f);
+        Renderer.RenderMesh(_joe.Mesh);
 
         _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(0.0f, 2.5f, 0.0f)));
         _shader.SetFloat3("_Material.ambient", new Vector3(0.24725f, 0.1995f, 0.0745f));
