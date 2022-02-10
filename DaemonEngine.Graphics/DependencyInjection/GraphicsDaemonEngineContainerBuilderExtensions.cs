@@ -1,4 +1,6 @@
-﻿using DaemonEngine.DependencyInjection;
+﻿using Autofac;
+using DaemonEngine.DependencyInjection;
+using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.OpenGL.DependencyInjection;
 using DaemonEngine.Graphics.Renderer;
 
@@ -16,6 +18,11 @@ public static class GraphicsDaemonEngineContainerBuilderExtensions
             case RendererApi.None:
             default: break;
         }
+
+        builder.ContainerBuilder
+            .RegisterType<MeshFactory>()
+            .As<IMeshFactory>()
+            .InstancePerDependency();
 
         return builder;
     }

@@ -187,6 +187,18 @@ public class Vector3 : IEquatable<Vector3>
     }
     #endregion
 
+    #region Conversion operators
+    public static implicit operator Vector3(System.Numerics.Vector3 v)
+    {
+        return new Vector3(v.X, v.Y, v.Z);
+    }
+
+    public static implicit operator System.Numerics.Vector3(Vector3 v)
+    {
+        return new System.Numerics.Vector3(v.X, v.Y, v.Z);
+    }
+    #endregion
+
     public override bool Equals(object? obj)
     {
         return obj is Vector3 vector && Equals(vector);

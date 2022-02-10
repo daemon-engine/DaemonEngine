@@ -16,6 +16,7 @@ public abstract class RendererBase : IRenderer
     public abstract void Shutdown();
 
     public abstract void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
+    public abstract void RenderMesh(IMesh mesh);
 
     public abstract void SetViewport(int x, int y, int width, int height);
     public abstract void Clear(ClearMask clearMask);

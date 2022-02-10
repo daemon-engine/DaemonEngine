@@ -2,6 +2,7 @@
 using DaemonEngine.Graphics.Helpers;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.OpenGL.DllImport;
+using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
@@ -31,21 +32,26 @@ internal class OpenGLPipeline : IPipeline
         Shader.Bind();
         GL.BindVertexArray(_id);
 
-        uint index = 0;
-        foreach (var element in BufferLayout.Elements)
-        {
-            var componentSize = element.GetComponentCount();
-            var glType = ShaderHelper.ShaderDataTypeToOpenGLBaseType(element.Type);
-
-            GL.EnableVertexAttribArray(index);
-            GL.VertexAttribPointer(index, componentSize, glType, element.Normalized, BufferLayout.Stride, element.Offset);
-
-            index++;
-        }
+        SetupBufferLayout();
     }
 
     public void Unbind()
     {
         GL.BindVertexArray(0);
+    }
+
+    private void SetupBufferLayout()
+    {
+        uint index = 0;
+        foreach (var element in BufferLayout.Elements)
+        {
+            var componentCount = element.GetComponentCount();
+            var glType = ShaderHelper.ShaderDataTypeToOpenGLBaseType(element.Type);
+
+            GL.EnableVertexAttribArray(index);
+            GL.VertexAttribPointer(index, componentCount, glType, element.Normalized, BufferLayout.Stride, element.Offset);
+
+            index++;
+        }
     }
 }

@@ -17,14 +17,11 @@ internal class OpenGLRenderer : RendererBase
 
     public override void Initialize()
     {
-        Logger.Information("OpenGL Renderer Initializing");
-
         GL.Enable(GLCapabilities.DepthTest);
     }
 
     public override void Shutdown()
     {
-        Logger.Information("OpenGL Renderer Shutting down");
     }
 
     public override void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0)
@@ -32,10 +29,22 @@ internal class OpenGLRenderer : RendererBase
         Throw.IfNull(pipeline, nameof(pipeline));
         Throw.IfNull(vertexBuffer, nameof(vertexBuffer));
         Throw.IfNull(indexBuffer, nameof(indexBuffer));
+
         pipeline.Bind();
+        vertexBuffer.Bind();
         indexBuffer.Bind();
 
         var count = indexCount == 0 ? indexBuffer.Count : indexCount;
+        GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
+    }
+
+    public override void RenderMesh(IMesh mesh)
+    {
+        Throw.IfNull(mesh, nameof(mesh));
+        var count = mesh.GetIndexBufferCount();
+
+        mesh.Bind();
+
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
     }
 

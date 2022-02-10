@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.EventSystem\DaemonEngine.EventSystem.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.AssimpNet\DaemonEngine.Extensions.AssimpNet.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.Graphics.OpenGL\DaemonEngine.Graphics.OpenGL.csproj" />
   </ItemGroup>

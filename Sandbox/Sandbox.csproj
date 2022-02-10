@@ -13,6 +13,10 @@
     <ProjectReference Include="..\DaemonEngine\DaemonEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Assets\Models\Sphere\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy $(ProjectDir)Assets $(ProjectDir)$(OutDir)\Assets /E /C /I /Y" />
   </Target>
