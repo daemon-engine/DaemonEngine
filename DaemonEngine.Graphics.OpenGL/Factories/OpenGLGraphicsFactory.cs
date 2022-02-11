@@ -31,7 +31,7 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public IVertexBuffer CreateVertexBuffer(int size, float[] vertices)
     {
-        return new OpenGLVertexBuffer(size, vertices);
+        return new OpenGLVertexBuffer(Logger, size, vertices);
     }
 
     public IIndexBuffer CreateIndexBuffer(int count, uint[] indices)
