@@ -1,6 +1,7 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,12 +31,23 @@ internal class FramebufferTestLayer : LayerBase
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/Basic.shader");
-        _fullscreenQuadShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/FullscreenQuad.shader");
+        _fullscreenQuadShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/FullscreenQuadGrayScale.shader");
 
         _fullscreenQuadShader.Bind();
         _fullscreenQuadShader.SetInt("_ScreenTexture", 0);
 
-        _framebuffer = GraphicsFactory.CreateFramebuffer();
+        var framebufferOptions = new FramebufferOptions
+        {
+            Width = Window.Width,
+            Height = Window.Height,
+            ClearColor = new Vector4(0.3f, 0.5f, 0.85f, 1.0f),
+            Attachments = new List<FramebufferAttachmentType>
+            {
+                FramebufferAttachmentType.RGBA8,
+                FramebufferAttachmentType.DEPTH24STENCIL8
+            }
+        };
+        _framebuffer = GraphicsFactory.CreateFramebuffer(framebufferOptions);
 
         _sphere = new Model(meshFactory, _shader, "Assets/Models/Sphere/sphere.obj");
 
@@ -60,9 +72,7 @@ internal class FramebufferTestLayer : LayerBase
     public override void OnUpdate(float deltaTime)
     {
         _framebuffer.Bind();
-
-        Renderer.ClearColor(0.3f, 0.5f, 0.85f, 1.0f);
-        Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
+        _framebuffer.Clear();
 
         _shader.Bind();
         _shader.SetMat4("_Model", Matrix4.Identity);
@@ -70,13 +80,18 @@ internal class FramebufferTestLayer : LayerBase
         _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
         Renderer.RenderMesh(_sphere.Mesh);
 
+        _shader.Bind();
+        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(3.0f, 0.0f, 0.0f)));
+        _shader.SetMat4("_View", _camera.ViewMatrix);
+        _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
+        Renderer.RenderMesh(_sphere.Mesh);
+
         _framebuffer.Unbind();
 
-        //Renderer.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         Renderer.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Renderer.Clear(ClearMask.ColorBufferBit);
 
-        var colorAttachment = _framebuffer.GetColorAttachment();
+        var colorAttachment = _framebuffer.GetColorAttachment(0);
         Renderer.SubmitFullscreenQuad(colorAttachment, _fullscreenQuadPipeline, _fullscreenQuadVertexBuffer, _fullscreenQuadIndexBuffer);
     }
 
@@ -84,7 +99,7 @@ internal class FramebufferTestLayer : LayerBase
     {
         ImGuiNET.ImGui.Begin("Framebuffer Test");
 
-        var ptr = (IntPtr)_framebuffer.GetColorAttachment();
+        var ptr = (IntPtr)_framebuffer.GetColorAttachment(0);
         ImGuiNET.ImGui.Image(ptr, new System.Numerics.Vector2(800, 600));
 
         ImGuiNET.ImGui.End();
