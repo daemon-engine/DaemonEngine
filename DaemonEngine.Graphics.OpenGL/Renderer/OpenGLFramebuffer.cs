@@ -3,34 +3,32 @@ using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
+using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
-internal class OpenGLFramebuffer : IFramebuffer
+internal class OpenGLFramebuffer : FramebufferBase
 {
     private uint _id;
 
-    private List<FramebufferAttachment> _colorAttachments;
-    private FramebufferAttachment _depthAttachment;
+    private readonly List<FramebufferAttachment> _colorAttachments;
+    private readonly FramebufferAttachment _depthAttachment;
 
-    private uint _colorAttachment;
     private uint[] _colorAttachmentIds;
     private uint _depthAttachmentId;
 
-    private readonly FramebufferOptions _framebufferOptions;
-
-    public OpenGLFramebuffer(FramebufferOptions framebufferOptions)
+    public OpenGLFramebuffer(ILogger logger, FramebufferOptions framebufferOptions)
+        : base(logger, framebufferOptions)
     {
-        _framebufferOptions = framebufferOptions;
-
         var status = GL.CheckFramebufferStatus(GLConstants.GL_FRAMEBUFFER);
         if (status == GLFramebufferStatus.Unsupported)
         {
+            Logger.Error("Framebuffers are Unsupported!");
             return;
         }
 
         _colorAttachments = new List<FramebufferAttachment>();
-        foreach (var attachment in _framebufferOptions.Attachments)
+        foreach (var attachment in Options.Attachments)
         {
             if (attachment == FramebufferAttachment.Depth)
             {
@@ -67,7 +65,7 @@ internal class OpenGLFramebuffer : IFramebuffer
             _depthAttachmentId = depthIds[0];
             GL.BindTexture(GLConstants.GL_TEXTURE_2D, _depthAttachmentId);
 
-            GL.TexStorage2D(GLConstants.GL_TEXTURE_2D, 1, GLConstants.GL_DEPTH24_STENCIL8, _framebufferOptions.Width, _framebufferOptions.Height);
+            GL.TexStorage2D(GLConstants.GL_TEXTURE_2D, 1, GLConstants.GL_DEPTH24_STENCIL8, Options.Width, Options.Height);
 
             GL.TexParameteri(GLConstants.GL_TEXTURE_2D, GLConstants.GL_TEXTURE_MIN_FILTER, GLConstants.GL_LINEAR);
             GL.TexParameteri(GLConstants.GL_TEXTURE_2D, GLConstants.GL_TEXTURE_MAG_FILTER, GLConstants.GL_LINEAR);
@@ -95,6 +93,7 @@ internal class OpenGLFramebuffer : IFramebuffer
         var status = GL.CheckFramebufferStatus(GLConstants.GL_FRAMEBUFFER);
         if (status != GLFramebufferStatus.Complete)
         {
+            Logger.Error("Framebuffer are Incomplete!");
         }
 
         GL.BindFramebuffer(GLConstants.GL_FRAMEBUFFER, 0);
@@ -106,7 +105,7 @@ internal class OpenGLFramebuffer : IFramebuffer
         {
             GL.BindTexture(GLConstants.GL_TEXTURE_2D, _colorAttachmentIds[i]);
 
-            GL.TexImage2D(GLConstants.GL_TEXTURE_2D, 0, GLConstants.GL_RGB, _framebufferOptions.Width, _framebufferOptions.Height, 0, GLConstants.GL_RGB, GLConstants.GL_UNSIGNED_BYTE, null);
+            GL.TexImage2D(GLConstants.GL_TEXTURE_2D, 0, GLConstants.GL_RGB, Options.Width, Options.Height, 0, GLConstants.GL_RGB, GLConstants.GL_UNSIGNED_BYTE, null);
 
             GL.TexParameteri(GLConstants.GL_TEXTURE_2D, GLConstants.GL_TEXTURE_MIN_FILTER, GLConstants.GL_LINEAR);
             GL.TexParameteri(GLConstants.GL_TEXTURE_2D, GLConstants.GL_TEXTURE_MAG_FILTER, GLConstants.GL_LINEAR);
@@ -118,37 +117,37 @@ internal class OpenGLFramebuffer : IFramebuffer
         }
     }
 
-    public uint GetColorAttachment(int index)
+    public override uint GetColorAttachment(int index)
     {
         return _colorAttachmentIds[index];
     }
 
-    public void Resize(int width, int height)
+    public override void Resize(int width, int height)
     {
         if (width <= 0 || height <= 0)
         {
             return;
         }
 
-        _framebufferOptions.Width = width;
-        _framebufferOptions.Height = height;
+        Options.Width = width;
+        Options.Height = height;
 
         Invalidate();
     }
 
-    public void Clear()
+    public override void Clear()
     {
-        GL.ClearColor(_framebufferOptions.ClearColor.X, _framebufferOptions.ClearColor.Y, _framebufferOptions.ClearColor.Z, _framebufferOptions.ClearColor.W);
+        GL.ClearColor(Options.ClearColor.X, Options.ClearColor.Y, Options.ClearColor.Z, Options.ClearColor.W);
         GL.Clear(GLClearMask.ColorBufferBit | GLClearMask.DepthBufferBit);
     }
 
-    public void Bind()
+    public override void Bind()
     {
         GL.BindFramebuffer(GLConstants.GL_FRAMEBUFFER, _id);
-        GL.Viewport(0, 0, _framebufferOptions.Width, _framebufferOptions.Height);
+        GL.Viewport(0, 0, Options.Width, Options.Height);
     }
 
-    public void Unbind()
+    public override void Unbind()
     {
         GL.BindFramebuffer(GLConstants.GL_FRAMEBUFFER, 0);
     }

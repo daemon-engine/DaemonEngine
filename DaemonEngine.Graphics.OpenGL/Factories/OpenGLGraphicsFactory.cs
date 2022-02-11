@@ -41,7 +41,7 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions)
     {
-        return new OpenGLFramebuffer(framebufferOptions);
+        return new OpenGLFramebuffer(Logger, framebufferOptions);
     }
 
     public ITexture CreateTexture(string filepath)
