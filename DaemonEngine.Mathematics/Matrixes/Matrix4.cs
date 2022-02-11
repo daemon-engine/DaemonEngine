@@ -10,6 +10,14 @@ public class Matrix4 : IEquatable<Matrix4>
         Row3 = row3;
     }
 
+    public Matrix4(Matrix3 matrix)
+    {
+        Row0 = new Vector4(matrix.Row0.X, matrix.Row0.Y, matrix.Row0.Z, 0.0f);
+        Row1 = new Vector4(matrix.Row1.X, matrix.Row1.Y, matrix.Row1.Z, 0.0f);
+        Row2 = new Vector4(matrix.Row2.X, matrix.Row2.Y, matrix.Row2.Z, 0.0f);
+        Row3 = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+    }
+
     public Vector4 Row0 { get; private set; }
     public Vector4 Row1 { get; private set; }
     public Vector4 Row2 { get; private set; }
