@@ -14,6 +14,8 @@ public interface IGraphicsFactory
 
     IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions);
 
+    ICubemap CreateCubemap(CubemapOptions cubemapOptions);
+
     ITexture CreateTexture(string filepath);
     ITexture CreateTexture(int width, int height);
 }
