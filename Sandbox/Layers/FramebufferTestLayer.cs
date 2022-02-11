@@ -72,7 +72,6 @@ internal class FramebufferTestLayer : LayerBase
 
         _framebuffer.Unbind();
 
-        //Renderer.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         Renderer.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Renderer.Clear(ClearMask.ColorBufferBit);
 
