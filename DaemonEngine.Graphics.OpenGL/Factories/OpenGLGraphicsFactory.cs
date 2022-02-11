@@ -17,11 +17,11 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public IShader CreateShader(string filepath)
     {
-        return new OpenGLShader(filepath);
+        return new OpenGLShader(Logger, filepath);
     }
     public IShader CreateShader(string vertexShaderSource, string fragmentShaderSource)
     {
-        return new OpenGLShader(vertexShaderSource, fragmentShaderSource);
+        return new OpenGLShader(Logger, vertexShaderSource, fragmentShaderSource);
     }
 
     public IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout)

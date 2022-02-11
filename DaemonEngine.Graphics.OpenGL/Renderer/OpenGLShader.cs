@@ -2,6 +2,7 @@
 using DaemonEngine.Mathematics;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
+using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
@@ -12,11 +13,13 @@ enum ShaderType
     Fragment = 2
 };
 
-internal class OpenGLShader : IShader
+internal class OpenGLShader : ShaderBase
 {
     private readonly uint _id;
+    private IDictionary<string, uint> _uniformLocations;
 
-    public OpenGLShader(string filepath)
+    public OpenGLShader(ILogger logger, string filepath)
+        : base(logger)
     {
         var shaderSources = ReadFile(filepath);
         var vertexSource = shaderSources[ShaderType.Vertex];
@@ -25,66 +28,100 @@ internal class OpenGLShader : IShader
         var vertexShader = CreateShader(GLShaderType.VertexShader, vertexSource);
         var fragmentShader = CreateShader(GLShaderType.FragmentShader, fragmentSource);
         _id = CreateShaderProgram(vertexShader, fragmentShader);
+
+        GetActiveUniforms(filepath);
     }
-    public OpenGLShader(string vertexShaderSource, string fragmentShaderSource)
+    public OpenGLShader(ILogger logger, string vertexShaderSource, string fragmentShaderSource)
+        : base(logger)
     {
         var vertexShader = CreateShader(GLShaderType.VertexShader, vertexShaderSource);
         var fragmentShader = CreateShader(GLShaderType.FragmentShader, fragmentShaderSource);
         _id = CreateShaderProgram(vertexShader, fragmentShader);
+
+        GetActiveUniforms("ImGui");
     }
 
-    public void Bind()
+    protected override void GetActiveUniforms(string shaderName)
+    {
+        var activeUniformsCount = GL.GetProgramiv(_id, GLConstants.GL_ACTIVE_UNIFORMS);
+        _uniformLocations = new Dictionary<string, uint>(activeUniformsCount);
+
+        for (uint i = 0; i < activeUniformsCount; i++)
+        {
+            GL.GetActiveUniform(_id, i, 128, out _, out _, out _, out string name);
+
+            var location = GL.GetUniformLocation(_id, name);
+
+            _uniformLocations[name] = location;
+        }
+
+        Logger.Information($"Loaded shader '{shaderName}' with {activeUniformsCount} active uniforms");
+    }
+
+    public override void Bind()
     {
         GL.UseProgram(_id);
     }
 
-    public void Unbind()
+    public override void Unbind()
     {
         GL.UseProgram(0);
     }
 
-    public void SetInt(string name, int value)
+    public override void SetInt(string name, int value)
     {
-        GL.Uniform1i(GL.GetUniformLocation(_id, name), value);
+        var location = GetUniformLocation(name);
+
+        GL.Uniform1i(location, value);
     }
 
-    public void SetFloat(string name, float value)
+    public override void SetFloat(string name, float value)
     {
-        GL.Uniform1f(GL.GetUniformLocation(_id, name), value);
+        var location = GetUniformLocation(name);
+
+        GL.Uniform1f(location, value);
     }
 
-    public void SetFloat2(string name, Vector2 values)
+    public override void SetFloat2(string name, Vector2 values)
     {
         SetFloat2(name, values.X, values.Y);
     }
 
-    public void SetFloat2(string name, float v0, float v1)
+    public override void SetFloat2(string name, float v0, float v1)
     {
-        GL.Uniform2f(GL.GetUniformLocation(_id, name), v0, v1);
+        var location = GetUniformLocation(name);
+
+        GL.Uniform2f(location, v0, v1);
     }
 
-    public void SetFloat3(string name, Vector3 values)
+    public override void SetFloat3(string name, Vector3 values)
     {
         SetFloat3(name, values.X, values.Y, values.Z);
     }
 
-    public void SetFloat3(string name, float v0, float v1, float v2)
+    public override void SetFloat3(string name, float v0, float v1, float v2)
     {
-        GL.Uniform3f(GL.GetUniformLocation(_id, name), v0, v1, v2);
+        var location = GetUniformLocation(name);
+
+        GL.Uniform3f(location, v0, v1, v2);
     }
 
-    public void SetFloat4(string name, Vector4 values)
+    public override void SetFloat4(string name, Vector4 values)
     {
         SetFloat4(name, values.X, values.Y, values.Z, values.W);
     }
 
-    public void SetFloat4(string name, float v0, float v1, float v2, float v3)
+    public override void SetFloat4(string name, float v0, float v1, float v2, float v3)
     {
-        GL.Uniform4f(GL.GetUniformLocation(_id, name), v0, v1, v2, v3);
+        var location = GetUniformLocation(name);
+
+        GL.Uniform4f(location, v0, v1, v2, v3);
     }
 
-    public void SetMat4(string name, Matrix4 matrix, bool transpose = false)
+    public override void SetMat4(string name, Matrix4 matrix, bool transpose = false)
     {
+        var location = GetUniformLocation(name);
+
         float[] mat =
         {
             matrix.Row0.X, matrix.Row0.Y, matrix.Row0.Z, matrix.Row0.W,
@@ -93,7 +130,18 @@ internal class OpenGLShader : IShader
             matrix.Row3.X, matrix.Row3.Y, matrix.Row3.Z, matrix.Row3.W
         };
 
-        GL.UniformMatrix4fv(GL.GetUniformLocation(_id, name), 1, transpose, mat);
+        GL.UniformMatrix4fv(location, 1, transpose, mat);
+    }
+
+    private uint GetUniformLocation(string name)
+    {
+        if (!_uniformLocations.ContainsKey(name))
+        {
+            Logger.Warning($"Shader doesn't have an uniform location at the name: {name}");
+            return 0;
+        }
+
+        return _uniformLocations[name];
     }
 
     private uint CreateShaderProgram(uint vertexShader, uint fragmentShader)
@@ -109,8 +157,7 @@ internal class OpenGLShader : IShader
         {
             int length = 0;
             var infoLog = GL.GetProgramInfoLog(program, 512, ref length);
-            System.Diagnostics.Debugger.Break();
-            //Logger.Warning($"Failed to link Shader Program {program}\n{infoLog}");
+            Logger.Warning($"Failed to link Shader Program {program}\n{infoLog}");
         }
 
         GL.DeleteShader(vertexShader);
@@ -129,8 +176,7 @@ internal class OpenGLShader : IShader
         {
             int length = 0;
             var infoLog = GL.GetShaderInfoLog(shader, 512, ref length);
-            System.Diagnostics.Debugger.Break();
-            //Logger.Warning($"Failed to compile Shader {shader}\n{infoLog}");
+            Logger.Warning($"Failed to compile Shader {shader} ({type})\n{infoLog}");
         }
 
         return shader;
