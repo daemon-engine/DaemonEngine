@@ -14,7 +14,6 @@ public static class OpenGLDaemonEngineContainerBuilderExtensions
         builder.ContainerBuilder
             .RegisterType<OpenGLGraphicsFactory>()
             .As<IGraphicsFactory>()
-            .AsImplementedInterfaces()
             .InstancePerLifetimeScope();
 
         builder.ContainerBuilder

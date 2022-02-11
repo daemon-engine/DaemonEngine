@@ -7,6 +7,37 @@ namespace DaemonEngine.OpenGL.DllImport;
 
 public static class GL
 {
+    public static void CheckGLError(string title)
+    {
+        var error = GetError();
+        if (error != GLError.NoError)
+        {
+            Console.WriteLine($"({error}) {title}");
+        }
+    }
+
+    #region Framebuffer methods
+    public static void FramebufferTexture2D(uint target, uint attachment, uint textureTarget, uint texture, int level)
+    {
+        OpenGLDllImport.glFramebufferTexture2D(target, attachment, textureTarget, texture, level);
+    }
+
+    public static GLFramebufferStatus CheckFramebufferStatus(uint target)
+    {
+        return (GLFramebufferStatus)OpenGLDllImport.glCheckFramebufferStatus(target);
+    }
+
+    public static void BindFramebuffer(uint target, uint framebuffer)
+    {
+        OpenGLDllImport.glBindFramebuffer(target, framebuffer);
+    }
+
+    public static void GenFramebuffers(int count, ref uint[] framebuffers)
+    {
+        OpenGLDllImport.glGenFramebuffers(count, framebuffers);
+    }
+    #endregion
+
     #region Texture methods
     public static void TexParameteri(uint target, uint pname, uint param)
     {
@@ -28,10 +59,19 @@ public static class GL
         OpenGLDllImport.glTextureStorage2D(texture, levels, internalFormat, width, height);
     }
 
+    public static void TexStorage2D(uint target, int levels, uint internalFormat, int width, int height)
+    {
+        OpenGLDllImport.glTexStorage2D(target, levels, internalFormat, width, height);
+    }
+
     public static void TexImage2D(uint target, int level, uint internalFormat, int width, int height, int border, uint format, uint type, byte[] pixels)
     {
-        IntPtr pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
-        Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
+        IntPtr pixelsPtr = IntPtr.Zero;
+        if (pixels != null)
+        {
+            pixelsPtr = Marshal.AllocHGlobal(pixels.Length);
+            Marshal.Copy(pixels, 0, pixelsPtr, pixels.Length);
+        }
 
         OpenGLDllImport.glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixelsPtr);
     }
@@ -76,6 +116,11 @@ public static class GL
     public static void Uniform3f(uint location, float v0, float v1, float v2)
     {
         OpenGLDllImport.glUniform3f(location, v0, v1, v2);
+    }
+
+    public static void Uniform4f(uint location, float v0, float v1, float v2, float v3)
+    {
+        OpenGLDllImport.glUniform4f(location, v0, v1, v2, v3);
     }
 
     public static uint GetUniformLocation(uint program, string name)
@@ -208,6 +253,31 @@ public static class GL
     {
         OpenGLDllImport.glEnableVertexAttribArray(index);
     }
+
+    public static void VertexArrayAttribFormat(uint vao, uint attribIndex, int size, uint type, bool normalized, uint relativeOffset)
+    {
+        OpenGLDllImport.glVertexArrayAttribFormat(vao, attribIndex, size, type, normalized, relativeOffset);
+    }
+
+    public static void VertexArrayAttribBinding(uint vao, uint attribIndex, uint bindingIndex)
+    {
+        OpenGLDllImport.glVertexArrayAttribBinding(vao, attribIndex, bindingIndex);
+    }
+
+    public static void EnableVertexArrayAttrib(uint vao, uint index)
+    {
+        OpenGLDllImport.glEnableVertexArrayAttrib(vao, index);
+    }
+
+    public static void VertexArrayVertexBuffer(uint vao, uint bindingIndex, uint vbo, IntPtr offset, int stride)
+    {
+        OpenGLDllImport.glVertexArrayVertexBuffer(vao, bindingIndex, vbo, offset, stride);
+    }
+
+    public static void VertexArrayElementBuffer(uint vao, uint ebo)
+    {
+        OpenGLDllImport.glVertexArrayElementBuffer(vao, ebo);
+    }
     #endregion
 
     #region Buffer methods
@@ -259,29 +329,34 @@ public static class GL
     }
     #endregion
 
-    public static void VertexArrayAttribFormat(uint vao, uint attribIndex, int size, uint type, bool normalized, uint relativeOffset)
+    public static void DepthFunc(uint func)
     {
-        OpenGLDllImport.glVertexArrayAttribFormat(vao, attribIndex, size, type, normalized, relativeOffset);
+        OpenGLDllImport.glDepthFunc(func);
     }
 
-    public static void VertexArrayAttribBinding(uint vao, uint attribIndex, uint bindingIndex)
+    public static void DepthMask(bool flag)
     {
-        OpenGLDllImport.glVertexArrayAttribBinding(vao, attribIndex, bindingIndex);
+        OpenGLDllImport.glDepthMask(flag);
     }
 
-    public static void EnableVertexArrayAttrib(uint vao, uint index)
+    public static void DrawBuffers(int count, uint[] buffers)
     {
-        OpenGLDllImport.glEnableVertexArrayAttrib(vao, index);
+        OpenGLDllImport.glDrawBuffers(count, buffers);
     }
 
-    public static void VertexArrayVertexBuffer(uint vao, uint bindingIndex, uint vbo, IntPtr offset, int stride)
+    public static void DrawBuffer(uint buffer)
     {
-        OpenGLDllImport.glVertexArrayVertexBuffer(vao, bindingIndex, vbo, offset, stride);
+        OpenGLDllImport.glDrawBuffer(buffer);
     }
 
-    public static void VertexArrayElementBuffer(uint vao, uint ebo)
+    public static void PolygonMode(GLPolygonFace face, GLPolygonMode mode)
     {
-        OpenGLDllImport.glVertexArrayElementBuffer(vao, ebo);
+        PolygonMode((uint)face, (uint)mode);
+    }
+
+    public static void PolygonMode(uint face, uint mode)
+    {
+        OpenGLDllImport.glPolygonMode(face, mode);
     }
 
     public static void Scissor(int x, int y, int width, int height)

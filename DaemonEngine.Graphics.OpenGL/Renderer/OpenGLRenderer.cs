@@ -1,7 +1,6 @@
 ﻿using DaemonEngine.Extensions.Runtime;
-using DaemonEngine.Graphics.Renderer.Enums;
-using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 using Serilog;
@@ -17,14 +16,11 @@ internal class OpenGLRenderer : RendererBase
 
     public override void Initialize()
     {
-        Logger.Information("OpenGL Renderer Initializing");
-
         GL.Enable(GLCapabilities.DepthTest);
     }
 
     public override void Shutdown()
     {
-        Logger.Information("OpenGL Renderer Shutting down");
     }
 
     public override void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0)
@@ -32,11 +28,42 @@ internal class OpenGLRenderer : RendererBase
         Throw.IfNull(pipeline, nameof(pipeline));
         Throw.IfNull(vertexBuffer, nameof(vertexBuffer));
         Throw.IfNull(indexBuffer, nameof(indexBuffer));
+
+        vertexBuffer.Bind();
         pipeline.Bind();
         indexBuffer.Bind();
 
         var count = indexCount == 0 ? indexBuffer.Count : indexCount;
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
+        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+    }
+
+    public override void RenderMesh(IMesh mesh)
+    {
+        Throw.IfNull(mesh, nameof(mesh));
+        var count = mesh.GetIndexBufferCount();
+
+        mesh.Bind();
+
+        GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
+        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+    }
+
+    public override void SubmitFullscreenQuad(uint colorAttachment, IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer)
+    {
+        Throw.IfNull(pipeline, nameof(pipeline));
+        Throw.IfNull(vertexBuffer, nameof(vertexBuffer));
+        Throw.IfNull(indexBuffer, nameof(indexBuffer));
+
+        GL.Disable(GLCapabilities.DepthTest);
+
+        vertexBuffer.Bind();
+        pipeline.Bind();
+        indexBuffer.Bind();
+
+        GL.BindTexture(GLConstants.GL_TEXTURE_2D, colorAttachment);
+        GL.DrawElements(GLConstants.GL_TRIANGLES, indexBuffer.Count, GLConstants.GL_UNSIGNED_INT);
+        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
     }
 
     public override void SetViewport(int x, int y, int width, int height)

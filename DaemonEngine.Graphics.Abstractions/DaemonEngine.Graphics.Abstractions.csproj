@@ -1,17 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>DaemonEngine.Graphics</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Serilog" Version="2.10.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Serilog" Version="2.10.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DaemonEngine.Graphics.OpenGL.DllImport\DaemonEngine.Graphics.OpenGL.DllImport.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DaemonEngine.Graphics.OpenGL.DllImport\DaemonEngine.Graphics.OpenGL.DllImport.csproj" />
+		<ProjectReference Include="..\DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj" />
+	</ItemGroup>
 
 </Project>

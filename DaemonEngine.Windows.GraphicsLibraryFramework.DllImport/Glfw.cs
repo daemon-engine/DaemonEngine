@@ -104,8 +104,9 @@ public static class Glfw
         return GlfwDllImport.glfwGetKey(glfwNativeWindowHandle.WindowHandle, key);
     }
 
-    public static void SetErrorCallback(GlfwCallbacks.GLFWerrorfun callback)
+    public static void SetErrorCallback(ref GlfwNativeWindowHandle glfwNativeWindowHandle, GlfwCallbacks.GLFWerrorfun callback)
     {
+        glfwNativeWindowHandle.GlfwErrorFunc = callback;
         GlfwDllImport.glfwSetErrorCallback(callback);
     }
 
