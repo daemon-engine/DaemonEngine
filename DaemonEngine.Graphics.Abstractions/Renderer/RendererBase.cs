@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Graphics.Renderer.Enums;
+﻿using DaemonEngine.Graphics.Renderer;
 using Serilog;
 
 namespace DaemonEngine.Graphics.Renderer;

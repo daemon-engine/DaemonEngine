@@ -1,7 +1,6 @@
 ﻿using DaemonEngine.Extensions.Runtime;
-using DaemonEngine.Graphics.Renderer.Enums;
-using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 using Serilog;

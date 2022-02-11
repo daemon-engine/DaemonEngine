@@ -1,4 +1,4 @@
-﻿using DaemonEngine.Graphics.Renderer.Enums;
+﻿using DaemonEngine.Graphics.Renderer;
 
 namespace DaemonEngine.Graphics.Renderer;
 

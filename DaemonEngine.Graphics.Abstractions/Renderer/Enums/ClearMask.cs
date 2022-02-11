@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.Graphics.Renderer.Enums;
+﻿namespace DaemonEngine.Graphics.Renderer;
 
 public enum ClearMask : uint
 {

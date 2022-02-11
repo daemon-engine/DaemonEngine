@@ -7,7 +7,6 @@ using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 

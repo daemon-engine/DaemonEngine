@@ -5,8 +5,7 @@ using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Sandbox.Layers;
-
-internal class ImGuiTestLayer : LayerBase
+internal class FramebufferTestLayer : LayerBase
 {
     Model _sphere;
 
@@ -14,7 +13,7 @@ internal class ImGuiTestLayer : LayerBase
     IFramebuffer _framebuffer;
     IShader _shader;
 
-    public ImGuiTestLayer(string name, IServiceProvider serviceProvider) 
+    public FramebufferTestLayer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
     {
     }

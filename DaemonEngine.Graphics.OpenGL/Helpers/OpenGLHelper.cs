@@ -1,5 +1,5 @@
 ﻿
-using DaemonEngine.Graphics.Renderer.Enums;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.OpenGL.DllImport.Enums;
 
 namespace DaemonEngine.Graphics.OpenGL.Helpers;
