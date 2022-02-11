@@ -56,7 +56,13 @@ internal class FramebufferTestLayer : LayerBase
             new BufferElement("POSITION", ShaderDataType.Float2),
             new BufferElement("TEXCOORD", ShaderDataType.Float2)
         });
-        _fullscreenQuadPipeline = GraphicsFactory.CreatePipeline(_fullscreenQuadShader, bufferLayout);
+
+        var pipelineOptions = new PipelineOptions
+        {
+            BufferLayout = bufferLayout,
+            Shader = _shader
+        };
+        _fullscreenQuadPipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
 
         var vertices = Builder.GenerateFullscreenQuadVertices();
         var indices = Builder.GenerateFullscreenQuadIndices();

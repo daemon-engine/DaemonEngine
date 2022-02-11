@@ -24,9 +24,9 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
         return new OpenGLShader(Logger, vertexShaderSource, fragmentShaderSource);
     }
 
-    public IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout)
+    public IPipeline CreatePipeline(PipelineOptions pipelineOptions)
     {
-        return new OpenGLPipeline(shader, bufferLayout);
+        return new OpenGLPipeline(Logger, pipelineOptions);
     }
 
     public IVertexBuffer CreateVertexBuffer(int size, float[] vertices)
