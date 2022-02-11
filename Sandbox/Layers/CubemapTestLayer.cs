@@ -33,8 +33,8 @@ internal class CubemapTestLayer : LayerBase
         {
             Paths = new string[6]
             {
-                "Assets/Textures/Skybox/right.jpg",
                 "Assets/Textures/Skybox/left.jpg",
+                "Assets/Textures/Skybox/right.jpg",
                 "Assets/Textures/Skybox/top.jpg",
                 "Assets/Textures/Skybox/bottom.jpg",
                 "Assets/Textures/Skybox/front.jpg",
