@@ -17,7 +17,8 @@ public class Application : ApplicationBase
         //AddLayer<Chapter2Layer>("Lighting Layer");
         //AddLayer<Chapter3Layer>("Model Loading Layer");
         //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
-        AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
+        //AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
+        AddLayer<CubemapTestLayer>("Cubemap Test Layer");
     }
 
     public override void OnShutdown()
