@@ -6,17 +6,16 @@ using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
-public class OpenGLContext : IGraphicsContext
+public class OpenGLContext : GraphicsContextBase
 {
     private readonly GlfwNativeWindowHandle _windowHandler;
-    private readonly ILogger _logger;
     public OpenGLContext(ILogger logger, object windowHandler)
+        : base(logger)
     {
         _windowHandler = (GlfwNativeWindowHandle)windowHandler;
-        _logger = logger;
     }
 
-    public void Initialize()
+    public override void Initialize()
     {
         Glfw.MakeContextCurrent(_windowHandler);
 
@@ -24,11 +23,11 @@ public class OpenGLContext : IGraphicsContext
         var renderer = GL.GetString(GLConstants.GL_RENDERER);
         var version = GL.GetString(GLConstants.GL_VERSION);
 
-        _logger.Information("----------------------------------------------");
-        _logger.Information("OpenGL Info:");
-        _logger.Information($"| Vendor: {vendor}");
-        _logger.Information($"| Renderer: {renderer}");
-        _logger.Information($"| Version: {version}");
-        _logger.Information("----------------------------------------------");
+        Logger.Information("----------------------------------------------");
+        Logger.Information("OpenGL Info:");
+        Logger.Information($"| Vendor: {vendor}");
+        Logger.Information($"| Renderer: {renderer}");
+        Logger.Information($"| Version: {version}");
+        Logger.Information("----------------------------------------------");
     }
 }
