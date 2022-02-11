@@ -31,7 +31,7 @@ internal class FramebufferTestLayer : LayerBase
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/Basic.shader");
-        _fullscreenQuadShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/FullscreenQuad.shader");
+        _fullscreenQuadShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/FullscreenQuadGrayScale.shader");
 
         _fullscreenQuadShader.Bind();
         _fullscreenQuadShader.SetInt("_ScreenTexture", 0);
