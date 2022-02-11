@@ -253,6 +253,31 @@ public static class GL
     {
         OpenGLDllImport.glEnableVertexAttribArray(index);
     }
+
+    public static void VertexArrayAttribFormat(uint vao, uint attribIndex, int size, uint type, bool normalized, uint relativeOffset)
+    {
+        OpenGLDllImport.glVertexArrayAttribFormat(vao, attribIndex, size, type, normalized, relativeOffset);
+    }
+
+    public static void VertexArrayAttribBinding(uint vao, uint attribIndex, uint bindingIndex)
+    {
+        OpenGLDllImport.glVertexArrayAttribBinding(vao, attribIndex, bindingIndex);
+    }
+
+    public static void EnableVertexArrayAttrib(uint vao, uint index)
+    {
+        OpenGLDllImport.glEnableVertexArrayAttrib(vao, index);
+    }
+
+    public static void VertexArrayVertexBuffer(uint vao, uint bindingIndex, uint vbo, IntPtr offset, int stride)
+    {
+        OpenGLDllImport.glVertexArrayVertexBuffer(vao, bindingIndex, vbo, offset, stride);
+    }
+
+    public static void VertexArrayElementBuffer(uint vao, uint ebo)
+    {
+        OpenGLDllImport.glVertexArrayElementBuffer(vao, ebo);
+    }
     #endregion
 
     #region Buffer methods
@@ -304,29 +329,14 @@ public static class GL
     }
     #endregion
 
-    public static void VertexArrayAttribFormat(uint vao, uint attribIndex, int size, uint type, bool normalized, uint relativeOffset)
+    public static void PolygonMode(GLPolygonFace face, GLPolygonMode mode)
     {
-        OpenGLDllImport.glVertexArrayAttribFormat(vao, attribIndex, size, type, normalized, relativeOffset);
+        PolygonMode((uint)face, (uint)mode);
     }
 
-    public static void VertexArrayAttribBinding(uint vao, uint attribIndex, uint bindingIndex)
+    public static void PolygonMode(uint face, uint mode)
     {
-        OpenGLDllImport.glVertexArrayAttribBinding(vao, attribIndex, bindingIndex);
-    }
-
-    public static void EnableVertexArrayAttrib(uint vao, uint index)
-    {
-        OpenGLDllImport.glEnableVertexArrayAttrib(vao, index);
-    }
-
-    public static void VertexArrayVertexBuffer(uint vao, uint bindingIndex, uint vbo, IntPtr offset, int stride)
-    {
-        OpenGLDllImport.glVertexArrayVertexBuffer(vao, bindingIndex, vbo, offset, stride);
-    }
-
-    public static void VertexArrayElementBuffer(uint vao, uint ebo)
-    {
-        OpenGLDllImport.glVertexArrayElementBuffer(vao, ebo);
+        OpenGLDllImport.glPolygonMode(face, mode);
     }
 
     public static void Scissor(int x, int y, int width, int height)
