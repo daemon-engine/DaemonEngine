@@ -36,7 +36,7 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public IIndexBuffer CreateIndexBuffer(int count, uint[] indices)
     {
-        return new OpenGLIndexBuffer(count, indices);
+        return new OpenGLIndexBuffer(Logger, count, indices);
     }
 
     public IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions)

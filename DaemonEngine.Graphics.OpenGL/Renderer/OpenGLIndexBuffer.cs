@@ -1,14 +1,16 @@
 ﻿using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
+using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
-internal class OpenGLIndexBuffer : IIndexBuffer
+internal class OpenGLIndexBuffer : IndexBufferBase
 {
     private readonly uint _id;
 
-    public OpenGLIndexBuffer(int count, uint[] indices)
+    public OpenGLIndexBuffer(ILogger logger, int count, uint[] indices)
+        : base(logger)
     {
         Count = count;
 
@@ -20,14 +22,12 @@ internal class OpenGLIndexBuffer : IIndexBuffer
         GL.BufferData(GLConstants.GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GLBufferUsage.StaticDraw);
     }
 
-    public int Count { get; }
-
-    public void Bind()
+    public override void Bind()
     {
         GL.BindBuffer(GLConstants.GL_ELEMENT_ARRAY_BUFFER, _id);
     }
 
-    public void Unbind()
+    public override void Unbind()
     {
         GL.BindBuffer(GLConstants.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
