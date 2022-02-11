@@ -39,7 +39,6 @@ public class Mesh : IMesh
 
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(_indices.Length, _indices);
         _count = _indexBuffer.Count;
-
     }
 
     public void Bind()

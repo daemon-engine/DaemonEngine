@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.Application;
 using Sandbox.Layers;
+using Sandbox.Layers.LearnOpenGL;
 
 namespace Sandbox;
 
@@ -18,7 +19,8 @@ public class Application : ApplicationBase
         //AddLayer<Chapter3Layer>("Model Loading Layer");
         //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
         //AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
-        AddLayer<CubemapTestLayer>("Cubemap Test Layer");
+        //AddLayer<CubemapTestLayer>("Cubemap Test Layer");
+        AddLayer<SandboxLayer>("Sandbox Layer");
     }
 
     public override void OnShutdown()

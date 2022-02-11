@@ -19,15 +19,22 @@ public class Model
             new BufferElement("TEXCOORD", ShaderDataType.Float2)
         });
 
+        Meshes = new List<Mesh>();
         Load(shader, filepath);
     }
 
     public Mesh Mesh { get; private set; } = default!;
+    public IList<Mesh> Meshes { get; private set; } = default!;
 
     private void Load(IShader shader, string filepath)
     {
-        (float[] vertices, uint[] indices) = ModelLoader.LoadModel(filepath);
+        var modelDatas = ModelLoader.LoadModels(filepath);
+        foreach (var modelData in modelDatas)
+        {
+            var mesh = _meshFactory.CreateMesh(modelData.Vertices, modelData.Indices, shader, _bufferLayout);
+            Meshes.Add(mesh);
+        }
 
-        Mesh = _meshFactory.CreateMesh(vertices, indices, shader, _bufferLayout);
+        Mesh = Meshes[0];
     }
 }
