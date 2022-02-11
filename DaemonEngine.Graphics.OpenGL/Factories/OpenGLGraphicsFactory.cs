@@ -39,10 +39,6 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
         return new OpenGLIndexBuffer(count, indices);
     }
 
-    public IFramebuffer CreateFramebuffer()
-    {
-        return new OpenGLFramebuffer();
-    }
     public IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions)
     {
         return new OpenGLFramebuffer(framebufferOptions);

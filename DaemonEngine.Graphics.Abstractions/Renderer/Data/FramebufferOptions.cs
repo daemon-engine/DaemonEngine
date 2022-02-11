@@ -1,5 +1,4 @@
 ﻿using DaemonEngine.Mathematics;
-using System.Collections.Generic;
 
 namespace DaemonEngine.Graphics.Renderer.Data;
 

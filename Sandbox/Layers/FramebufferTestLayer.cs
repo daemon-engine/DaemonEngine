@@ -91,7 +91,7 @@ internal class FramebufferTestLayer : LayerBase
         Renderer.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         Renderer.Clear(ClearMask.ColorBufferBit);
 
-        var colorAttachment = _framebuffer.GetColorAttachment();
+        var colorAttachment = _framebuffer.GetColorAttachment(0);
         Renderer.SubmitFullscreenQuad(colorAttachment, _fullscreenQuadPipeline, _fullscreenQuadVertexBuffer, _fullscreenQuadIndexBuffer);
     }
 
@@ -99,7 +99,7 @@ internal class FramebufferTestLayer : LayerBase
     {
         ImGuiNET.ImGui.Begin("Framebuffer Test");
 
-        var ptr = (IntPtr)_framebuffer.GetColorAttachment();
+        var ptr = (IntPtr)_framebuffer.GetColorAttachment(0);
         ImGuiNET.ImGui.Image(ptr, new System.Numerics.Vector2(800, 600));
 
         ImGuiNET.ImGui.End();

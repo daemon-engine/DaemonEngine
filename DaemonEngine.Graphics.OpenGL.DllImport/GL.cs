@@ -329,6 +329,16 @@ public static class GL
     }
     #endregion
 
+    public static void DrawBuffers(int count, uint[] buffers)
+    {
+        OpenGLDllImport.glDrawBuffers(count, buffers);
+    }
+
+    public static void DrawBuffer(uint buffer)
+    {
+        OpenGLDllImport.glDrawBuffer(buffer);
+    }
+
     public static void PolygonMode(GLPolygonFace face, GLPolygonMode mode)
     {
         PolygonMode((uint)face, (uint)mode);
