@@ -141,7 +141,8 @@ internal class OpenGLDllImport
 	private delegate void glDisableVertexAttribArrayDelegate(uint index);
 	private delegate void glEnableVertexAttribArrayDelegate(uint index);
 	private delegate void glGetActiveAttribDelegate(uint program, uint index, int bufSize, int[] length, int[] size, uint[] type, string[] name);
-	private delegate void glGetActiveUniformDelegate(uint program, uint index, int bufSize, int[] length, int[] size, uint[] type, string[] name);
+	//private delegate void glGetActiveUniformDelegate(uint program, uint index, int bufSize, int[] length, int[] size, uint[] type, string[] name);
+	private unsafe delegate void glGetActiveUniformDelegate(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name);
 	private delegate void glGetAttachedShadersDelegate(uint program, int maxCount, int[] count, uint[] shaders);
 	private delegate uint glGetAttribLocationDelegate(uint program, string name);
 	private delegate void glGetProgramivDelegate(uint program, uint pname, int[] @params);
@@ -2072,7 +2073,12 @@ internal class OpenGLDllImport
 		OpenGLDllImportBase.GetDelegateFor<glGetActiveAttribDelegate>()(program, index, bufSize, length, size, type, name);
 	}
 
-	public static void glGetActiveUniform(uint program, uint index, int bufSize, int[] length, int[] size, uint[] type, string[] name)
+	//public static void glGetActiveUniform(uint program, uint index, int bufSize, int[] length, int[] size, uint[] type, string[] name)
+	//{
+	//	OpenGLDllImportBase.GetDelegateFor<glGetActiveUniformDelegate>()(program, index, bufSize, length, size, type, name);
+	//}
+
+	public unsafe static void glGetActiveUniform(uint program, uint index, int bufSize, int* length, int* size, uint* type, char* name)
 	{
 		OpenGLDllImportBase.GetDelegateFor<glGetActiveUniformDelegate>()(program, index, bufSize, length, size, type, name);
 	}

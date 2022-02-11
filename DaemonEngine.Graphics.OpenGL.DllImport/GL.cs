@@ -139,9 +139,9 @@ public static class GL
 
     public static int GetProgramiv(uint program, uint pname)
     {
-        int output = 1;
-        OpenGLDllImport.glGetProgramiv(program, pname, new int[] { output });
-        return output;
+        int[] output = new int[1];
+        OpenGLDllImport.glGetProgramiv(program, pname, output);
+        return output[0];
     }
 
     public static GLError GetError()
@@ -176,6 +176,25 @@ public static class GL
     #endregion
 
     #region Shader methods
+    public static void GetActiveUniform(uint id, uint index, int bufferSize, out int length, out int size, out uint type, out string name)
+    {
+        int l = default;
+        int s = default;
+        uint t = default;
+        string n = new string(' ', bufferSize);
+
+        unsafe
+        {
+            char* ptr = (char*)Marshal.StringToHGlobalAnsi(n).ToPointer();
+            OpenGLDllImport.glGetActiveUniform(id, index, bufferSize, &l, &s, &t, ptr);
+
+            length = l;
+            size = s;
+            type = t;
+            name = Marshal.PtrToStringAnsi(ptr: (IntPtr)ptr);
+        }
+    }
+
     public static string GetShaderInfoLog(uint shader, int bufferSize, ref int length)
     {
         byte[] buffer = new byte[bufferSize];
