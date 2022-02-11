@@ -1,6 +1,7 @@
 ﻿using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.OpenGL.Renderer;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using Serilog;
 
 namespace DaemonEngine.Graphics.OpenGL.Factories;
@@ -41,6 +42,10 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
     public IFramebuffer CreateFramebuffer()
     {
         return new OpenGLFramebuffer();
+    }
+    public IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions)
+    {
+        return new OpenGLFramebuffer(framebufferOptions);
     }
 
     public ITexture CreateTexture(string filepath)

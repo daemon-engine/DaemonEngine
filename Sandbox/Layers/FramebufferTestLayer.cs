@@ -1,6 +1,7 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,7 +36,18 @@ internal class FramebufferTestLayer : LayerBase
         _fullscreenQuadShader.Bind();
         _fullscreenQuadShader.SetInt("_ScreenTexture", 0);
 
-        _framebuffer = GraphicsFactory.CreateFramebuffer();
+        var framebufferOptions = new FramebufferOptions
+        {
+            Width = Window.Width,
+            Height = Window.Height,
+            ClearColor = new Vector4(0.3f, 0.5f, 0.85f, 1.0f),
+            Attachments = new List<FramebufferAttachment>
+            {
+                FramebufferAttachment.RGBA8,
+                FramebufferAttachment.Depth
+            }
+        };
+        _framebuffer = GraphicsFactory.CreateFramebuffer(framebufferOptions);
 
         _sphere = new Model(meshFactory, _shader, "Assets/Models/Sphere/sphere.obj");
 
@@ -60,12 +72,16 @@ internal class FramebufferTestLayer : LayerBase
     public override void OnUpdate(float deltaTime)
     {
         _framebuffer.Bind();
-
-        Renderer.ClearColor(0.3f, 0.5f, 0.85f, 1.0f);
-        Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
+        _framebuffer.Clear();
 
         _shader.Bind();
         _shader.SetMat4("_Model", Matrix4.Identity);
+        _shader.SetMat4("_View", _camera.ViewMatrix);
+        _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
+        Renderer.RenderMesh(_sphere.Mesh);
+
+        _shader.Bind();
+        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(3.0f, 0.0f, 0.0f)));
         _shader.SetMat4("_View", _camera.ViewMatrix);
         _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
         Renderer.RenderMesh(_sphere.Mesh);
