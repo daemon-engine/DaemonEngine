@@ -329,6 +329,16 @@ public static class GL
     }
     #endregion
 
+    public static void DepthFunc(uint func)
+    {
+        OpenGLDllImport.glDepthFunc(func);
+    }
+
+    public static void DepthMask(bool flag)
+    {
+        OpenGLDllImport.glDepthMask(flag);
+    }
+
     public static void DrawBuffers(int count, uint[] buffers)
     {
         OpenGLDllImport.glDrawBuffers(count, buffers);
