@@ -51,10 +51,10 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public ITexture CreateTexture(string filepath)
     {
-        return new OpenGLTexture(filepath);
+        return new OpenGLTexture(Logger, filepath);
     }
     public ITexture CreateTexture(int width, int height)
     {
-        return new OpenGLTexture(width, height);
+        return new OpenGLTexture(Logger, width, height);
     }
 }
