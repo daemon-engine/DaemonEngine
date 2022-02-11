@@ -3,7 +3,6 @@ using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 

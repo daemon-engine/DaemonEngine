@@ -38,6 +38,11 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
         return new OpenGLIndexBuffer(count, indices);
     }
 
+    public IFramebuffer CreateFramebuffer()
+    {
+        return new OpenGLFramebuffer();
+    }
+
     public ITexture CreateTexture(string filepath)
     {
         return new OpenGLTexture(filepath);
