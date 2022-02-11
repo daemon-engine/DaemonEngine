@@ -45,6 +45,9 @@ internal class CubemapTestLayer : LayerBase
         _cubemap = GraphicsFactory.CreateCubemap(cubemapOptions);
 
         _cubemapShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Cubemap.shader");
+        _cubemapShader.Bind();
+        _cubemapShader.SetInt("_Cubemap", 0);
+
         var bufferLayout = new BufferLayout(new List<BufferElement>
         {
             new BufferElement("POSITION", ShaderDataType.Float3)
