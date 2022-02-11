@@ -13,6 +13,11 @@ internal class FramebufferTestLayer : LayerBase
     IFramebuffer _framebuffer;
     IShader _shader;
 
+    IShader _fullscreenQuadShader;
+    IPipeline _fullscreenQuadPipeline;
+    IVertexBuffer _fullscreenQuadVertexBuffer;
+    IIndexBuffer _fullscreenQuadIndexBuffer;
+
     public FramebufferTestLayer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
     {
@@ -25,10 +30,27 @@ internal class FramebufferTestLayer : LayerBase
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/Basic.shader");
+        _fullscreenQuadShader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/FullscreenQuad.shader");
+
+        _fullscreenQuadShader.Bind();
+        _fullscreenQuadShader.SetInt("_ScreenTexture", 0);
 
         _framebuffer = GraphicsFactory.CreateFramebuffer();
 
         _sphere = new Model(meshFactory, _shader, "Assets/Models/Sphere/sphere.obj");
+
+        var bufferLayout = new BufferLayout(new List<BufferElement>()
+        {
+            new BufferElement("POSITION", ShaderDataType.Float2),
+            new BufferElement("TEXCOORD", ShaderDataType.Float2)
+        });
+        _fullscreenQuadPipeline = GraphicsFactory.CreatePipeline(_fullscreenQuadShader, bufferLayout);
+
+        var vertices = Builder.GenerateFullscreenQuadVertices();
+        var indices = Builder.GenerateFullscreenQuadIndices();
+
+        _fullscreenQuadVertexBuffer = GraphicsFactory.CreateVertexBuffer(vertices.Length * sizeof(float), vertices);
+        _fullscreenQuadIndexBuffer = GraphicsFactory.CreateIndexBuffer(indices.Length, indices);
     }
 
     public override void OnShutdown()
@@ -39,7 +61,7 @@ internal class FramebufferTestLayer : LayerBase
     {
         _framebuffer.Bind();
 
-        Renderer.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        Renderer.ClearColor(0.3f, 0.5f, 0.85f, 1.0f);
         Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
 
         _shader.Bind();
@@ -50,19 +72,21 @@ internal class FramebufferTestLayer : LayerBase
 
         _framebuffer.Unbind();
 
-        Renderer.ClearColor(0.8f, 0.8f, 0.8f, 1.0f);
-        Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
+        //Renderer.ClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        Renderer.ClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        Renderer.Clear(ClearMask.ColorBufferBit);
+
+        var colorAttachment = _framebuffer.GetColorAttachment();
+        Renderer.SubmitFullscreenQuad(colorAttachment, _fullscreenQuadPipeline, _fullscreenQuadVertexBuffer, _fullscreenQuadIndexBuffer);
     }
 
     public override void OnGUI()
     {
-        ImGuiNET.ImGui.Begin("Test");
-        ImGuiNET.ImGui.Text("Framebuffer Test");
+        ImGuiNET.ImGui.Begin("Framebuffer Test");
 
         var ptr = (IntPtr)_framebuffer.GetColorAttachment();
         ImGuiNET.ImGui.Image(ptr, new System.Numerics.Vector2(800, 600));
-        ImGuiNET.ImGui.End();
 
-        ImGuiNET.ImGui.ShowDemoWindow();
+        ImGuiNET.ImGui.End();
     }
 }

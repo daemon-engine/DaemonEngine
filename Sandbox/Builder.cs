@@ -2,6 +2,30 @@
 
 public static class Builder
 {
+	public static uint[] GenerateFullscreenQuadIndices()
+	{
+		uint[] indices = new uint[2 * 3] {
+			0, 1, 3,
+			1, 2, 3
+		};
+
+		return indices;
+	}
+
+	public static float[] GenerateFullscreenQuadVertices()
+    {
+		float[] vertices = new float[4 * (2 + 2)]
+		{
+			// POSITION	  TEXCOORD
+             1.0f,  1.0f, 1.0f, 1.0f,
+			 1.0f, -1.0f, 1.0f, 0.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f,
+			-1.0f,  1.0f, 0.0f, 1.0f
+		};
+
+		return vertices;
+    }
+
     public static uint[] GenerateQuadIndices()
     {
 		uint[] indices = new uint[2 * 3] {
