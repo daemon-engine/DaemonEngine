@@ -2,11 +2,12 @@
 
 namespace DaemonEngine.Graphics.Renderer.Data;
 
-public enum FramebufferAttachment
+public enum FramebufferAttachmentType
 {
     None = 0,
+    RGB,
     RGBA8,
-    Depth
+    DEPTH24STENCIL8
 }
 
 public class FramebufferOptions
@@ -14,5 +15,5 @@ public class FramebufferOptions
     public int Width { get; set; }
     public int Height { get; set; }
     public Vector4 ClearColor { get; set; }
-    public List<FramebufferAttachment> Attachments { get; set; } 
+    public List<FramebufferAttachmentType> Attachments { get; set; } 
 }

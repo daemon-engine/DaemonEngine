@@ -41,10 +41,10 @@ internal class FramebufferTestLayer : LayerBase
             Width = Window.Width,
             Height = Window.Height,
             ClearColor = new Vector4(0.3f, 0.5f, 0.85f, 1.0f),
-            Attachments = new List<FramebufferAttachment>
+            Attachments = new List<FramebufferAttachmentType>
             {
-                FramebufferAttachment.RGBA8,
-                FramebufferAttachment.Depth
+                FramebufferAttachmentType.RGBA8,
+                FramebufferAttachmentType.DEPTH24STENCIL8
             }
         };
         _framebuffer = GraphicsFactory.CreateFramebuffer(framebufferOptions);
