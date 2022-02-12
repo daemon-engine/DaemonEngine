@@ -2,7 +2,4 @@
 
 echo Hello world! Testing
 
-dotnetBuild
-
-dotnetsdk dotnetBuild
-
+dotnet build --configuration Release
