@@ -1,17 +1,24 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Compiling') {
             steps {
-                sh 'echo "Building..."'
+                sh 'echo "Compiling..."'
                 sh 'chmod +x Scripts/TestBuild.sh'
                 sh 'Scripts/TestBuild.sh'
-                archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0/*', fingerprint: true
+            }
+        }
+        stage('Copy files') {
+            steps {
+                sh 'echo "Copying files..."'
+                sh 'chmod +x Scripts/CopyFiles.sh'
+                sh 'Scripts/CopyFiles.sh'
             }
         }
         stage('Done') {
             steps {
                 sh 'echo "Done!"'
+                archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0/*', fingerprint: true
             }
         }
     }
