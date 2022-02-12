@@ -17,7 +17,7 @@
     <Folder Include="Assets\Models\Sphere\" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
     <Exec Command="xcopy $(ProjectDir)Assets $(ProjectDir)$(OutDir)\Assets /E /C /I /Y" />
   </Target>
 
