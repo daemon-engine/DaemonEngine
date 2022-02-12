@@ -2,3 +2,7 @@
 
 echo Hello world!
 
+dotnetBuild
+
+dotnetsdk dotnetBuild
+
