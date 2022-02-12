@@ -22,6 +22,9 @@ public class ModelLoader
         uint[] indices = Array.Empty<uint>();
         foreach (var child in node.Children)
         {
+            vertices.Clear();
+            indices = Array.Empty<uint>();
+
             for (int i = 0; i < child.MeshCount; i++)
             {
                 var mesh = scene.Meshes[i];
@@ -33,6 +36,8 @@ public class ModelLoader
 
                 for (int j = 0; j < mesh.VertexCount; j++)
                 {
+                    child.Transform.DecomposeNoScaling(out _, out Vector3D translation);
+
                     vertices.Add(mesh.Vertices[j].X);
                     vertices.Add(mesh.Vertices[j].Y);
                     vertices.Add(mesh.Vertices[j].Z);

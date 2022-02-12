@@ -23,6 +23,7 @@ internal class SandboxLayer : LayerBase
 
     private IShader _shader;
     private Model _sceneModel;
+    private Model _testModel;
 
     private Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
 
@@ -47,6 +48,9 @@ internal class SandboxLayer : LayerBase
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _sceneModel = new Model(meshFactory, _shader, "Assets/Models/BasicScene/basic_scene.obj");
+
+        _testModel = new Model(meshFactory, _shader, "Assets/Models/Mesh/mesh.obj");
+        _testModel = new Model(meshFactory, _shader, "Assets/Models/Mesh/mesh.fbx");
 
         var cubemapOptions = new CubemapOptions
         {
@@ -118,6 +122,13 @@ internal class SandboxLayer : LayerBase
         _shader.SetMat4("_Model", Matrix4.Identity);
         Renderer.RenderMesh(_sceneModel.Mesh);
 
+        foreach (var mesh in _testModel.Meshes)
+        {
+            _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(2.5f, 2.0f, 2.5f)));
+            //_shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(2.5f, 2.0f + a, 2.5f)));
+            Renderer.RenderMesh(mesh);
+        }
+
         _cubemap.Bind();
         _cubemapShader.Bind();
         _cubemapShader.SetMat4("_Projection", _camera.ProjectionMatrix);
@@ -132,6 +143,10 @@ internal class SandboxLayer : LayerBase
     public override void OnGUI()
     {
         ImGuiNET.ImGui.Begin("Properties");
+
+        var io = ImGuiNET.ImGui.GetIO();
+        ImGuiNET.ImGui.Text($"Delta Time: {io.DeltaTime * 1000.0f:f3} ms/frame");
+        ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1}");
 
         ImGuiNET.ImGui.Text($"Press 'P' or 'Escape' to toggle state.");
         ImGuiNET.ImGui.Text($"State: {(_paused ? "Paused" : "Playing")}");
