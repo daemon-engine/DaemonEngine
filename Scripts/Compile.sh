@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet build --configuration Release
+dotnet build --configuration Release --runtime win10-x64
