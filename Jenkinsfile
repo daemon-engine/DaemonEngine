@@ -21,7 +21,8 @@ pipeline {
                 sh 'chmod +x Scripts/ZipOutput.sh'
                 sh 'Scripts/ZipOutput.sh'
                 sh 'echo "Done!"'
-                archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0-windows/win10-x64/**', fingerprint: true
+                archiveArtifacts artifacts: 'DaemonEngine.zip', fingerprint: true
+                // archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0-windows/win10-x64/**', fingerprint: true
             }
         }
     }
