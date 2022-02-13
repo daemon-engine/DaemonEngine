@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet build --configuration Release --force --output Output
+dotnet publish --configuration Release --force --output Output
