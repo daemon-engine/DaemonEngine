@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet publish --configuration Release --runtime win10-x64
+dotnet build --configuration Release --force --output Output
