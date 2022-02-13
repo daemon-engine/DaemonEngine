@@ -4,8 +4,8 @@ pipeline {
         stage('Compiling') {
             steps {
                 sh 'echo "Compiling..."'
-                sh 'chmod +x Scripts/TestBuild.sh'
-                sh 'Scripts/TestBuild.sh'
+                sh 'chmod +x Scripts/Compile.sh'
+                sh 'Scripts/Compile.sh'
             }
         }
         stage('Copy files') {
