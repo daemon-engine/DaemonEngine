@@ -53,7 +53,12 @@ internal class CubemapTestLayer : LayerBase
             new BufferElement("POSITION", ShaderDataType.Float3)
         });
 
-        _cubemapPipeline = GraphicsFactory.CreatePipeline(_cubemapShader, bufferLayout);
+        var pipelineOptions = new PipelineOptions
+        {
+            BufferLayout = bufferLayout,
+            Shader = _cubemapShader
+        };
+        _cubemapPipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
 
         var vertices = Builder.GenerateCubemapVertices();
         var indices = Builder.GenerateCubemapIndices();

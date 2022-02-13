@@ -24,19 +24,19 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
         return new OpenGLShader(Logger, vertexShaderSource, fragmentShaderSource);
     }
 
-    public IPipeline CreatePipeline(IShader shader, IBufferLayout bufferLayout)
+    public IPipeline CreatePipeline(PipelineOptions pipelineOptions)
     {
-        return new OpenGLPipeline(shader, bufferLayout);
+        return new OpenGLPipeline(Logger, pipelineOptions);
     }
 
     public IVertexBuffer CreateVertexBuffer(int size, float[] vertices)
     {
-        return new OpenGLVertexBuffer(size, vertices);
+        return new OpenGLVertexBuffer(Logger, size, vertices);
     }
 
     public IIndexBuffer CreateIndexBuffer(int count, uint[] indices)
     {
-        return new OpenGLIndexBuffer(count, indices);
+        return new OpenGLIndexBuffer(Logger, count, indices);
     }
 
     public IFramebuffer CreateFramebuffer(FramebufferOptions framebufferOptions)
@@ -51,10 +51,10 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
 
     public ITexture CreateTexture(string filepath)
     {
-        return new OpenGLTexture(filepath);
+        return new OpenGLTexture(Logger, filepath);
     }
     public ITexture CreateTexture(int width, int height)
     {
-        return new OpenGLTexture(width, height);
+        return new OpenGLTexture(Logger, width, height);
     }
 }

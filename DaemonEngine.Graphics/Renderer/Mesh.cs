@@ -1,4 +1,5 @@
 ﻿using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Renderer.Data;
 
 namespace DaemonEngine.Graphics.Renderer;
 
@@ -25,14 +26,19 @@ public class Mesh : IMesh
 
     private void Setup(IShader shader, BufferLayout bufferLayout)
     {
-        _pipeline = GraphicsFactory.CreatePipeline(shader, bufferLayout);
+        var pipelineOptions = new PipelineOptions
+        {
+            BufferLayout = bufferLayout,
+            Shader = shader
+        };
+
+        _pipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
 
         int verticesSize = sizeof(float) * _vertices.Length;
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(verticesSize, _vertices);
 
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(_indices.Length, _indices);
         _count = _indexBuffer.Count;
-
     }
 
     public void Bind()

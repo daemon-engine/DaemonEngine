@@ -55,7 +55,7 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(-_DirectionalLight.direction);
 
-    vec3 ambient = _DirectionalLight.ambient * _Material.diffuse;
+    vec3 ambient = _DirectionalLight.ambient * _Material.ambient;
 
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = _DirectionalLight.diffuse * diff * _Material.diffuse;

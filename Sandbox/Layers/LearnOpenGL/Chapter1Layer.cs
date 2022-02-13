@@ -3,6 +3,7 @@ using DaemonEngine.Core.Layer;
 using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -60,7 +61,14 @@ public class Chapter1Layer : LayerBase
             new BufferElement("NORMALS", ShaderDataType.Float3),
             new BufferElement("TEXCOORD", ShaderDataType.Float2)
         });
-        _pipeline = GraphicsFactory.CreatePipeline(_shader, layout);
+
+        var pipelineOptions = new PipelineOptions
+        {
+            BufferLayout = layout,
+            Shader = _shader
+        };
+
+        _pipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(192 * sizeof(float), cubeVertices);
         _ibo = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
 

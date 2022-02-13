@@ -6,6 +6,7 @@ using DaemonEngine.EventSystem;
 using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.EventSystem.Events.Window;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Mathematics;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -86,8 +87,19 @@ internal class Chapter2Layer : LayerBase
         var cubeVertices = Builder.GenerateCubeVertices();
         var cubeIndices = Builder.GenerateCubeIndices();
 
-        _lightingPipeline = GraphicsFactory.CreatePipeline(_lightingShader, layout);
-        _lightObjectPipeline = GraphicsFactory.CreatePipeline(_lightObjectShader, layout);
+        var lightingPipelineOptions = new PipelineOptions
+        {
+            BufferLayout = layout,
+            Shader = _lightingShader
+        };
+        var lightObjectPipelineOptions = new PipelineOptions
+        {
+            BufferLayout = layout,
+            Shader = _lightObjectShader
+        };
+
+        _lightingPipeline = GraphicsFactory.CreatePipeline(lightingPipelineOptions);
+        _lightObjectPipeline = GraphicsFactory.CreatePipeline(lightObjectPipelineOptions);
 
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(192 * sizeof(float), cubeVertices);
         _indexBuffer = GraphicsFactory.CreateIndexBuffer(36, cubeIndices);
