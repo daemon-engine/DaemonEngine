@@ -18,7 +18,7 @@ pipeline {
         stage('Done') {
             steps {
                 sh 'echo "Done!"'
-                archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0/*', fingerprint: true
+                archiveArtifacts artifacts: 'Sandbox/bin/Release/net6.0-windows/*', fingerprint: true
             }
         }
     }
