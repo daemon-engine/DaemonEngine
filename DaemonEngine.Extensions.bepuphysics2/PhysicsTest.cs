@@ -54,10 +54,10 @@ public class PhysicsTest
 {
     public PhysicsTest()
     {
-        var gravity = new Vector3(0.0f, -10.0f, 0.0f);
+        var gravity = new Vector3(0.0f, -1.0f, 0.0f);
 
         var bufferPool = new BufferPool();
-        Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, -10, 0)), new DefaultTimestepper());
+        Simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(gravity), new DefaultTimestepper());
 
         SimulationDispatcher = new SimpleThreadDispatcher(Environment.ProcessorCount / 4);
     }
