@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="BepuPhysics" Version="2.3.0" />
+    <PackageReference Include="BepuUtilities" Version="2.3.0" />
   </ItemGroup>
 
 </Project>
