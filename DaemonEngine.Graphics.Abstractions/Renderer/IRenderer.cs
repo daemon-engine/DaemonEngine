@@ -1,6 +1,4 @@
-﻿using DaemonEngine.Graphics.Renderer;
-
-namespace DaemonEngine.Graphics.Renderer;
+﻿namespace DaemonEngine.Graphics.Renderer;
 
 public interface IRenderer
 {
