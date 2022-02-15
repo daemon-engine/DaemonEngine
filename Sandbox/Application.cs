@@ -20,7 +20,8 @@ public class Application : ApplicationBase
         //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
         //AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
         //AddLayer<CubemapTestLayer>("Cubemap Test Layer");
-        AddLayer<SandboxLayer>("Sandbox Layer");
+        AddLayer<SceneTestLayer>("Scene Test Layer");
+        //AddLayer<SandboxLayer>("Sandbox Layer");
     }
 
     public override void OnShutdown()
