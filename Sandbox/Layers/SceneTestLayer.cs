@@ -56,7 +56,6 @@ internal class SceneTestLayer : LayerBase
     private Scene _scene;
 
     private IShader _shader;
-    //private FPSCamera _camera;
     private readonly Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
 
     public SceneTestLayer(string name, IServiceProvider serviceProvider)
@@ -66,9 +65,6 @@ internal class SceneTestLayer : LayerBase
 
     public override void OnStart()
     {
-        //_camera = new FPSCamera(60.0f, Window.AspectRatio);
-        //_camera.Position.Y = 1.0f;
-
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
 
@@ -88,8 +84,6 @@ internal class SceneTestLayer : LayerBase
 
     public override void OnUpdate(float deltaTime)
     {
-        //_camera.Update(deltaTime);
-
         Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
         Renderer.ClearColor(0.3f, 0.4f, 0.8f, 1.0f);
 
