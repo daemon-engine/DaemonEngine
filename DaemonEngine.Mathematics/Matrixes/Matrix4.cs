@@ -78,6 +78,17 @@ public class Matrix4 : IEquatable<Matrix4>
         return result;
     }
 
+    public static Matrix4 Scale(Vector3 scale)
+    {
+        var result = Identity;
+
+        result.Row0.X = scale.X;
+        result.Row1.Y = scale.Y;
+        result.Row2.Z = scale.Z;
+
+        return result;
+    }
+
     public static Matrix4 Scale(float scale)
     {
         var result = Identity;

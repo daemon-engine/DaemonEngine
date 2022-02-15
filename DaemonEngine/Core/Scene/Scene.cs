@@ -17,7 +17,7 @@ public class Scene
 
     protected ILogger Logger { get; }
     protected IRenderer Renderer { get; }
-    public List<IEntity> Entities { get; }
+    internal List<IEntity> Entities { get; }
 
     public void RuntimeStart()
     {
@@ -70,6 +70,9 @@ public class Scene
                 shader.SetFloat3("_Material.specular", meshRenderer.Specular);
                 shader.SetFloat("_Material.shininess", meshRenderer.Shininess * 128.0f);
 
+                var model = Matrix4.Identity 
+                    * Matrix4.Scale(transform.Scale)
+                    * Matrix4.Translate(transform.Position);
                 shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(transform.Position));
 
                 Renderer.RenderMesh(meshRenderer!.Model.Mesh);

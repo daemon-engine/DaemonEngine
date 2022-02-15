@@ -54,6 +54,7 @@ internal class FloorEntity : EntityBase
 internal class SceneTestLayer : LayerBase
 {
     private Scene _scene;
+    private SceneHierarchy _sceneHierarchy;
 
     private IShader _shader;
     private readonly Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
@@ -75,6 +76,8 @@ internal class SceneTestLayer : LayerBase
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
         _scene.RuntimeStart();
+
+        _sceneHierarchy = new SceneHierarchy(_scene);
     }
 
     public override void OnShutdown()
@@ -98,24 +101,6 @@ internal class SceneTestLayer : LayerBase
 
     public override void OnGUI()
     {
-        ImGuiNET.ImGui.Begin("Scene Hierarchy");
-
-        foreach (var entity in _scene.Entities)
-        {
-            var flags = ImGuiNET.ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiNET.ImGuiTreeNodeFlags.OpenOnArrow;
-
-            var opened = ImGuiNET.ImGui.TreeNodeEx(entity.UUID.ToString(), flags, entity.Name);
-            if(opened)
-            {
-                foreach (var component in entity.GetComponents())
-                {
-                    ImGuiNET.ImGui.Text(component.Name);
-                }
-
-                ImGuiNET.ImGui.TreePop();
-            }
-        }
-
-        ImGuiNET.ImGui.End();
+        _sceneHierarchy.OnGUI();
     }
 }
