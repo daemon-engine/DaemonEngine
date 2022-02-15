@@ -1,6 +1,4 @@
-﻿using DaemonEngine.ECS.Components;
-
-namespace DaemonEngine.ECS;
+﻿namespace DaemonEngine.ECS;
 
 public interface IEntity
 {

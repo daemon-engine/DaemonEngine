@@ -1,4 +1,4 @@
-﻿namespace DaemonEngine.ECS.Components;
+﻿namespace DaemonEngine.ECS;
 
 public interface IComponent
 {

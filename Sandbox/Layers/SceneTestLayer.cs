@@ -51,37 +51,12 @@ internal class FloorEntity : EntityBase
     }
 }
 
-internal class Script : NativeScriptBase
-{
-    public Script(ILogger logger)
-    {
-        Logger = logger;
-    }
-
-    protected ILogger Logger { get; }
-
-    public override void Start()
-    {
-        Logger.Information("Script.Start()");
-    }
-
-    public override void Update(float deltaTime)
-    {
-        Logger.Information("Script.Update()");
-    }
-
-    public override void Stop()
-    {
-        Logger.Information("Script.Stop()");
-    }
-}
-
 internal class SceneTestLayer : LayerBase
 {
     private Scene _scene;
 
     private IShader _shader;
-    private FPSCamera _camera;
+    //private FPSCamera _camera;
     private readonly Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
 
     public SceneTestLayer(string name, IServiceProvider serviceProvider)
@@ -91,17 +66,13 @@ internal class SceneTestLayer : LayerBase
 
     public override void OnStart()
     {
-        _camera = new FPSCamera(60.0f, Window.AspectRatio);
+        //_camera = new FPSCamera(60.0f, Window.AspectRatio);
         //_camera.Position.Y = 1.0f;
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
 
         _scene = new Scene(Logger, Renderer);
-
-        //var scriptEntity = _scene.CreateEntity("Script");
-        //var nativeScript = scriptEntity.AddComponent<NativeScript>();
-        //nativeScript.Script = new Script(Logger);
 
         _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
         _scene.AddEntity(new CubeEntity(meshFactory, _shader, "Assets/Models/cube.obj"));
@@ -123,10 +94,6 @@ internal class SceneTestLayer : LayerBase
         Renderer.ClearColor(0.3f, 0.4f, 0.8f, 1.0f);
 
         _shader.Bind();
-        //_shader.SetMat4("_View", _camera.ViewMatrix);
-        //_shader.SetMat4("_Projection", _camera.ProjectionMatrix);
-        //_shader.SetFloat3("_ViewPos", _camera.Position);
-
         _shader.SetFloat3("_DirectionalLight.direction", _lightDirection);
         _shader.SetFloat3("_DirectionalLight.ambient", 0.05f, 0.05f, 0.05f);
         _shader.SetFloat3("_DirectionalLight.diffuse", 0.4f, 0.4f, 0.4f);

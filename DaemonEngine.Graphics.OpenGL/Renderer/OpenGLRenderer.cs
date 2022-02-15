@@ -43,7 +43,7 @@ internal class OpenGLRenderer : RendererBase
     {
         _cameraData.ProjectionMatrix = camera.ProjectionMatrix.ToFloatArray();
         _cameraData.ViewMatrix = camera.ViewMatrix.ToFloatArray();
-        _cameraData.ViewPosition = camera.ViewPosition.ToFloatArray();
+        _cameraData.ViewPosition = camera.Position.ToFloatArray();
 
         CameraUniformBuffer.SetData(_cameraData.ProjectionMatrix, (4 * 4) * sizeof(float));
         CameraUniformBuffer.SetData(_cameraData.ViewMatrix, (4 * 4) * sizeof(float), 64);
