@@ -2,9 +2,9 @@
 using BepuUtilities.Memory;
 using System.Diagnostics;
 
-namespace DaemonEngine.Extensions.bepuphysics2;
+namespace DaemonEngine.Physics.Bepuphysics2;
 
-public class SimpleThreadDispatcher : IThreadDispatcher, IDisposable
+internal class ThreadDispatcher : IThreadDispatcher, IDisposable
 {
     int threadCount;
     public int ThreadCount => threadCount;
@@ -19,7 +19,7 @@ public class SimpleThreadDispatcher : IThreadDispatcher, IDisposable
 
     BufferPool[] bufferPools;
 
-    public SimpleThreadDispatcher(int threadCount)
+    public ThreadDispatcher(int threadCount)
     {
         this.threadCount = threadCount;
         workers = new Worker[threadCount - 1];

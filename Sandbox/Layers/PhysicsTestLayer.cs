@@ -2,7 +2,6 @@
 using BepuPhysics.Collidables;
 using DaemonEngine.Core.Inputs;
 using DaemonEngine.Core.Layer;
-using DaemonEngine.Extensions.bepuphysics2;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Mathematics;
@@ -17,8 +16,6 @@ internal class PhysicsTestLayer : LayerBase
     private Model _plane;
     private Model _cube;
 
-    private StaticDescription _planeBody;
-    private BodyDescription _cubeBody;
     private BodyHandle _cubeBodyHandle;
 
     private Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
@@ -29,27 +26,13 @@ internal class PhysicsTestLayer : LayerBase
     {
     }
 
-    protected PhysicsTest Physics { get; set; }
-
     public override void OnStart()
     {
         _camera = new FPSCamera(60.0f, Window.AspectRatio);
         _camera.Position.Y = 5.0f;
 
-        Physics = new PhysicsTest();
-
-        var cubeShape = new Box(1.0f, 1.0f, 1.0f);
-        cubeShape.ComputeInertia(1.0f, out var bodyInertia);
-        var collidableDescription = new CollidableDescription(Physics.Simulation.Shapes.Add(cubeShape), 0.01f);
-        var bodyActivityDescription = new BodyActivityDescription(0.01f);
-        _cubeBody = BodyDescription.CreateDynamic(new Vector3(0.0f, 15.0f, 0.0f), bodyInertia, collidableDescription, bodyActivityDescription);
-        _cubeBodyHandle = Physics.Simulation.Bodies.Add(_cubeBody);
-
-        var planeShape = new Box(10.0f, 1.0f, 10.0f);
-        var planeCollidableDescription = new CollidableDescription(Physics.Simulation.Shapes.Add(planeShape), 0.1f);
-        _planeBody = new StaticDescription(new Vector3(0, 0, 0), planeCollidableDescription);
-        Physics.Simulation.Statics.Add(_planeBody);
-
+        World.AddStatic();
+        _cubeBodyHandle = (BodyHandle)World.AddDynamic();
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/LitBasic.shader");
@@ -65,7 +48,7 @@ internal class PhysicsTestLayer : LayerBase
     {
         _camera.Update(deltaTime);
 
-        Physics.Update();
+        World.Step();
 
         Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
         Renderer.ClearColor(0.3f, 0.5f, 0.8f, 1.0f);
@@ -85,7 +68,7 @@ internal class PhysicsTestLayer : LayerBase
         _shader.SetFloat3("_Material.specular", new Vector3(0.628281f, 0.555802f, 0.366065f));
         _shader.SetFloat("_Material.shininess", 0.4f * 128.0f);
 
-        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(_planeBody.Pose.Position));
+        _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3()));
         Renderer.RenderMesh(_plane.Mesh);
 
         _shader.SetFloat3("_Material.ambient", new Vector3(0.0215f, 0.1745f, 0.0215f));
@@ -93,8 +76,7 @@ internal class PhysicsTestLayer : LayerBase
         _shader.SetFloat3("_Material.specular", new Vector3(0.633f, 0.727811f, 0.633f));
         _shader.SetFloat("_Material.shininess", 0.6f * 128.0f);
 
-        var bodyRef = Physics.Simulation.Bodies.GetBodyReference(_cubeBodyHandle);
-        //var t = Physics.Simulation.Bodies.ActiveSet.Poses[0].Position;
+        BodyReference bodyRef = (BodyReference)World.GetBodyReference(_cubeBodyHandle);
         _shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(bodyRef.Pose.Position));
         Renderer.RenderMesh(_cube.Mesh);
     }
