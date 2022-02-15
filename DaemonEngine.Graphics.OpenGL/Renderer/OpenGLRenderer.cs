@@ -10,10 +10,10 @@ namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
 public struct CameraData
 {
-    public float[] ProjectionMatrix { get; set; }    // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
-    public float[] ViewMatrix { get; set; }          // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
-    public float[] ViewPosition { get; set; }        // Vector3 (3 * sizeof(float)) = 12 bytes
-}
+    public float[] ProjectionMatrix { get; set; }   // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
+    public float[] ViewMatrix { get; set; }         // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
+    public float[] ViewPosition { get; set; }       // Vector3 (3 * sizeof(float)) = 12 bytes
+}                                                   // Total = 140 bytes
 
 internal class OpenGLRenderer : RendererBase
 {
