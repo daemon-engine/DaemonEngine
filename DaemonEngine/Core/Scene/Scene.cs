@@ -19,11 +19,34 @@ public class Scene
     protected IRenderer Renderer { get; }
     protected List<IEntity> Entities { get; }
 
-    public void Update(float deltaTime)
+    public void RuntimeStart()
     {
-        foreach (var entity in Entities)
+        var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
+        foreach (var script in scripts)
         {
-            if(entity.HasComponent<Transform>() && entity.HasComponent<MeshRenderer>())
+            script.GetComponent<NativeScript>()!.Script!.Start();
+        }
+    }
+
+    public void RuntimeUpdate(float deltaTime)
+    {
+        var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
+        foreach (var script in scripts)
+        {
+            script.GetComponent<NativeScript>()!.Script!.Update(deltaTime);
+        }
+
+        // Rendering
+        var cameraEntity = Entities.Where(entity => entity.HasComponent<Camera>()).SingleOrDefault()!;
+        var primaryCamera = cameraEntity.GetComponent<Camera>();
+
+        if(primaryCamera != null && primaryCamera.Primary)
+        {
+            Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
+            Renderer.ClearColor(0.3f, 0.4f, 0.8f, 1.0f);
+
+            var entities = Entities.Where(entity => entity.HasComponent<MeshRenderer>());
+            foreach (var entity in entities)
             {
                 var transform = entity.GetComponent<Transform>()!;
                 var meshRenderer = entity.GetComponent<MeshRenderer>()!;
@@ -31,6 +54,9 @@ public class Scene
                 var shader = meshRenderer.Shader;
 
                 shader.Bind();
+                shader.SetMat4("_Projection", primaryCamera.MainCamera.ProjectionMatrix);
+                shader.SetMat4("_View", primaryCamera.MainCamera.ViewMatrix);
+
                 shader.SetFloat3("_Material.ambient", meshRenderer.Ambient);
                 shader.SetFloat3("_Material.diffuse", meshRenderer.Diffuse);
                 shader.SetFloat3("_Material.specular", meshRenderer.Specular);
@@ -40,6 +66,15 @@ public class Scene
 
                 Renderer.RenderMesh(meshRenderer!.Model.Mesh);
             }
+        }
+    }
+
+    public void RuntimeStop()
+    {
+        var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
+        foreach (var script in scripts)
+        {
+            script.GetComponent<NativeScript>()!.Script!.Stop();
         }
     }
 
