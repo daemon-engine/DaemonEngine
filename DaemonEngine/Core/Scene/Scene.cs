@@ -55,7 +55,7 @@ public class Scene
         return newEntity;
     }
 
-    public IEntity AddEntity(EntityBase entity)
+    public IEntity AddEntity(IEntity entity)
     {
         Entities.Add(entity);
 
