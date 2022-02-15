@@ -82,6 +82,8 @@ public class Scene
         {
             script.GetComponent<NativeScript>()!.Script!.Stop();
         }
+
+        Entities.Clear();
     }
 
     public IEntity CreateEntity(string name)
