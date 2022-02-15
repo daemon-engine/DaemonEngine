@@ -48,7 +48,6 @@ struct DirectionalLight
     vec3 specular;
 };
 
-//uniform vec3 _ViewPos;
 uniform Material _Material;
 uniform DirectionalLight _DirectionalLight;
 

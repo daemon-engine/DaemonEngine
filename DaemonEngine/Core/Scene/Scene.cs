@@ -42,7 +42,9 @@ public class Scene
         var cameraEntity = Entities.Where(entity => entity.HasComponent<Camera>()).SingleOrDefault()!;
         var primaryCamera = cameraEntity.GetComponent<Camera>();
 
-        if(primaryCamera != null && primaryCamera.Primary)
+        var skyLight = Entities.Where(entity => entity.HasComponent<SkyLight>()).SingleOrDefault()!;
+
+        if (primaryCamera != null && primaryCamera.Primary)
         {
             Renderer.BeginScene(primaryCamera.MainCamera);
             Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
@@ -57,8 +59,11 @@ public class Scene
                 var shader = meshRenderer.Shader;
 
                 shader.Bind();
-                //shader.SetMat4("_Projection", primaryCamera.MainCamera.ProjectionMatrix);
-                //shader.SetMat4("_View", primaryCamera.MainCamera.ViewMatrix);
+
+                //shader.SetFloat3("_DirectionalLight.direction", ((SkyLight)skyLight).Direction);
+                //shader.SetFloat3("_DirectionalLight.ambient", ((SkyLight)skyLight).Ambient);
+                //shader.SetFloat3("_DirectionalLight.diffuse", ((SkyLight)skyLight).Diffuse);
+                //shader.SetFloat3("_DirectionalLight.specular", ((SkyLight)skyLight).Specular);
 
                 shader.SetFloat3("_Material.ambient", meshRenderer.Ambient);
                 shader.SetFloat3("_Material.diffuse", meshRenderer.Diffuse);
