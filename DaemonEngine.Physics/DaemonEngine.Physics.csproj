@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
-    <ProjectReference Include="..\DaemonEngine.Physics.bepuphysics2\DaemonEngine.Physics.Bepuphysics2.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Physics.Bepuphysics2\DaemonEngine.Physics.Bepuphysics2.csproj" />
   </ItemGroup>
 
 </Project>
