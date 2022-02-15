@@ -31,8 +31,8 @@ internal class PhysicsTestLayer : LayerBase
         _camera = new FPSCamera(60.0f, Window.AspectRatio);
         _camera.Position.Y = 5.0f;
 
-        World.AddStatic();
-        _cubeBodyHandle = (BodyHandle)World.AddDynamic();
+        World.AddStatic(new Vector3(0.0f, 0.0f, 0.0f));
+        _cubeBodyHandle = (BodyHandle)World.AddDynamic(new Vector3(0.0f, 15.0f, 0.0f), 1.0f);
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/LitBasic.shader");

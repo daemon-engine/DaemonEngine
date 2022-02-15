@@ -30,21 +30,21 @@ internal sealed class Bepuphysics2World : WorldBase
     protected BufferPool BufferPool { get; }
     protected Simulation Simulation { get; }
 
-    public override void AddStatic()
+    public override void AddStatic(Vector3 position)
     {
         var planeShape = new Box(10.0f, 1.0f, 10.0f);
         var planeCollidableDescription = new CollidableDescription(Simulation.Shapes.Add(planeShape), 0.1f);
-        var _planeBody = new StaticDescription(new Vector3(0, 0, 0), planeCollidableDescription);
+        var _planeBody = new StaticDescription(position, planeCollidableDescription);
         Simulation.Statics.Add(_planeBody);
     }
 
-    public override object AddDynamic()
+    public override object AddDynamic(Vector3 position, float mass)
     {
         var cubeShape = new Box(1.0f, 1.0f, 1.0f);
-        cubeShape.ComputeInertia(1.0f, out var bodyInertia);
+        cubeShape.ComputeInertia(mass, out var bodyInertia);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(cubeShape), 0.01f);
-        var bodyActivityDescription = new BodyActivityDescription(0.01f);
-        var _cubeBody = BodyDescription.CreateDynamic(new Vector3(0.0f, 15.0f, 0.0f), bodyInertia, collidableDescription, bodyActivityDescription);
+        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(cubeShape);
+        var _cubeBody = BodyDescription.CreateDynamic(position, bodyInertia, collidableDescription, bodyActivityDescription);
         var _cubeBodyHandle = Simulation.Bodies.Add(_cubeBody);
 
         return _cubeBodyHandle;
