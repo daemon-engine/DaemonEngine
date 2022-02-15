@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Extensions.Ass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Physics", "DaemonEngine.Physics\DaemonEngine.Physics.csproj", "{5DEABD04-46DF-403D-867C-DDB4B271D179}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Physics.Bepuphysics2", "DaemonEngine.Physics.bepuphysics2\DaemonEngine.Physics.Bepuphysics2.csproj", "{978865CD-31B1-483A-99CF-73CB0C5AA058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Physics.Bepuphysics2", "DaemonEngine.Physics.Bepuphysics2\DaemonEngine.Physics.Bepuphysics2.csproj", "{978865CD-31B1-483A-99CF-73CB0C5AA058}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaemonEngine.Physics.Abstractions", "DaemonEngine.Physics.Abstractions\DaemonEngine.Physics.Abstractions.csproj", "{FA82A4F9-6EBC-4815-B5FC-991E941C44A0}"
 EndProject
