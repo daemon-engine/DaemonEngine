@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.ECS;
 using DaemonEngine.ECS.Components;
+using DaemonEngine.Graphics;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Scripting;
 
@@ -19,6 +20,7 @@ public class MainCamera : ICamera
     }
 
     public Vector3 Position { get; set; }
+    public Vector3 ViewPosition => Position;
     public Vector3 Front => _cameraFront;
 
     public Matrix4 ProjectionMatrix { get; set; }

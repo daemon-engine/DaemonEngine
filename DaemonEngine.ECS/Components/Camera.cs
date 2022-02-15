@@ -1,12 +1,6 @@
-﻿using DaemonEngine.Mathematics;
+﻿using DaemonEngine.Graphics;
 
 namespace DaemonEngine.ECS.Components;
-
-public interface ICamera
-{
-    Matrix4 ProjectionMatrix { get; }
-    Matrix4 ViewMatrix { get; }
-}
 
 public class Camera : ComponentBase
 {

@@ -5,6 +5,9 @@ public interface IRenderer
     void Initialize();
     void Shutdown();
 
+    void BeginScene(ICamera camera);
+    void EndScene();
+
     void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
     void RenderMesh(IMesh mesh);
     void SubmitFullscreenQuad(uint colorAttachment, IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer);

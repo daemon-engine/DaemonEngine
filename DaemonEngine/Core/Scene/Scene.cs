@@ -21,6 +21,7 @@ public class Scene
 
     public void RuntimeStart()
     {
+        // TODO: make faster...
         var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
         foreach (var script in scripts)
         {
@@ -30,6 +31,7 @@ public class Scene
 
     public void RuntimeUpdate(float deltaTime)
     {
+        // TODO: make faster...
         var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
         foreach (var script in scripts)
         {
@@ -42,6 +44,7 @@ public class Scene
 
         if(primaryCamera != null && primaryCamera.Primary)
         {
+            Renderer.BeginScene(primaryCamera.MainCamera);
             Renderer.Clear(ClearMask.ColorBufferBit | ClearMask.DepthBufferBit);
             Renderer.ClearColor(0.3f, 0.4f, 0.8f, 1.0f);
 
@@ -54,8 +57,8 @@ public class Scene
                 var shader = meshRenderer.Shader;
 
                 shader.Bind();
-                shader.SetMat4("_Projection", primaryCamera.MainCamera.ProjectionMatrix);
-                shader.SetMat4("_View", primaryCamera.MainCamera.ViewMatrix);
+                //shader.SetMat4("_Projection", primaryCamera.MainCamera.ProjectionMatrix);
+                //shader.SetMat4("_View", primaryCamera.MainCamera.ViewMatrix);
 
                 shader.SetFloat3("_Material.ambient", meshRenderer.Ambient);
                 shader.SetFloat3("_Material.diffuse", meshRenderer.Diffuse);
@@ -66,11 +69,14 @@ public class Scene
 
                 Renderer.RenderMesh(meshRenderer!.Model.Mesh);
             }
+
+            Renderer.EndScene();
         }
     }
 
     public void RuntimeStop()
     {
+        // TODO: make faster...
         var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
         foreach (var script in scripts)
         {

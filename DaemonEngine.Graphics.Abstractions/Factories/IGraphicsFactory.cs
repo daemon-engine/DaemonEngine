@@ -16,6 +16,8 @@ public interface IGraphicsFactory
 
     ICubemap CreateCubemap(CubemapOptions cubemapOptions);
 
+    IUniformBuffer CreateUniformBuffer(int size, uint binding);
+
     ITexture CreateTexture(string filepath);
     ITexture CreateTexture(int width, int height);
 }

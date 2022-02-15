@@ -4,22 +4,53 @@ using DaemonEngine.Graphics.OpenGL.Helpers;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 using Serilog;
+using DaemonEngine.Mathematics;
 
 namespace DaemonEngine.Graphics.OpenGL.Renderer;
 
+public struct CameraData
+{
+    public float[] ProjectionMatrix { get; set; }    // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
+    public float[] ViewMatrix { get; set; }          // Matrix4 (4 * 4 * sizeof(float)) = 64 bytes
+    public float[] ViewPosition { get; set; }        // Vector3 (3 * sizeof(float)) = 12 bytes
+}
+
 internal class OpenGLRenderer : RendererBase
 {
+    private CameraData _cameraData;
+
     public OpenGLRenderer(ILogger logger)
         : base(logger)
     {
     }
 
+    protected IUniformBuffer CameraUniformBuffer { get; set; }
+
     public override void Initialize()
     {
         GL.Enable(GLCapabilities.DepthTest);
+
+        _cameraData = new CameraData();
+
+        CameraUniformBuffer = new OpenGLUniformBuffer(140, 0);
     }
 
     public override void Shutdown()
+    {
+    }
+
+    public override void BeginScene(ICamera camera)
+    {
+        _cameraData.ProjectionMatrix = camera.ProjectionMatrix.ToFloatArray();
+        _cameraData.ViewMatrix = camera.ViewMatrix.ToFloatArray();
+        _cameraData.ViewPosition = camera.ViewPosition.ToFloatArray();
+
+        CameraUniformBuffer.SetData(_cameraData.ProjectionMatrix, (4 * 4) * sizeof(float));
+        CameraUniformBuffer.SetData(_cameraData.ViewMatrix, (4 * 4) * sizeof(float), 64);
+        CameraUniformBuffer.SetData(_cameraData.ViewPosition, 3 * sizeof(float), 128);
+    }
+
+    public override void EndScene()
     {
     }
 
@@ -44,6 +75,7 @@ internal class OpenGLRenderer : RendererBase
         var count = mesh.GetIndexBufferCount();
 
         mesh.Bind();
+        CameraUniformBuffer.Bind();
 
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
         GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);

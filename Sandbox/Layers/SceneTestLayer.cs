@@ -95,7 +95,7 @@ internal class SceneTestLayer : LayerBase
         //_camera.Position.Y = 1.0f;
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
-        _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/LitBasic.shader");
+        _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
 
         _scene = new Scene(Logger, Renderer);
 
@@ -123,9 +123,9 @@ internal class SceneTestLayer : LayerBase
         Renderer.ClearColor(0.3f, 0.4f, 0.8f, 1.0f);
 
         _shader.Bind();
-        _shader.SetMat4("_View", _camera.ViewMatrix);
-        _shader.SetMat4("_Projection", _camera.ProjectionMatrix);
-        _shader.SetFloat3("_ViewPos", _camera.Position);
+        //_shader.SetMat4("_View", _camera.ViewMatrix);
+        //_shader.SetMat4("_Projection", _camera.ProjectionMatrix);
+        //_shader.SetFloat3("_ViewPos", _camera.Position);
 
         _shader.SetFloat3("_DirectionalLight.direction", _lightDirection);
         _shader.SetFloat3("_DirectionalLight.ambient", 0.05f, 0.05f, 0.05f);
