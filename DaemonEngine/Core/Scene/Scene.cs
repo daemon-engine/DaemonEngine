@@ -12,12 +12,12 @@ public class Scene
     {
         Logger = logger;
         Renderer = renderer;
-        Entities = new List<EntityBase>();
+        Entities = new List<IEntity>();
     }
 
     protected ILogger Logger { get; }
     protected IRenderer Renderer { get; }
-    protected List<EntityBase> Entities { get; }
+    protected List<IEntity> Entities { get; }
 
     public void Update(float deltaTime)
     {
@@ -43,7 +43,7 @@ public class Scene
         }
     }
 
-    public EntityBase CreateEntity(string name)
+    public IEntity CreateEntity(string name)
     {
         var newEntity = new EntityBase(name);
         newEntity.AddComponent<Transform>();
@@ -55,7 +55,7 @@ public class Scene
         return newEntity;
     }
 
-    public EntityBase AddEntity(EntityBase entity)
+    public IEntity AddEntity(EntityBase entity)
     {
         Entities.Add(entity);
 
@@ -64,7 +64,7 @@ public class Scene
         return entity;
     }
 
-    public void DeleteEntity(EntityBase entity)
+    public void DeleteEntity(IEntity entity)
     {
         Logger.Information($"Deleted Entity, {entity.Name} ({entity.UUID})");
 

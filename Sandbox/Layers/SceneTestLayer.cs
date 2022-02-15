@@ -9,11 +9,34 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Sandbox.Layers;
 
+internal class CubeEntity : EntityBase
+{
+    public CubeEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath) 
+        : base("Cube")
+    {
+        var transform = AddComponent<Transform>();
+        transform.Position = new Vector3(0.0f, 1.0f, 0.0f);
+
+        var meshRenderer = AddComponent<MeshRenderer>();
+
+        meshRenderer.Shader = shader;
+        meshRenderer.Ambient = new Vector3(0.1745f, 0.01175f, 0.01175f);
+        meshRenderer.Diffuse = new Vector3(0.61424f, 0.04136f, 0.04136f);
+        meshRenderer.Specular = new Vector3(0.727811f, 0.626959f, 0.626959f);
+        meshRenderer.Shininess = 0.6f;
+
+        meshRenderer.Model = new Model(meshFactory, shader, modelFilepath);
+    }
+}
+
 internal class FloorEntity : EntityBase
 {
-    public FloorEntity(string name, IMeshFactory meshFactory, IShader shader, string modelFilepath) 
-        : base(name)
+    public FloorEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath) 
+        : base("Floor")
     {
+        var transform = AddComponent<Transform>();
+        transform.Position = new Vector3(0.0f, 0.0f, 0.0f);
+
         var meshRenderer = AddComponent<MeshRenderer>();
 
         meshRenderer.Shader = shader;
@@ -21,6 +44,7 @@ internal class FloorEntity : EntityBase
         meshRenderer.Diffuse = new Vector3(0.396f, 0.74151f, 0.69102f);
         meshRenderer.Specular = new Vector3(0.297254f, 0.30829f, 0.306678f);
         meshRenderer.Shininess = 0.1f;
+
         meshRenderer.Model = new Model(meshFactory, shader, modelFilepath);
     }
 }
@@ -41,22 +65,15 @@ internal class SceneTestLayer : LayerBase
     public override void OnStart()
     {
         _camera = new FPSCamera(60.0f, Window.AspectRatio);
+        _camera.Position.Y = 1.0f;
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LearnOpenGL/Chapter3/LitBasic.shader");
 
         _scene = new Scene(Logger, Renderer);
 
-        _scene.AddEntity(new FloorEntity("Floor", meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
-
-        var cubeEntity = _scene.CreateEntity("Cube");
-        var cubeMeshRenderer = cubeEntity.AddComponent<MeshRenderer>();
-        cubeMeshRenderer.Shader = _shader;
-        cubeMeshRenderer.Ambient = new Vector3(0.1745f, 0.01175f, 0.01175f);
-        cubeMeshRenderer.Diffuse = new Vector3(0.61424f, 0.04136f, 0.04136f);
-        cubeMeshRenderer.Specular = new Vector3(0.727811f, 0.626959f, 0.626959f);
-        cubeMeshRenderer.Shininess = 0.6f;
-        cubeMeshRenderer.Model = new Model(meshFactory, _shader, "Assets/Models/cube.obj");
+        _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
+        _scene.AddEntity(new CubeEntity(meshFactory, _shader, "Assets/Models/cube.obj"));
     }
 
     public override void OnShutdown()

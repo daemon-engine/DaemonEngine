@@ -2,7 +2,18 @@
 
 namespace DaemonEngine.ECS;
 
-public class EntityBase
+public interface IEntity
+{
+    Guid UUID { get; }
+    string Name { get; set; }
+
+    TComponent? GetComponent<TComponent>() where TComponent : class, IComponent;
+    TComponent AddComponent<TComponent>() where TComponent : class, IComponent;
+    void RemoveComponent<TComponent>() where TComponent : class, IComponent;
+    bool HasComponent<TComponent>() where TComponent : class, IComponent;
+}
+
+public class EntityBase : IEntity
 {
     public EntityBase(string name)
     {
@@ -12,7 +23,7 @@ public class EntityBase
         Components = new List<IComponent>();
     }
 
-    public Guid UUID { get; private set; }
+    public Guid UUID { get; }
     public string Name { get; set; }
 
     protected List<IComponent> Components { get; }
