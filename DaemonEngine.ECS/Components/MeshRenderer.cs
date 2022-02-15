@@ -9,6 +9,8 @@ public sealed class MeshRenderer : ComponentBase
     {
     }
 
+    public override string Name => nameof(MeshRenderer);
+
     public Model Model { get; set; }
     public IShader Shader { get; set; }
 

@@ -13,7 +13,7 @@ namespace Sandbox.Layers;
 
 internal class CubeEntity : EntityBase
 {
-    public CubeEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath) 
+    public CubeEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath)
         : base("Cube")
     {
         var transform = AddComponent<Transform>();
@@ -33,7 +33,7 @@ internal class CubeEntity : EntityBase
 
 internal class FloorEntity : EntityBase
 {
-    public FloorEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath) 
+    public FloorEntity(IMeshFactory meshFactory, IShader shader, string modelFilepath)
         : base("Floor")
     {
         var transform = AddComponent<Transform>();
@@ -98,5 +98,24 @@ internal class SceneTestLayer : LayerBase
 
     public override void OnGUI()
     {
+        ImGuiNET.ImGui.Begin("Scene Hierarchy");
+
+        foreach (var entity in _scene.Entities)
+        {
+            var flags = ImGuiNET.ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiNET.ImGuiTreeNodeFlags.OpenOnArrow;
+
+            var opened = ImGuiNET.ImGui.TreeNodeEx(entity.UUID.ToString(), flags, entity.Name);
+            if(opened)
+            {
+                foreach (var component in entity.GetComponents())
+                {
+                    ImGuiNET.ImGui.Text(component.Name);
+                }
+
+                ImGuiNET.ImGui.TreePop();
+            }
+        }
+
+        ImGuiNET.ImGui.End();
     }
 }

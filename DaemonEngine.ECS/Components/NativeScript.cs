@@ -8,5 +8,7 @@ public class NativeScript : ComponentBase
     {
     }
 
+    public override string Name => $"{nameof(NativeScript)} ({Script.GetType().Name})";
+
     public INativeScript? Script { get; set; }
 }

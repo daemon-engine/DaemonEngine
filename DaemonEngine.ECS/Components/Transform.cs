@@ -11,6 +11,8 @@ public sealed class Transform : ComponentBase
         Scale = Vector3.One;
     }
 
+    public override string Name => nameof(Transform);
+
     public Vector3 Position { get; set; }
     public Vector3 Rotation { get; set; }
     public Vector3 Scale { get; set; }

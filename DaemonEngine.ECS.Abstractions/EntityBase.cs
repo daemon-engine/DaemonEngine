@@ -9,6 +9,8 @@ public interface IEntity
     TComponent AddComponent<TComponent>() where TComponent : class, IComponent;
     void RemoveComponent<TComponent>() where TComponent : class, IComponent;
     bool HasComponent<TComponent>() where TComponent : class, IComponent;
+
+    IEnumerable<IComponent> GetComponents();
 }
 
 public class EntityBase : IEntity
@@ -69,5 +71,10 @@ public class EntityBase : IEntity
         where TComponent : class, IComponent
     {
         return Components.OfType<TComponent>().Any();
+    }
+
+    public IEnumerable<IComponent> GetComponents()
+    {
+        return Components;
     }
 }

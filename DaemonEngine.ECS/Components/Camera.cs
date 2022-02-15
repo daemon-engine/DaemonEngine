@@ -9,6 +9,8 @@ public class Camera : ComponentBase
         Primary = true;
     }
 
+    public override string Name => $"{nameof(Camera)} ({(Primary ? "Primary" : "Not-Primary")})";
+
     public bool Primary { get; set; }
     public ICamera MainCamera { get; set; }
 }

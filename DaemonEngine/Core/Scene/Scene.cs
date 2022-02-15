@@ -17,7 +17,7 @@ public class Scene
 
     protected ILogger Logger { get; }
     protected IRenderer Renderer { get; }
-    protected List<IEntity> Entities { get; }
+    public List<IEntity> Entities { get; }
 
     public void RuntimeStart()
     {
