@@ -24,6 +24,11 @@ public class Maths
         return (float)global::System.Math.Tan(angle);
     }
 
+    public static float Acos(float angle)
+    {
+        return (float)global::System.Math.Acos(angle);
+    }
+
     public static float ToRadians(float degrees)
     {
         return degrees * (PI / 180.0f);
