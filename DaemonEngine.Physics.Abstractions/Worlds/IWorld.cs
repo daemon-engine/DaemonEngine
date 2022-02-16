@@ -1,13 +1,10 @@
-﻿using DaemonEngine.Mathematics;
-
-namespace DaemonEngine.Physics.Worlds;
+﻿namespace DaemonEngine.Physics.Worlds;
 
 public interface IWorld
 {
-    void AddStatic(Vector3 position);
-    object AddDynamic(Vector3 position, float mass);
+    PhysicsBody CreateBody(PhysicsBodyType bodyType);
 
-    object GetBodyReference(object bodyHandle);
+    object GetBodyReference(PhysicsBody physicsBody);
 
     void Step();
 }

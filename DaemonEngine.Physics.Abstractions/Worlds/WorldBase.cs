@@ -1,5 +1,4 @@
-﻿using DaemonEngine.Mathematics;
-using Serilog;
+﻿using Serilog;
 
 namespace DaemonEngine.Physics.Worlds;
 
@@ -12,9 +11,9 @@ public abstract class WorldBase : IWorld
 
     protected ILogger Logger { get; }
 
-    public abstract void AddStatic(Vector3 position);
-    public abstract object AddDynamic(Vector3 position, float mass);
-    public abstract object GetBodyReference(object bodyHandle);
+    public abstract PhysicsBody CreateBody(PhysicsBodyType bodyType);
+
+    public abstract object GetBodyReference(PhysicsBody physicsBody);
 
     public abstract void Step();
 }

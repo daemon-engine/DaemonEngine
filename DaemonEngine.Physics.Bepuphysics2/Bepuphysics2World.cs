@@ -2,6 +2,7 @@
 using BepuPhysics.Collidables;
 using BepuUtilities;
 using BepuUtilities.Memory;
+using DaemonEngine.Extensions.Runtime;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Bepuphysics2.Callbacks;
 using DaemonEngine.Physics.Worlds;
@@ -30,29 +31,70 @@ internal sealed class Bepuphysics2World : WorldBase
     protected BufferPool BufferPool { get; }
     protected Simulation Simulation { get; }
 
-    public override void AddStatic(Vector3 position)
+    public override PhysicsBody CreateBody(PhysicsBodyType bodyType)
     {
-        var planeShape = new Box(10.0f, 1.0f, 10.0f);
-        var planeCollidableDescription = new CollidableDescription(Simulation.Shapes.Add(planeShape), 0.1f);
-        var _planeBody = new StaticDescription(position, planeCollidableDescription);
-        Simulation.Statics.Add(_planeBody);
+        var resultBody = new PhysicsBody(bodyType);
+
+        switch (resultBody.PhysicsBodyType)
+        {
+            case PhysicsBodyType.Dynamic:   CreateDynamicBody(ref resultBody); break;
+            case PhysicsBodyType.Kinematic: CreateKinematicBody(ref resultBody); break;
+            case PhysicsBodyType.Static:
+            default: CreateStaticBody(ref resultBody); break;
+        }
+
+        return resultBody;
     }
 
-    public override object AddDynamic(Vector3 position, float mass)
+    private void CreateDynamicBody(ref PhysicsBody physicsBody, float mass = 1.0f)
     {
+        var position = new Vector3(0.0f, 0.0f, 0.0f);
+
         var cubeShape = new Box(1.0f, 1.0f, 1.0f);
         cubeShape.ComputeInertia(mass, out var bodyInertia);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(cubeShape), 0.01f);
         var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(cubeShape);
         var _cubeBody = BodyDescription.CreateDynamic(position, bodyInertia, collidableDescription, bodyActivityDescription);
-        var _cubeBodyHandle = Simulation.Bodies.Add(_cubeBody);
 
-        return _cubeBodyHandle;
+        var bodyHandle = Simulation.Bodies.Add(_cubeBody);
+
+        physicsBody.Position = _cubeBody.Pose.Position;
+        physicsBody.BodyHandle = bodyHandle;
+    }
+    
+    private void CreateKinematicBody(ref PhysicsBody physicsBody)
+    {
+        var position = new Vector3(0.0f, 0.0f, 0.0f);
+
+        var cubeShape = new Box(1.0f, 1.0f, 1.0f);
+        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(cubeShape), 0.01f);
+        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(cubeShape);
+
+        var bodyDescription = BodyDescription.CreateKinematic(position, collidableDescription, bodyActivityDescription);
+
+        physicsBody.Position = bodyDescription.Pose.Position;
+        physicsBody.BodyHandle = bodyDescription;
     }
 
-    public override object GetBodyReference(object bodyHandle)
+    private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var bodyRef = Simulation.Bodies.GetBodyReference((BodyHandle)bodyHandle);
+        var planeShape = new Box(10.0f, 1.0f, 10.0f);
+        var planeCollidableDescription = new CollidableDescription(Simulation.Shapes.Add(planeShape), 0.1f);
+        var _planeBody = new StaticDescription(new Vector3(0.0f, 0.0f, 0.0f), planeCollidableDescription);
+
+        Simulation.Statics.Add(_planeBody);
+
+        physicsBody.Position = _planeBody.Pose.Position;
+        physicsBody.BodyHandle = null;
+    }
+
+    public override object GetBodyReference(PhysicsBody physicsBody)
+    {
+        Throw.IfNull(physicsBody, nameof(physicsBody));
+        Throw.IfNull(physicsBody.BodyHandle, nameof(physicsBody.BodyHandle));
+
+        var bodyRef = Simulation.Bodies.GetBodyReference((BodyHandle)physicsBody.BodyHandle!);
+
         return bodyRef;
     }
 
