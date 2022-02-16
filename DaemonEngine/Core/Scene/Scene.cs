@@ -2,31 +2,54 @@
 using DaemonEngine.ECS.Components;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Mathematics;
+using DaemonEngine.Physics;
 using Serilog;
 
 namespace DaemonEngine.Core.Scene;
 
 public class Scene
 {
-    public Scene(ILogger logger, IRenderer renderer)
+    public Scene(ILogger logger, IRenderer renderer, IPhysics physics)
     {
         Logger = logger;
         Renderer = renderer;
+        Physics = physics;
+
         Entities = new List<IEntity>();
     }
 
     protected ILogger Logger { get; }
     protected IRenderer Renderer { get; }
+    protected IPhysics Physics { get; }
     internal List<IEntity> Entities { get; }
+
+    private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
 
     public void RuntimeStart()
     {
         // TODO: make faster...
-        var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
-        foreach (var script in scripts)
+        var scriptEntities = Entities.Where(entity => entity.HasComponent<NativeScript>());
+        foreach (var entity in scriptEntities)
         {
-            script.GetComponent<NativeScript>()!.Script!.Start();
+            entity.GetComponent<NativeScript>()!.Script!.Start();
         }
+
+        // Setup physics bodies
+        var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>());
+        PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
+        int physicsBodyEntityBufferIndex = 0;
+        foreach (var entity in rigidbodyEntities)
+        {
+            var transform = entity.GetComponent<Transform>()!;
+            var rigidbody = entity.GetComponent<Rigidbody>()!;
+
+            var physicsBody = Physics.CreateBody((PhysicsBodyType)rigidbody.Type);
+
+            PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
+            rigidbody.PhysicsBody = physicsBody;
+        }
+
+        // Setup physics colliders
     }
 
     public void RuntimeUpdate(float deltaTime)
@@ -36,6 +59,18 @@ public class Scene
         foreach (var script in scripts)
         {
             script.GetComponent<NativeScript>()!.Script!.Update(deltaTime);
+        }
+
+        // Physics
+        Physics.Step();
+        var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>());
+        foreach (var entity in rigidbodyEntities)
+        {
+            var transform = entity.GetComponent<Transform>()!;
+            var rigidbody = entity.GetComponent<Rigidbody>()!;
+
+            var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
+            transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
         }
 
         // Rendering
