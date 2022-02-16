@@ -35,6 +35,7 @@ public class Vector3 : IEquatable<Vector3>
     public static Vector3 ZAxis => new(0, 0, 1);
 
     public float Length => MathF.Sqrt((X * X) + (Y * Y) + (Z * Z));
+    public float LengthSquared => (X * X) + (Y * Y) + (Z * Z);
 
     public Vector3 Normalize()
     {
@@ -174,6 +175,18 @@ public class Vector3 : IEquatable<Vector3>
         return result;
     }
 
+    public static Vector3 operator *(float left, Vector3 right)
+    {
+        var result = new Vector3
+        {
+            X = left * right.X,
+            Y = left * right.Y,
+            Z = left * right.Z
+        };
+
+        return result;
+    }
+
     public static Vector3 operator /(Vector3 left, float right)
     {
         var result = new Vector3
@@ -181,6 +194,18 @@ public class Vector3 : IEquatable<Vector3>
             X = left.X / right,
             Y = left.Y / right,
             Z = left.Z / right
+        };
+
+        return result;
+    }
+
+    public static Vector3 operator -(Vector3 vector)
+    {
+        var result = new Vector3
+        {
+            X = -vector.X,
+            Y = -vector.Y,
+            Z = -vector.Z
         };
 
         return result;
