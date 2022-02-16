@@ -23,5 +23,7 @@ internal class FloorEntity : EntityBase
         meshRenderer.Shininess = 0.1f;
 
         meshRenderer.Model = new Model(meshFactory, shader, modelFilepath);
+
+        var rigidbody = AddComponent<Rigidbody>();
     }
 }

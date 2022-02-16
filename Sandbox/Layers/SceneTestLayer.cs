@@ -39,7 +39,7 @@ internal class SceneTestLayer : LayerBase
 
         _scene.RuntimeStart();
 
-        _sceneHierarchy = new SceneHierarchy(_scene);
+        _sceneHierarchy = new SceneHierarchy(_scene, Logger);
     }
 
     public override void OnShutdown()

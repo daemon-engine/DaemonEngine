@@ -21,7 +21,8 @@ internal sealed class Bepuphysics2World : WorldBase
         BufferPool = new BufferPool();
 
         var narrowPhaseCallback = new DefaultNarrowPhaseCallback();
-        var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
+        var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -1.0f, 0.0f));
+        //var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
 
         Simulation = Simulation.Create(BufferPool, narrowPhaseCallback, poseIntegratorCallback, Timestepper);
     }
@@ -48,17 +49,19 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateDynamicBody(ref PhysicsBody physicsBody, float mass = 1.0f)
     {
-        var position = new Vector3(0.0f, 0.0f, 0.0f);
+        var position = new Vector3(0.0f, 15.0f, 0.0f);
 
-        var cubeShape = new Box(1.0f, 1.0f, 1.0f);
-        cubeShape.ComputeInertia(mass, out var bodyInertia);
-        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(cubeShape), 0.01f);
-        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(cubeShape);
-        var _cubeBody = BodyDescription.CreateDynamic(position, bodyInertia, collidableDescription, bodyActivityDescription);
+        var shape = new Box(1.0f, 1.0f, 1.0f);
+        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
 
-        var bodyHandle = Simulation.Bodies.Add(_cubeBody);
+        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
 
-        physicsBody.Position = _cubeBody.Pose.Position;
+        shape.ComputeInertia(mass, out var bodyInertia);
+        var bodyDescription = BodyDescription.CreateDynamic(position, bodyInertia, collidableDescription, bodyActivityDescription);
+
+        var bodyHandle = Simulation.Bodies.Add(bodyDescription);
+
+        physicsBody.Position = bodyDescription.Pose.Position;
         physicsBody.BodyHandle = bodyHandle;
     }
     
@@ -66,9 +69,10 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var position = new Vector3(0.0f, 0.0f, 0.0f);
 
-        var cubeShape = new Box(1.0f, 1.0f, 1.0f);
-        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(cubeShape), 0.01f);
-        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(cubeShape);
+        var shape = new Box(1.0f, 1.0f, 1.0f);
+        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
+
+        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
 
         var bodyDescription = BodyDescription.CreateKinematic(position, collidableDescription, bodyActivityDescription);
 
@@ -78,13 +82,14 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var planeShape = new Box(10.0f, 1.0f, 10.0f);
-        var planeCollidableDescription = new CollidableDescription(Simulation.Shapes.Add(planeShape), 0.1f);
-        var _planeBody = new StaticDescription(new Vector3(0.0f, 0.0f, 0.0f), planeCollidableDescription);
+        var shape = new Box(10.0f, 1.0f, 10.0f);
+        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.1f);
 
-        Simulation.Statics.Add(_planeBody);
+        var bodyDescription = new StaticDescription(new Vector3(0.0f, 0.0f, 0.0f), collidableDescription);
 
-        physicsBody.Position = _planeBody.Pose.Position;
+        Simulation.Statics.Add(bodyDescription);
+
+        physicsBody.Position = bodyDescription.Pose.Position;
         physicsBody.BodyHandle = null;
     }
 
