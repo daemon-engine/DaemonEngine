@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.ECS;
 using DaemonEngine.ECS.Components;
+using Serilog;
 
 namespace DaemonEngine.Core.Scene;
 public sealed class SceneHierarchy
@@ -7,11 +8,15 @@ public sealed class SceneHierarchy
     private readonly Scene _scene;
     private IEntity _selectedEntity;
 
-    public SceneHierarchy(Scene scene)
+    public SceneHierarchy(Scene scene, ILogger logger)
     {
         _scene = scene;
+        Logger = logger;
+
         _selectedEntity = null;
     }
+
+    protected ILogger Logger { get; }
 
     public void OnGUI()
     {
@@ -61,6 +66,38 @@ public sealed class SceneHierarchy
                 transform.Scale = scale;
             });
 
+            DrawComponent("Rigidbody", _selectedEntity, (Rigidbody rigidbody) =>
+            {
+                var rigidbodyTypes = new string[] { "Static", "Dynamic", "Kinematic" };
+                var selectedType = rigidbody.Type.ToString();
+
+                var changed = false;
+
+                var opened = ImGuiNET.ImGui.BeginCombo("Type", rigidbody.Type.ToString());
+                if (opened)
+                {
+                    for (int i = 0; i < rigidbodyTypes.Length; i++)
+                    {
+                        if(ImGuiNET.ImGui.Selectable(rigidbodyTypes[i]))
+                        {
+                            selectedType = rigidbodyTypes[i];
+                            changed = true;
+                        }
+                    }
+
+                    ImGuiNET.ImGui.EndCombo();
+                }
+
+                if(changed)
+                {
+                    Logger.Information($"Rigidbody type changed to {rigidbody.Type}");
+                }
+
+                var mass = rigidbody.Mass;
+                ImGuiNET.ImGui.DragFloat("Mass", ref mass);
+                rigidbody.Mass = mass;
+            });
+
             DrawComponent("Mesh Renderer", _selectedEntity, (MeshRenderer meshRenderer) =>
             {
             });
@@ -77,18 +114,18 @@ public sealed class SceneHierarchy
     private static void DrawComponent<TComponent>(string name, IEntity entity, Action<TComponent> uiFunction)
         where TComponent : class, IComponent
     {
-        const ImGuiNET.ImGuiTreeNodeFlags flags = 
-            ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen | 
-            ImGuiNET.ImGuiTreeNodeFlags.Framed | 
+        const ImGuiNET.ImGuiTreeNodeFlags flags =
+            ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen |
+            ImGuiNET.ImGuiTreeNodeFlags.Framed |
             ImGuiNET.ImGuiTreeNodeFlags.SpanAvailWidth |
-            ImGuiNET.ImGuiTreeNodeFlags.AllowItemOverlap | 
+            ImGuiNET.ImGuiTreeNodeFlags.AllowItemOverlap |
             ImGuiNET.ImGuiTreeNodeFlags.FramePadding;
 
         if (entity.HasComponent<TComponent>())
         {
             var opened = ImGuiNET.ImGui.TreeNodeEx("##dummy_id", flags, name);
 
-            if(opened)
+            if (opened)
             {
                 var component = entity.GetComponent<TComponent>()!;
 
