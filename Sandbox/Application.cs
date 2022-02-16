@@ -20,6 +20,7 @@ public class Application : ApplicationBase
         //AddLayer<ImGuiTestLayer>("ImGui Test Layer");
         //AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
         //AddLayer<CubemapTestLayer>("Cubemap Test Layer");
+        //AddLayer<SceneTestLayer>("Scene Test Layer");
         AddLayer<PhysicsTestLayer>("Physics Test Layer");
         //AddLayer<SandboxLayer>("Sandbox Layer");
     }

@@ -49,6 +49,11 @@ internal class OpenGLGraphicsFactory : IGraphicsFactory
         return new OpenGLCubemap(Logger, cubemapOptions);
     }
 
+    public IUniformBuffer CreateUniformBuffer(int size, uint binding)
+    {
+        return new OpenGLUniformBuffer(size, binding);
+    }
+
     public ITexture CreateTexture(string filepath)
     {
         return new OpenGLTexture(Logger, filepath);

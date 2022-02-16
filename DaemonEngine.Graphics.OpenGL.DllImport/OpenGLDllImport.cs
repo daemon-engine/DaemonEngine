@@ -115,10 +115,12 @@ internal class OpenGLDllImport
 	private delegate void glDeleteBuffersDelegate(int n, uint[] buffers);
 	private delegate void glGenBuffersDelegate(int n, uint[] buffers);
 	private delegate bool glIsBufferDelegate(uint buffer);
+	private delegate void glBufferDataObjectDelegate(uint target, int size, object data, uint usage);
 	private delegate void glBufferDataFloatDelegate(uint target, int size, float[] data, uint usage);
 	private delegate void glBufferDataUintDelegate(uint target, int size, uint[] data, uint usage);
 	private delegate void glBufferDataIntDelegate(uint target, int size, int[] data, uint usage);
 	private delegate void glBufferDataDoubleDelegate(uint target, int size, double[] data, uint usage);
+	private delegate void glBufferSubDataObjectDelegate(uint target, int offset, int size, object data);
 	private delegate void glBufferSubDataDelegate(uint target, int offset, int size, float[] data);
 	private delegate void glGetBufferSubDataDelegate(uint target, IntPtr offset, IntPtr size, IntPtr data);
 	private delegate void glMapBufferDelegate(uint target, uint access);
@@ -1943,6 +1945,11 @@ internal class OpenGLDllImport
 		return (bool)OpenGLDllImportBase.GetDelegateFor<glIsBufferDelegate>()(buffer);
 	}
 
+	public static void glBufferData(uint target, int size, object data, uint usage)
+	{
+		OpenGLDllImportBase.GetDelegateFor<glBufferDataObjectDelegate>("glBufferData")(target, size, data, usage);
+	}
+
 	public static void glBufferData(uint target, int size, float[] data, uint usage)
 	{
 		OpenGLDllImportBase.GetDelegateFor<glBufferDataFloatDelegate>("glBufferData")(target, size, data, usage);
@@ -1961,6 +1968,11 @@ internal class OpenGLDllImport
 	public static void glBufferData(uint target, int size, double[] data, uint usage)
 	{
 		OpenGLDllImportBase.GetDelegateFor<glBufferDataDoubleDelegate>("glBufferData")(target, size, data, usage);
+	}
+
+	public static void glBufferSubData(uint target, int offset, int size, object data)
+	{
+		OpenGLDllImportBase.GetDelegateFor<glBufferSubDataObjectDelegate>("glBufferSubData")(target, offset, size, data);
 	}
 
 	public static void glBufferSubData(uint target, int offset, int size, float[] data)
