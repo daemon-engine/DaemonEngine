@@ -26,12 +26,10 @@ public class Quaternion : IEquatable<Quaternion>
         W = w;
     }
 
-    public float X { get { return Xyz.X; } set { Xyz.X = value; } }
-    public float Y { get { return Xyz.Y; } set { Xyz.Y = value; } }
-    public float Z { get { return Xyz.Z; } set { Xyz.Z = value; } }
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Z { get; set; }
     public float W { get; set; }
-
-    public Vector3 Xyz { get; set; }
 
     public static Quaternion Identity => new(Vector3.Zero, 1.0f);
 
@@ -108,7 +106,10 @@ public class Quaternion : IEquatable<Quaternion>
             return q1;
         }
 
-        float cosHalfAngle = q1.W * q2.W + Vector3.Dot(q1.Xyz, q2.Xyz);
+        var q1Vector = new Vector3(q1.X, q1.Y, q1.Z);
+        var q2Vector = new Vector3(q2.X, q2.Y, q2.Z);
+
+        float cosHalfAngle = q1.W * q2.W + Vector3.Dot(q1Vector, q2Vector);
 
         if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
         {
@@ -117,7 +118,7 @@ public class Quaternion : IEquatable<Quaternion>
         }
         else if (cosHalfAngle < 0.0f)
         {
-            q2.Xyz = -q2.Xyz;
+            q2Vector = -q2Vector;
             q2.W = -q2.W;
             cosHalfAngle = -cosHalfAngle;
         }
@@ -140,10 +141,10 @@ public class Quaternion : IEquatable<Quaternion>
             blendB = blend;
         }
 
-        var q1Vector = new Vector3(blendA * q1.X, blendA * q1.Y, blendA * q1.Z);
-        var q2Vector = new Vector3(blendB * q2.X, blendB * q2.Y, blendB * q2.Z);
+        var resultQ1Vector = new Vector3(blendA * q1.X, blendA * q1.Y, blendA * q1.Z);
+        var resultQ2Vector = new Vector3(blendB * q2.X, blendB * q2.Y, blendB * q2.Z);
 
-        var result = new Quaternion(q1Vector * q2Vector, blendA * q1.W + blendB * q2.W);
+        var result = new Quaternion(resultQ1Vector * resultQ2Vector, blendA * q1.W + blendB * q2.W);
         if(result.LengthSquared > 0.0f)
         {
             return result;
