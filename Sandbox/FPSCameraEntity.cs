@@ -41,11 +41,6 @@ internal class FPSCameraController : NativeScriptBase
     private Transform? _transform;
     private Camera? _camera;
 
-    public FPSCameraController(IEntity entity)
-    {
-        SetEntity(entity);
-    }
-
     public override void Start()
     {
         _transform = Entity.GetComponent<Transform>()!;
