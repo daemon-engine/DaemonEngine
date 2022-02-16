@@ -2,7 +2,7 @@
 
 public class Maths
 {
-    public const float PI = 3.14159265358979323846f;
+    public const float PI = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930382f;
 
     public static float Sqrt(float a)
     {
@@ -22,6 +22,11 @@ public class Maths
     public static float Tan(float angle)
     {
         return (float)global::System.Math.Tan(angle);
+    }
+
+    public static float Acos(float angle)
+    {
+        return (float)global::System.Math.Acos(angle);
     }
 
     public static float ToRadians(float degrees)
