@@ -115,7 +115,7 @@ public sealed class SceneHierarchy
 
             DrawComponent("Native Script", _selectedEntity, (NativeScript nativeScript) =>
             {
-                ImGuiNET.ImGui.Text($"Script: {nativeScript.Script!.GetType().Name}");
+                ImGuiNET.ImGui.Text($"Script: {nativeScript.ScriptName}");
             });
         }
 
