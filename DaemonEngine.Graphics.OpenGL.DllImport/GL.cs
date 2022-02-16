@@ -27,6 +27,16 @@ public static class GL
         return (GLFramebufferStatus)OpenGLDllImport.glCheckFramebufferStatus(target);
     }
 
+    public static void BufferSubData1(uint target, int offset, int size, object data)
+    {
+        OpenGLDllImport.glBufferSubData(target, offset, size, data);
+    }
+
+    public static void BufferSubData(uint target, int offset, int size, float[] data)
+    {
+        OpenGLDllImport.glBufferSubData(target, offset, size, data);
+    }
+
     public static void BindFramebuffer(uint target, uint framebuffer)
     {
         OpenGLDllImport.glBindFramebuffer(target, framebuffer);
@@ -300,6 +310,12 @@ public static class GL
     #endregion
 
     #region Buffer methods
+    #region Uniform Buffer
+    public static void BindBufferBase(uint target, uint binding, uint buffer)
+    {
+        OpenGLDllImport.glBindBufferBase(target, binding, buffer);
+    }
+    #endregion
     public static void NamedBufferData(uint buffer, IntPtr size, IntPtr data, GLBufferUsage bufferUsage)
     {
         OpenGLDllImport.glNamedBufferData(buffer, size, data, (uint)bufferUsage);
@@ -308,6 +324,11 @@ public static class GL
     public static void NamedBufferSubData(uint buffer, IntPtr offset, IntPtr size, IntPtr data)
     {
         OpenGLDllImport.glNamedBufferSubData(buffer, offset, size, data);
+    }
+
+    public static void BufferData1(uint type, int size, object data, GLBufferUsage usage)
+    {
+        OpenGLDllImport.glBufferData(type, size, data, (uint)usage);
     }
 
     public static void BufferData(uint type, int size, uint[] indices, GLBufferUsage usage)
@@ -333,6 +354,13 @@ public static class GL
     public static void GenBuffers(int count, ref uint[] buffers)
     {
         OpenGLDllImport.glGenBuffers(count, buffers);
+    }
+
+    public static uint GenBuffer()
+    {
+        uint[] ids = new uint[1];
+        OpenGLDllImport.glGenBuffers(1, ids);
+        return ids[0];
     }
     #endregion
 
