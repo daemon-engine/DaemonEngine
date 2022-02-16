@@ -59,21 +59,17 @@ public class Scene
                 var shader = meshRenderer.Shader;
 
                 shader.Bind();
-
-                //shader.SetFloat3("_DirectionalLight.direction", ((SkyLight)skyLight).Direction);
-                //shader.SetFloat3("_DirectionalLight.ambient", ((SkyLight)skyLight).Ambient);
-                //shader.SetFloat3("_DirectionalLight.diffuse", ((SkyLight)skyLight).Diffuse);
-                //shader.SetFloat3("_DirectionalLight.specular", ((SkyLight)skyLight).Specular);
-
                 shader.SetFloat3("_Material.ambient", meshRenderer.Ambient);
                 shader.SetFloat3("_Material.diffuse", meshRenderer.Diffuse);
                 shader.SetFloat3("_Material.specular", meshRenderer.Specular);
                 shader.SetFloat("_Material.shininess", meshRenderer.Shininess * 128.0f);
 
-                var model = Matrix4.Identity 
+                var model = Matrix4.Identity
                     * Matrix4.Scale(transform.Scale)
+                    * Matrix4.Rotate(transform.Rotation)
                     * Matrix4.Translate(transform.Position);
-                shader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(transform.Position));
+
+                shader.SetMat4("_Model", model);
 
                 Renderer.RenderMesh(meshRenderer!.Model.Mesh);
             }

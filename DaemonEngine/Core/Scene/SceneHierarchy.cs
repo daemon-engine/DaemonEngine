@@ -49,11 +49,11 @@ public sealed class SceneHierarchy
             DrawComponent("Transform", _selectedEntity, (Transform transform) =>
             {
                 var position = (System.Numerics.Vector3)transform.Position;
-                ImGuiNET.ImGui.DragFloat3("Position", ref position);
+                ImGuiNET.ImGui.DragFloat3("Position", ref position, 0.1f);
                 transform.Position = position;
 
                 var rotation = (System.Numerics.Vector3)transform.Rotation;
-                ImGuiNET.ImGui.DragFloat3("Rotation", ref rotation);
+                ImGuiNET.ImGui.DragFloat3("Rotation", ref rotation, 0.1f);
                 transform.Rotation = rotation;
 
                 var scale = (System.Numerics.Vector3)transform.Scale;

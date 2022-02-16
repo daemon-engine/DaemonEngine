@@ -38,6 +38,17 @@ public class Matrix4 : IEquatable<Matrix4>
         return result;
     }
 
+    public static Matrix4 Rotate(Vector3 eulerAngle)
+    {
+        var result = Identity;
+
+        result *= RotateX(eulerAngle.X);
+        result *= RotateY(eulerAngle.Y);
+        result *= RotateZ(eulerAngle.Z);
+
+        return result;
+    }
+
     public static Matrix4 RotateX(float angle)
     {
         var cos = Maths.Cos(angle);
@@ -180,6 +191,23 @@ public class Matrix4 : IEquatable<Matrix4>
         result.Row3.Z = -((z.X * eye.X) + (z.Y * eye.Y) + (z.Z * eye.Z));
         result.Row3.W = 1.0f;
 
+        return result;
+    }
+
+    public static Matrix4 CreateFromAxisAngle(Vector3 axis, float angle)
+    {
+        var cos = Maths.Cos(angle);
+        var sin = Maths.Sin(angle);
+        var t = 1.0f / cos;
+
+        axis.Normalize();
+
+        var row0 = new Vector4(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0f);
+        var row1 = new Vector4(t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0f);
+        var row2 = new Vector4(t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0f);
+        var row3 = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+
+        var result = new Matrix4(row0, row1, row2, row3);
         return result;
     }
     #endregion
