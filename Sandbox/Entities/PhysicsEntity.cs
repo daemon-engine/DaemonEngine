@@ -8,7 +8,7 @@ namespace Sandbox.Entities;
 
 internal class PhysicsEntity : EntityBase
 {
-    public PhysicsEntity(string name, IMeshFactory meshFactory, IShader shader, string modelFilepath, float yPosition)
+    public PhysicsEntity(string name, IMeshFactory meshFactory, IShader shader, string modelFilepath, float yPosition, float mass = 1.0f)
         : base(name)
     {
         var transform = AddComponent<Transform>();
@@ -26,7 +26,9 @@ internal class PhysicsEntity : EntityBase
 
         var rigidbody = AddComponent<Rigidbody>();
         rigidbody.Type = RigidbodyType.Dynamic;
+        rigidbody.Mass = mass;
 
         var collider = AddComponent<BoxCollider>();
+        collider.Size = new Vector3(1.0f, 1.0f, 1.0f);
     }
 }

@@ -91,6 +91,6 @@ internal class FPSCameraEntity : EntityBase
         camera.MainCamera = new MainCamera(position);
 
         var script = AddComponent<NativeScript>();
-        script.Script = new FPSCameraController(this);
+        script.AttachScript<FPSCameraController>(this);
     }
 }
