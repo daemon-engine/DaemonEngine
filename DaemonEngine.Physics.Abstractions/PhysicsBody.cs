@@ -9,12 +9,13 @@ public class PhysicsBody
         PhysicsBodyType = physicsBodyOptions.BodyType;
         Position = physicsBodyOptions.Position;
         EulerAngles = Vector3.Zero;
-        Scale = physicsBodyOptions.Scale;
+        ColliderSize = physicsBodyOptions.ColliderSize;
     }
 
     public Vector3 Position { get; set; }
     public Vector3 EulerAngles { get; set; }
-    public Vector3 Scale { get; set; }
+
+    public Vector3 ColliderSize { get; set; }
 
     public PhysicsBodyType PhysicsBodyType { get; set; }
 

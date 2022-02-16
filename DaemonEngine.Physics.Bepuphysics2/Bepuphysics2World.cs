@@ -48,7 +48,7 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateDynamicBody(ref PhysicsBody physicsBody, float mass = 1.0f)
     {
-        var shape = new Box(2.0f, 2.0f, 2.0f); // TODO: Collider size, and NOT transform scale
+        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
 
         var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
@@ -63,7 +63,7 @@ internal sealed class Bepuphysics2World : WorldBase
     
     private void CreateKinematicBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(2.0f, 2.0f, 2.0f); // TODO: Collider size, and NOT transform scale
+        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
 
         var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
@@ -75,7 +75,7 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(20.0f, 0.1f, 20.0f); // TODO: Collider size, and NOT transform scale
+        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.1f);
 
         var bodyDescription = new StaticDescription(physicsBody.Position, collidableDescription);
