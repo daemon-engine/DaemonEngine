@@ -29,6 +29,9 @@ internal class OpenGLRenderer : RendererBase
     public override void Initialize()
     {
         GL.Enable(GLCapabilities.DepthTest);
+        GL.Enable(GLCapabilities.LineSmooth);
+
+        GL.LineWidth(5.0f);
 
         _cameraData = new CameraData();
 
@@ -63,9 +66,30 @@ internal class OpenGLRenderer : RendererBase
         vertexBuffer.Bind();
         pipeline.Bind();
         indexBuffer.Bind();
+        CameraUniformBuffer.Bind();
 
         var count = indexCount == 0 ? indexBuffer.Count : indexCount;
-        GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
+        var primitiveTopology = OpenGLHelper.PrimitiveTopologyToOpenGLType(pipeline.Options.PrimitiveTopology);
+
+        GL.DrawElements(primitiveTopology, count, GLConstants.GL_UNSIGNED_INT);
+        GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+    }
+
+    public override void RenderGeometry(IPipeline pipeline, IUniformBuffer uniformBuffer, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0)
+    {
+        Throw.IfNull(pipeline, nameof(pipeline));
+        Throw.IfNull(vertexBuffer, nameof(vertexBuffer));
+        Throw.IfNull(indexBuffer, nameof(indexBuffer));
+
+        vertexBuffer.Bind();
+        pipeline.Bind();
+        indexBuffer.Bind();
+        uniformBuffer.Bind();
+
+        var count = indexCount == 0 ? indexBuffer.Count : indexCount;
+        var primitiveTopology = OpenGLHelper.PrimitiveTopologyToOpenGLType(pipeline.Options.PrimitiveTopology);
+
+        GL.DrawElements(primitiveTopology, count, GLConstants.GL_UNSIGNED_INT);
         GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
     }
 

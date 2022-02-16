@@ -19,6 +19,7 @@ public abstract class RendererBase : IRenderer
     public abstract void EndScene();
 
     public abstract void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
+    public abstract void RenderGeometry(IPipeline pipeline, IUniformBuffer uniformBuffer, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
     public abstract void RenderMesh(IMesh mesh);
     public abstract void SubmitFullscreenQuad(uint colorAttachment, IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer);
 
