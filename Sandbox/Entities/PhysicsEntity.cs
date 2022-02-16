@@ -26,5 +26,7 @@ internal class PhysicsEntity : EntityBase
 
         var rigidbody = AddComponent<Rigidbody>();
         rigidbody.Type = RigidbodyType.Dynamic;
+
+        var collider = AddComponent<BoxCollider>();
     }
 }

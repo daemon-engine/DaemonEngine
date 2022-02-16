@@ -25,5 +25,6 @@ internal class FloorEntity : EntityBase
         meshRenderer.Model = new Model(meshFactory, shader, modelFilepath);
 
         var rigidbody = AddComponent<Rigidbody>();
+        var collider = AddComponent<BoxCollider>();
     }
 }

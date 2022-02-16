@@ -3,7 +3,6 @@ using BepuPhysics.Collidables;
 using BepuUtilities;
 using BepuUtilities.Memory;
 using DaemonEngine.Extensions.Runtime;
-using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Bepuphysics2.Callbacks;
 using DaemonEngine.Physics.Worlds;
 using Serilog;
@@ -32,13 +31,13 @@ internal sealed class Bepuphysics2World : WorldBase
     protected BufferPool BufferPool { get; }
     protected Simulation Simulation { get; }
 
-    public override PhysicsBody CreateBody(PhysicsBodyType bodyType)
+    public override PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
     {
-        var resultBody = new PhysicsBody(bodyType);
+        var resultBody = new PhysicsBody(physicsBodyOptions);
 
         switch (resultBody.PhysicsBodyType)
         {
-            case PhysicsBodyType.Dynamic:   CreateDynamicBody(ref resultBody); break;
+            case PhysicsBodyType.Dynamic: CreateDynamicBody(ref resultBody); break;
             case PhysicsBodyType.Kinematic: CreateKinematicBody(ref resultBody); break;
             case PhysicsBodyType.Static:
             default: CreateStaticBody(ref resultBody); break;
@@ -49,43 +48,37 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateDynamicBody(ref PhysicsBody physicsBody, float mass = 1.0f)
     {
-        var position = new Vector3(0.0f, 15.0f, 0.0f);
-
-        var shape = new Box(1.0f, 1.0f, 1.0f);
+        var shape = new Box(2.0f, 2.0f, 2.0f); // TODO: Collider size, and NOT transform scale
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
 
         var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
 
         shape.ComputeInertia(mass, out var bodyInertia);
-        var bodyDescription = BodyDescription.CreateDynamic(position, bodyInertia, collidableDescription, bodyActivityDescription);
+        var bodyDescription = BodyDescription.CreateDynamic(physicsBody.Position, bodyInertia, collidableDescription, bodyActivityDescription);
 
         var bodyHandle = Simulation.Bodies.Add(bodyDescription);
 
-        physicsBody.Position = bodyDescription.Pose.Position;
         physicsBody.BodyHandle = bodyHandle;
     }
     
     private void CreateKinematicBody(ref PhysicsBody physicsBody)
     {
-        var position = new Vector3(0.0f, 0.0f, 0.0f);
-
-        var shape = new Box(1.0f, 1.0f, 1.0f);
+        var shape = new Box(2.0f, 2.0f, 2.0f); // TODO: Collider size, and NOT transform scale
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
 
         var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
 
-        var bodyDescription = BodyDescription.CreateKinematic(position, collidableDescription, bodyActivityDescription);
+        var bodyDescription = BodyDescription.CreateKinematic(physicsBody.Position, collidableDescription, bodyActivityDescription);
 
-        physicsBody.Position = bodyDescription.Pose.Position;
         physicsBody.BodyHandle = bodyDescription;
     }
 
     private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(10.0f, 1.0f, 10.0f);
+        var shape = new Box(20.0f, 0.1f, 20.0f); // TODO: Collider size, and NOT transform scale
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.1f);
 
-        var bodyDescription = new StaticDescription(new Vector3(0.0f, 0.0f, 0.0f), collidableDescription);
+        var bodyDescription = new StaticDescription(physicsBody.Position, collidableDescription);
 
         Simulation.Statics.Add(bodyDescription);
 

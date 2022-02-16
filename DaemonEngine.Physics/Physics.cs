@@ -4,7 +4,7 @@ namespace DaemonEngine.Physics;
 
 public interface IPhysics
 {
-    PhysicsBody CreateBody(PhysicsBodyType bodyType);
+    PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
 
     object GetBodyReference(PhysicsBody body);
 
@@ -20,9 +20,9 @@ internal sealed class Physics : IPhysics
 
     protected IWorld World { get; }
 
-    public PhysicsBody CreateBody(PhysicsBodyType bodyType)
+    public PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
     {
-        return World.CreateBody(bodyType);
+        return World.CreateBody(physicsBodyOptions);
     }
 
     public object GetBodyReference(PhysicsBody body)

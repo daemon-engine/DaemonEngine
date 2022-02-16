@@ -35,21 +35,26 @@ public class Scene
         }
 
         // Setup physics bodies
-        var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>());
+        var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>() && entity.HasComponent<ColliderBase>());
         PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
         int physicsBodyEntityBufferIndex = 0;
         foreach (var entity in rigidbodyEntities)
         {
             var transform = entity.GetComponent<Transform>()!;
             var rigidbody = entity.GetComponent<Rigidbody>()!;
+            var collider = entity.GetComponent<ColliderBase>()!;
 
-            var physicsBody = Physics.CreateBody((PhysicsBodyType)rigidbody.Type);
+            var physicsBodyOptions = new PhysicsBodyOptions
+            {
+                Position = transform.Position,
+                BodyType = (PhysicsBodyType)rigidbody.Type,
+                Shape = collider.Shape
+            };
+            var physicsBody = Physics.CreateBody(physicsBodyOptions);
 
             PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
             rigidbody.PhysicsBody = physicsBody;
         }
-
-        // Setup physics colliders
     }
 
     public void RuntimeUpdate(float deltaTime)

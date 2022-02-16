@@ -11,7 +11,7 @@ public abstract class WorldBase : IWorld
 
     protected ILogger Logger { get; }
 
-    public abstract PhysicsBody CreateBody(PhysicsBodyType bodyType);
+    public abstract PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
 
     public abstract object GetBodyReference(PhysicsBody physicsBody);
 

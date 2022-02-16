@@ -98,6 +98,17 @@ public sealed class SceneHierarchy
                 rigidbody.Mass = mass;
             });
 
+            DrawComponent("Box Collider", _selectedEntity, (BoxCollider boxCollider) =>
+            {
+                var offset = (System.Numerics.Vector3)boxCollider.Offset;
+                ImGuiNET.ImGui.DragFloat3("Offset", ref offset, 0.1f);
+                boxCollider.Offset = offset;
+
+                var size = (System.Numerics.Vector3)boxCollider.Size;
+                ImGuiNET.ImGui.DragFloat3("Size", ref size, 0.1f);
+                boxCollider.Size = size;
+            });
+
             DrawComponent("Mesh Renderer", _selectedEntity, (MeshRenderer meshRenderer) =>
             {
             });

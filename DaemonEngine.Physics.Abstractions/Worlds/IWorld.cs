@@ -2,7 +2,7 @@
 
 public interface IWorld
 {
-    PhysicsBody CreateBody(PhysicsBodyType bodyType);
+    PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
 
     object GetBodyReference(PhysicsBody physicsBody);
 
