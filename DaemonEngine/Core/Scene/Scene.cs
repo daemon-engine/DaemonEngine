@@ -69,8 +69,11 @@ public class Scene
             var transform = entity.GetComponent<Transform>()!;
             var rigidbody = entity.GetComponent<Rigidbody>()!;
 
-            var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
-            transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
+            if (rigidbody.PhysicsBody.BodyHandle != null)
+            {
+                var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
+                transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
+            }
         }
 
         // Rendering
