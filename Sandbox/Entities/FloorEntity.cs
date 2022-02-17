@@ -12,7 +12,7 @@ internal class FloorEntity : EntityBase
         : base("Floor")
     {
         var transform = AddComponent<Transform>();
-        transform.Position = new Vector3(0.0f, -2.0f, 0.0f);
+        transform.Position = new Vector3(0.0f, -1.5f, 0.0f);
 
         var meshRenderer = AddComponent<MeshRenderer>();
 
