@@ -1,13 +1,9 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Core.Scene;
 using DaemonEngine.EventSystem;
-using DaemonEngine.Graphics;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.Graphics.Renderer.Data;
-using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.Mathematics;
-using DaemonEngine.Physics;
 using Microsoft.Extensions.DependencyInjection;
 using Sandbox.Entities;
 
@@ -40,6 +36,8 @@ internal class PhysicsTestLayer : LayerBase
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", 15.0f, 1.0f));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 20));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 25));
+        _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(5.0f, 1.0f, 5.0f)));
+        _scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
         _scene.RuntimeStart();
