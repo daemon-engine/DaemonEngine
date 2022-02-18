@@ -1,6 +1,8 @@
 ﻿using DaemonEngine.Core.Inputs;
 using DaemonEngine.ECS;
 using DaemonEngine.ECS.Components;
+using DaemonEngine.EventSystem;
+using DaemonEngine.EventSystem.Events.Key;
 using DaemonEngine.Graphics;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Scripting;
@@ -54,6 +56,8 @@ internal class FPSCameraController : NativeScriptBase
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
     private readonly Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
 
+    private bool _paused = false;
+
     public override void Start()
     {
         _transform = Entity.GetComponent<Transform>()!;
@@ -62,8 +66,11 @@ internal class FPSCameraController : NativeScriptBase
 
     public override void Update(float deltaTime)
     {
-        Move(deltaTime);
-        Rotate();
+        if (!_paused)
+        {
+            Move(deltaTime);
+            Rotate();
+        }
 
         _camera!.MainCamera.Position = _transform!.Position;
         _camera!.MainCamera.ViewMatrix = Matrix4.LookAt(_transform!.Position, _transform!.Position + _cameraFront, _cameraUp);
@@ -134,6 +141,21 @@ internal class FPSCameraController : NativeScriptBase
         {
             _transform!.Position += Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
         }
+    }
+
+    public override void OnEvent(IEvent e)
+    {
+        var dispatcher = new EventDispatcher(e);
+        dispatcher.Dispatch<KeyPressedEvent>(OnKeyPressedEvent);
+    }
+
+    private bool OnKeyPressedEvent(KeyPressedEvent e)
+    {
+        if (e.KeyCode == (int)Keycode.ESCAPE)
+        {
+            _paused = !_paused;
+        }
+        return true;
     }
 }
 

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj" />
   </ItemGroup>
 

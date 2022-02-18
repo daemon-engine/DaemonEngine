@@ -4,6 +4,7 @@ namespace DaemonEngine.Physics;
 
 public class PhysicsBodyOptions
 {
+    public float Mass { get; set; }
     public Vector3 Position { get; set; }
     public Vector3 ColliderSize { get; set; }
 

@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
     <ProjectReference Include="..\DaemonEngine.Extensions.Runtime\DaemonEngine.Extensions.Runtime.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Graphics\DaemonEngine.Graphics.csproj" />
     <ProjectReference Include="..\DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj" />
     <ProjectReference Include="..\DaemonEngine.Physics.Abstractions\DaemonEngine.Physics.Abstractions.csproj" />
   </ItemGroup>

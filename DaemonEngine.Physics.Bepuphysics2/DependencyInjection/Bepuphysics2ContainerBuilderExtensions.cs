@@ -2,6 +2,7 @@
 using BepuPhysics;
 using BepuUtilities;
 using DaemonEngine.DependencyInjection;
+using DaemonEngine.Physics.Bepuphysics2.Shape.Factories;
 using DaemonEngine.Physics.Worlds;
 
 namespace DaemonEngine.Physics.Bepuphysics2.DependencyInjection;
@@ -25,6 +26,11 @@ public static class Bepuphysics2ContainerBuilderExtensions
         builder.ContainerBuilder
             .RegisterType<Bepuphysics2World>()
             .As<IWorld>()
+            .InstancePerLifetimeScope();
+
+        builder.ContainerBuilder
+            .RegisterType<Bepuphysics2ColliderShapeFactory>()
+            .As<IBepuphysics2ColliderShapeFactory>()
             .InstancePerLifetimeScope();
 
         return builder;

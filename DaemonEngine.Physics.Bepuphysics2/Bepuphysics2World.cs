@@ -1,9 +1,10 @@
 ﻿using BepuPhysics;
-using BepuPhysics.Collidables;
 using BepuUtilities;
 using BepuUtilities.Memory;
 using DaemonEngine.Extensions.Runtime;
 using DaemonEngine.Physics.Bepuphysics2.Callbacks;
+using DaemonEngine.Physics.Bepuphysics2.Shape;
+using DaemonEngine.Physics.Bepuphysics2.Shape.Factories;
 using DaemonEngine.Physics.Worlds;
 using Serilog;
 
@@ -11,28 +12,33 @@ namespace DaemonEngine.Physics.Bepuphysics2;
 
 internal sealed class Bepuphysics2World : WorldBase
 {
-    public Bepuphysics2World(ILogger logger, ITimestepper timestepper, IThreadDispatcher threadDispatcher) 
+    private Simulation _simulation;
+
+    public Bepuphysics2World(ILogger logger, ITimestepper timestepper, IThreadDispatcher threadDispatcher, IBepuphysics2ColliderShapeFactory colliderShapeFactory) 
         : base(logger)
     {
         Timestepper = timestepper;
         ThreadDispatcher = threadDispatcher;
+        ColliderShapeFactory = colliderShapeFactory;
 
         BufferPool = new BufferPool();
 
         var narrowPhaseCallback = new DefaultNarrowPhaseCallback();
         var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
 
-        Simulation = Simulation.Create(BufferPool, narrowPhaseCallback, poseIntegratorCallback, Timestepper);
+        _simulation = Simulation.Create(BufferPool, narrowPhaseCallback, poseIntegratorCallback, Timestepper);
     }
 
     protected ITimestepper Timestepper { get; }
     protected IThreadDispatcher ThreadDispatcher { get; }
+    protected IBepuphysics2ColliderShapeFactory ColliderShapeFactory { get; }
     protected BufferPool BufferPool { get; }
-    protected Simulation Simulation { get; }
 
     public override PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
     {
         var resultBody = new PhysicsBody(physicsBodyOptions);
+
+        resultBody.ColliderShape = ColliderShapeFactory.CreateColliderShape(resultBody, ref _simulation);
 
         switch (resultBody.PhysicsBodyType)
         {
@@ -45,41 +51,35 @@ internal sealed class Bepuphysics2World : WorldBase
         return resultBody;
     }
 
-    private void CreateDynamicBody(ref PhysicsBody physicsBody, float mass = 1.0f)
+    private void CreateDynamicBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
-        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
+        var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
+        var bodyDescription = BodyDescription.CreateDynamic(physicsBody.Position, collider.BodyInertia, collider.CollidableDescription, collider.BodyActivityDescription);
 
-        shape.ComputeInertia(mass, out var bodyInertia);
-        var bodyDescription = BodyDescription.CreateDynamic(physicsBody.Position, bodyInertia, collidableDescription, bodyActivityDescription);
-
-        var bodyHandle = Simulation.Bodies.Add(bodyDescription);
+        var bodyHandle = _simulation.Bodies.Add(bodyDescription);
 
         physicsBody.BodyHandle = bodyHandle;
     }
     
     private void CreateKinematicBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
-        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.01f);
+        var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
+        var bodyDescription = BodyDescription.CreateKinematic(physicsBody.Position, collider.CollidableDescription, collider.BodyActivityDescription);
 
-        var bodyDescription = BodyDescription.CreateKinematic(physicsBody.Position, collidableDescription, bodyActivityDescription);
+        var bodyHandle = _simulation.Bodies.Add(bodyDescription);
 
-        physicsBody.BodyHandle = bodyDescription;
+        physicsBody.BodyHandle = bodyHandle;
     }
 
     private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(physicsBody.ColliderSize.X, physicsBody.ColliderSize.Y, physicsBody.ColliderSize.Z);
-        var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.1f);
+        var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyDescription = new StaticDescription(physicsBody.Position, collidableDescription);
+        var bodyDescription = new StaticDescription(physicsBody.Position, collider.CollidableDescription);
 
-        Simulation.Statics.Add(bodyDescription);
+        _simulation.Statics.Add(bodyDescription);
 
         physicsBody.Position = bodyDescription.Pose.Position;
         physicsBody.BodyHandle = null;
@@ -90,13 +90,13 @@ internal sealed class Bepuphysics2World : WorldBase
         Throw.IfNull(physicsBody, nameof(physicsBody));
         Throw.IfNull(physicsBody.BodyHandle, nameof(physicsBody.BodyHandle));
 
-        var bodyRef = Simulation.Bodies.GetBodyReference((BodyHandle)physicsBody.BodyHandle!);
+        var bodyRef = _simulation.Bodies.GetBodyReference((BodyHandle)physicsBody.BodyHandle!);
 
         return bodyRef;
     }
 
     public override void Step()
     {
-        Simulation.Timestep(1.0f / 60.0f, ThreadDispatcher);
+        _simulation.Timestep(1.0f / 60.0f, ThreadDispatcher);
     }
 }

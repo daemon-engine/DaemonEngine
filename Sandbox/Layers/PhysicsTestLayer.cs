@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Core.Scene;
+using DaemonEngine.EventSystem;
 using DaemonEngine.Graphics;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
@@ -59,7 +60,7 @@ internal class PhysicsTestLayer : LayerBase
 
         _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
         _scene.AddEntity(new PhysicsEntity("Cube", meshFactory, _shader, "Assets/Models/cube.obj", 1.0f));
-        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", 15.0f, 100.0f));
+        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", 15.0f, 1.0f));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
         _scene.RuntimeStart();
@@ -87,17 +88,22 @@ internal class PhysicsTestLayer : LayerBase
         Renderer.RenderMesh(_cubeMesh);
     }
 
+    public override void OnEvent(IEvent e)
+    {
+        _scene.RuntimeEvent(e);
+    }
+
     public override void OnGUI()
     {
         _sceneHierarchy.OnGUI();
 
         ImGuiNET.ImGui.Begin("Settings");
 
-        var showColliders = true;
+        var showColliders = Physics.ShowColliders;
         if(ImGuiNET.ImGui.Checkbox("Show Physics Colliders", ref showColliders))
         {
             Logger.Information($"Showing Physics Colliders: {showColliders}");
-            //Physics.ShowPhysicsColliders(showColliders);
+            Physics.ShowColliders = showColliders;
         }
 
         ImGuiNET.ImGui.End();

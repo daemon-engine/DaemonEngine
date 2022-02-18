@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.ECS;
 using DaemonEngine.ECS.Components;
+using DaemonEngine.EventSystem;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Physics;
@@ -23,7 +24,7 @@ public class Scene
     protected IPhysics Physics { get; }
     internal List<IEntity> Entities { get; }
 
-    private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
+    //private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
 
     public void RuntimeStart()
     {
@@ -36,8 +37,8 @@ public class Scene
 
         // Setup physics bodies
         var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>() && entity.HasComponent<BoxCollider>());
-        PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
-        int physicsBodyEntityBufferIndex = 0;
+        //PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
+        //int physicsBodyEntityBufferIndex = 0;
         foreach (var entity in rigidbodyEntities)
         {
             var transform = entity.GetComponent<Transform>()!;
@@ -48,12 +49,13 @@ public class Scene
             {
                 Position = transform.Position,
                 BodyType = (PhysicsBodyType)rigidbody.Type,
+                Mass = rigidbody.Mass,
                 Shape = boxCollider.Shape,
                 ColliderSize = boxCollider.Size
             };
             var physicsBody = Physics.CreateBody(physicsBodyOptions);
 
-            PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
+            //PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
             rigidbody.PhysicsBody = physicsBody;
         }
     }
@@ -118,7 +120,23 @@ public class Scene
                 Renderer.RenderMesh(meshRenderer!.Model.Mesh);
             }
 
+            // Render colliders
+            if(Physics.ShowColliders)
+            {
+                Physics.RenderColliders();
+            }
+
             Renderer.EndScene();
+        }
+    }
+
+    public void RuntimeEvent(IEvent e)
+    {
+        // TODO: make faster...
+        var scripts = Entities.Where(entity => entity.HasComponent<NativeScript>());
+        foreach (var script in scripts)
+        {
+            script.GetComponent<NativeScript>()!.Script!.OnEvent(e);
         }
     }
 
