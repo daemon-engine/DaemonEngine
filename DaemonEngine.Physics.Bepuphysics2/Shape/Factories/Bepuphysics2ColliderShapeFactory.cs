@@ -15,9 +15,7 @@ public interface IBepuphysics2ColliderShapeFactory : IColliderShapeFactory
 
 internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFactory
 {
-    private IPipeline _pipeline;
-
-    public Bepuphysics2ColliderShapeFactory(IPrimitiveGeometric primitiveGeometric, IGraphicsFactory graphicsFactory)
+    public Bepuphysics2ColliderShapeFactory(IPrimitiveGeometric primitiveGeometric)
     {
         PrimitiveGeometric = primitiveGeometric;
     }
