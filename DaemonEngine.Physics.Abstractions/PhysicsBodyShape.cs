@@ -3,5 +3,6 @@
 public enum PhysicsBodyShape
 {
     Box,
-    Sphere
+    Sphere,
+    Mesh
 }

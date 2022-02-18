@@ -31,7 +31,8 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
         var mesh = physicsBody.PhysicsBodyShape switch
         {
-            PhysicsBodyShape.Sphere => null, //PrimitiveGeometric.CreateSphere(radius, pipeline),
+            PhysicsBodyShape.Mesh => null,
+            PhysicsBodyShape.Sphere => PrimitiveGeometric.CreateSphere(radius, pipeline),
             PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, pipeline),
             _ => PrimitiveGeometric.CreateCube(size, pipeline),
         };
@@ -41,6 +42,7 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
         BodyInertia bodyInertia;
         switch (physicsBody.PhysicsBodyShape)
         {
+            //case PhysicsBodyShape.Mesh: CreateMeshShape(physicsBody, simulation, out collidableDescription); break;
             case PhysicsBodyShape.Sphere: CreateSphereShape(physicsBody, simulation, physicsBody.SphereRadius, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
             case PhysicsBodyShape.Box:
             default: CreateBoxShape(physicsBody, simulation, size, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
@@ -71,5 +73,13 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
         collidableDescription = new CollidableDescription(shapeId, 0.01f);
 
         bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
+    }
+
+    private static void CreateMeshShape(PhysicsBody physicsBody, Simulation simulation, out CollidableDescription collidableDescription)
+    {
+        var shape = new BepuPhysics.Collidables.Mesh();
+
+        var shapeId = simulation.Shapes.Add(shape);
+        collidableDescription = new CollidableDescription(shapeId, 0.01f);
     }
 }
