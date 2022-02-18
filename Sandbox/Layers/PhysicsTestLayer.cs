@@ -32,12 +32,15 @@ internal class PhysicsTestLayer : LayerBase
         _scene = new Scene(Logger, Renderer, Physics);
 
         _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
-        _scene.AddEntity(new PhysicsEntity("Cube", meshFactory, _shader, "Assets/Models/cube.obj", 1.0f));
-        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", 15.0f, 1.0f));
+        _scene.AddEntity(new PhysicsEntity("Cube", meshFactory, _shader, "Assets/Models/cube.obj", Vector3.YAxis));
+        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", Vector3.YAxis * 15.0f, 1.0f));
+        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(-5.0f, 5.0f, 5.0f), 1.0f));
+        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(-5.0f, 200.0f, 5.0f), 1.0f));
+        _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(5.0f, 200.0f, 5.0f), 10.0f));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 20));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 25));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(5.0f, 1.0f, 5.0f)));
-        //_scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
+        _scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
         _scene.RuntimeStart();
@@ -73,7 +76,7 @@ internal class PhysicsTestLayer : LayerBase
         ImGuiNET.ImGui.Begin("Performance");
 
         var io = ImGuiNET.ImGui.GetIO();
-        ImGuiNET.ImGui.Text($"FPS: {io.Framerate:f1} f/sec");
+        ImGuiNET.ImGui.Text($"FPS: {1.0f / io.DeltaTime:f1} f/sec");
         ImGuiNET.ImGui.Text($"Delta Time: {io.DeltaTime * 1000.0f:f3} ms/f");
 
         ImGuiNET.ImGui.Begin("Settings");

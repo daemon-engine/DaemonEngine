@@ -77,6 +77,8 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
     private static void CreateMeshShape(PhysicsBody physicsBody, Simulation simulation, out CollidableDescription collidableDescription)
     {
+        BepuUtilities.Memory.Buffer<Triangle> buffer = new BepuUtilities.Memory.Buffer<Triangle>();
+
         var shape = new BepuPhysics.Collidables.Mesh();
 
         var shapeId = simulation.Shapes.Add(shape);
