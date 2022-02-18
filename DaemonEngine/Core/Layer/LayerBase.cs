@@ -1,6 +1,7 @@
 ﻿using DaemonEngine.EventSystem;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Physics;
 using DaemonEngine.Physics.Worlds;
 using DaemonEngine.Windows;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public abstract class LayerBase : ILayer
         Renderer = ServiceProvider.GetRequiredService<IRenderer>();
         World = ServiceProvider.GetRequiredService<IWorld>();
         GraphicsFactory = ServiceProvider.GetRequiredService<IGraphicsFactory>();
+        Physics = ServiceProvider.GetRequiredService<IPhysics>();
     }
 
     protected string Name { get; }
@@ -30,6 +32,7 @@ public abstract class LayerBase : ILayer
     protected IRenderer Renderer { get; }
     protected IWorld World { get; }
     protected IGraphicsFactory GraphicsFactory { get; }
+    protected IPhysics Physics { get; }
 
     public abstract void OnStart();
     public abstract void OnShutdown();
