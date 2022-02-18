@@ -8,11 +8,11 @@ namespace Sandbox.Entities;
 
 internal class PhysicsEntity : EntityBase
 {
-    public PhysicsEntity(string name, IMeshFactory meshFactory, IShader shader, string modelFilepath, float yPosition, float mass = 1.0f)
+    public PhysicsEntity(string name, IMeshFactory meshFactory, IShader shader, string modelFilepath, Vector3 position, float mass = 1.0f)
         : base(name)
     {
         var transform = AddComponent<Transform>();
-        transform.Position = new Vector3(0.0f, yPosition, 0.0f);
+        transform.Position = position;
 
         var meshRenderer = AddComponent<MeshRenderer>();
 
