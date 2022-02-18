@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Core.Scene;
+using DaemonEngine.Graphics;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
@@ -22,8 +23,8 @@ internal class PhysicsTestLayer : LayerBase
 
     private IShader _lineShader;
     private IPipeline _linePipeline;
-    private IVertexBuffer _lineVertexBuffer;
-    private IIndexBuffer _lineIndexBuffer;
+
+    private IMesh _cubeMesh;
 
     public PhysicsTestLayer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
@@ -32,6 +33,7 @@ internal class PhysicsTestLayer : LayerBase
 
     public override void OnStart()
     {
+        _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
         _lineShader = GraphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
 
         var bufferLayout = new BufferLayout(new List<BufferElement>
@@ -44,55 +46,18 @@ internal class PhysicsTestLayer : LayerBase
         {
             BufferLayout = bufferLayout,
             Shader = _lineShader,
-            PrimitiveTopology = PrimitiveTopology.Lines
+            PrimitiveTopology = PrimitiveTopology.Lines,
         };
         _linePipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
 
-        var lineVertices = new float[8 * (3 + 3)]
-        {
-            0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // 0
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // 1
-            1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // 2
-            1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, // 3
-
-            0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // 4
-            0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // 5
-            1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // 6
-            1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f  // 7
-        };
-
-        _lineVertexBuffer = GraphicsFactory.CreateVertexBuffer(lineVertices.Length * sizeof(float), lineVertices);
-
-        var lineIndices = new uint[24]
-        {
-            0, 1, // line 1
-            1, 2, // line 2
-            2, 3, // line 3
-            3, 0, // line 4
-
-            4, 5, // line 5
-            5, 6, // line 6
-            6, 7, // line 7
-            7, 4, // line 8
-
-            0, 4, // line 9
-            1, 5, // line 10
-
-            2, 6, // line 9
-            3, 7, // line 10
-        };
-
-        _lineIndexBuffer = GraphicsFactory.CreateIndexBuffer(lineIndices.Length, lineIndices);
+        var primitiveGeometric = ServiceProvider.GetRequiredService<IPrimitiveGeometric>();
+        _cubeMesh = primitiveGeometric.CreateCube(Vector3.One, _linePipeline);
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
-        _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
 
-        var physics = ServiceProvider.GetRequiredService<IPhysics>();
-
-        _scene = new Scene(Logger, Renderer, physics);
+        _scene = new Scene(Logger, Renderer, Physics);
 
         _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
-        //_scene.AddEntity(new CubeEntity(meshFactory, _shader, "Assets/Models/cube.obj"));
         _scene.AddEntity(new PhysicsEntity("Cube", meshFactory, _shader, "Assets/Models/cube.obj", 1.0f));
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", 15.0f, 100.0f));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
@@ -118,8 +83,8 @@ internal class PhysicsTestLayer : LayerBase
         _scene.RuntimeUpdate(deltaTime);
 
         _lineShader.Bind();
-        _lineShader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(0.0f, 0.5f, 0.0f)));
-        Renderer.RenderGeometry(_linePipeline, _lineVertexBuffer, _lineIndexBuffer);
+        _lineShader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(-2.0f, 0.5f, 2.0f)));
+        Renderer.RenderMesh(_cubeMesh);
     }
 
     public override void OnGUI()

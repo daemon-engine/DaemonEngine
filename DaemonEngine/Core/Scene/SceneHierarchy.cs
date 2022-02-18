@@ -78,7 +78,7 @@ public sealed class SceneHierarchy
                 {
                     for (int i = 0; i < rigidbodyTypes.Length; i++)
                     {
-                        if(ImGuiNET.ImGui.Selectable(rigidbodyTypes[i]))
+                        if (ImGuiNET.ImGui.Selectable(rigidbodyTypes[i]))
                         {
                             selectedType = rigidbodyTypes[i];
                             changed = true;
@@ -88,7 +88,7 @@ public sealed class SceneHierarchy
                     ImGuiNET.ImGui.EndCombo();
                 }
 
-                if(changed)
+                if (changed)
                 {
                     Logger.Information($"Rigidbody type changed to {rigidbody.Type}");
                 }

@@ -22,7 +22,12 @@ public static class GraphicsDaemonEngineContainerBuilderExtensions
         builder.ContainerBuilder
             .RegisterType<MeshFactory>()
             .As<IMeshFactory>()
-            .InstancePerDependency();
+            .InstancePerLifetimeScope();
+
+        builder.ContainerBuilder
+            .RegisterType<PrimitiveGeometric>()
+            .As<IPrimitiveGeometric>()
+            .InstancePerLifetimeScope();
 
         return builder;
     }

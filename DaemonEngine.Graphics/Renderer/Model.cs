@@ -8,7 +8,7 @@ public class Model
     private readonly BufferLayout _bufferLayout;
     private readonly IMeshFactory _meshFactory;
 
-    public Model(IMeshFactory meshFactory, IShader shader, string filepath)
+    public Model(IMeshFactory meshFactory, IShader shader, string filepath, bool wireframe = false)
     {
         _meshFactory = meshFactory;
 
@@ -20,18 +20,18 @@ public class Model
         });
 
         Meshes = new List<Mesh>();
-        Load(shader, filepath);
+        Load(shader, filepath, wireframe);
     }
 
     public Mesh Mesh { get; private set; } = default!;
     public IList<Mesh> Meshes { get; private set; } = default!;
 
-    private void Load(IShader shader, string filepath)
+    private void Load(IShader shader, string filepath, bool wireframe)
     {
         var modelDatas = ModelLoader.LoadModels(filepath);
         foreach (var modelData in modelDatas)
         {
-            var mesh = _meshFactory.CreateMesh(modelData.Vertices, modelData.Indices, shader, _bufferLayout);
+            var mesh = _meshFactory.CreateMesh(modelData.Vertices, modelData.Indices, shader, _bufferLayout, wireframe);
             Meshes.Add(mesh);
         }
 

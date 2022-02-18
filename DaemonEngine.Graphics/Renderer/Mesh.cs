@@ -13,27 +13,40 @@ public class Mesh : IMesh
     private uint[] _indices;
     private int _count;
 
-    internal Mesh(IGraphicsFactory graphicsFactory, float[] vertices, uint[] indices, IShader shader, BufferLayout bufferLayout)
+    internal Mesh(IGraphicsFactory graphicsFactory, float[] vertices, uint[] indices, IPipeline pipeline)
     {
         _vertices = vertices;
         _indices = indices;
 
         GraphicsFactory = graphicsFactory;
-        Setup(shader, bufferLayout);
+
+        _pipeline = pipeline;
+        Setup();
     }
 
-    protected IGraphicsFactory GraphicsFactory { get; } = default!;
-
-    private void Setup(IShader shader, BufferLayout bufferLayout)
+    internal Mesh(IGraphicsFactory graphicsFactory, float[] vertices, uint[] indices, IShader shader, BufferLayout bufferLayout, bool wireframe = false)
     {
+        _vertices = vertices;
+        _indices = indices;
+
+        GraphicsFactory = graphicsFactory;
+
         var pipelineOptions = new PipelineOptions
         {
             BufferLayout = bufferLayout,
-            Shader = shader
+            Shader = shader,
+            Wireframe = wireframe
         };
 
         _pipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
 
+        Setup();
+    }
+
+    protected IGraphicsFactory GraphicsFactory { get; } = default!;
+
+    private void Setup()
+    {
         int verticesSize = sizeof(float) * _vertices.Length;
         _vertexBuffer = GraphicsFactory.CreateVertexBuffer(verticesSize, _vertices);
 

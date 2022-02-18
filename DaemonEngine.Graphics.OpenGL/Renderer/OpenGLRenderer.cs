@@ -73,6 +73,8 @@ internal class OpenGLRenderer : RendererBase
 
         GL.DrawElements(primitiveTopology, count, GLConstants.GL_UNSIGNED_INT);
         GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+
+        pipeline.Unbind();
     }
 
     public override void RenderGeometry(IPipeline pipeline, IUniformBuffer uniformBuffer, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0)
@@ -91,6 +93,8 @@ internal class OpenGLRenderer : RendererBase
 
         GL.DrawElements(primitiveTopology, count, GLConstants.GL_UNSIGNED_INT);
         GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+
+        pipeline.Unbind();
     }
 
     public override void RenderMesh(IMesh mesh)
@@ -103,6 +107,8 @@ internal class OpenGLRenderer : RendererBase
 
         GL.DrawElements(GLConstants.GL_TRIANGLES, count, GLConstants.GL_UNSIGNED_INT);
         GL.BindTexture(GLConstants.GL_TEXTURE_2D, 0);
+
+        mesh.Unbind();
     }
 
     public override void SubmitFullscreenQuad(uint colorAttachment, IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer)

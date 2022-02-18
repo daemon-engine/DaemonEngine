@@ -13,4 +13,5 @@ public class BoxCollider : ColliderBase
 
     public Vector3 Offset { get; set; } = Vector3.Zero;
     public Vector3 Size { get; set; } = Vector3.One;
+
 }
