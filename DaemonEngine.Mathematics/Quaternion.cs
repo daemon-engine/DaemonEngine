@@ -37,6 +37,25 @@ public class Quaternion : IEquatable<Quaternion>
     public float LengthSquared => (X * X) + (Y * Y) + (Z * Z) + (W * W);
 
     #region Static quaternion methods
+    public static Quaternion Euler(Vector3 eulerAngles)
+    {
+        var result = Identity;
+
+        var cosX = Maths.Cos(eulerAngles.X * 0.5f);
+        var sinX = Maths.Sin(eulerAngles.X * 0.5f);
+        var cosY = Maths.Cos(eulerAngles.Y * 0.5f);
+        var sinY = Maths.Sin(eulerAngles.Y * 0.5f);
+        var cosZ = Maths.Cos(eulerAngles.Z * 0.5f);
+        var sinZ = Maths.Sin(eulerAngles.Z * 0.5f);
+
+        result.W = cosZ * cosY * cosX + sinZ * sinY * sinX;
+        result.X = sinZ * cosY * cosX - cosZ * sinY * sinX;
+        result.Y = cosZ * sinY * cosX + sinZ * cosY * sinX;
+        result.Z = cosZ * cosY * sinX - sinZ * sinY * cosX;
+
+        return result;
+    }
+
     public static Quaternion Conjugate(Quaternion quaternion)
     {
         var vector = new Vector3(quaternion.X, quaternion.Y, quaternion.Z);
@@ -92,16 +111,16 @@ public class Quaternion : IEquatable<Quaternion>
 
     public static Quaternion Slerp(Quaternion q1, Quaternion q2, float blend)
     {
-        if(q1.LengthSquared == 0.0f)
+        if (q1.LengthSquared == 0.0f)
         {
-            if(q2.LengthSquared == 0.0f)
+            if (q2.LengthSquared == 0.0f)
             {
                 return Identity;
             }
 
             return q2;
         }
-        else if(q2.LengthSquared == 0.0f)
+        else if (q2.LengthSquared == 0.0f)
         {
             return q1;
         }
@@ -145,7 +164,7 @@ public class Quaternion : IEquatable<Quaternion>
         var resultQ2Vector = new Vector3(blendB * q2.X, blendB * q2.Y, blendB * q2.Z);
 
         var result = new Quaternion(resultQ1Vector * resultQ2Vector, blendA * q1.W + blendB * q2.W);
-        if(result.LengthSquared > 0.0f)
+        if (result.LengthSquared > 0.0f)
         {
             return result;
         }
@@ -192,6 +211,18 @@ public class Quaternion : IEquatable<Quaternion>
         var result = new Quaternion(resultXyz, resultW);
 
         return result;
+    }
+    #endregion
+
+    #region Conversion operators
+    public static implicit operator System.Numerics.Quaternion(Quaternion quaternion)
+    {
+        return new System.Numerics.Quaternion(quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
+    }
+
+    public static explicit operator Quaternion(System.Numerics.Quaternion quaternion)
+    {
+        return new Quaternion(quaternion.X, quaternion .Y, quaternion .Z, quaternion .W);   
     }
     #endregion
 

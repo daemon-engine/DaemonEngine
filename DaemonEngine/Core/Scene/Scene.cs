@@ -48,6 +48,7 @@ public class Scene
             var physicsBodyOptions = new PhysicsBodyOptions
             {
                 Position = transform.Position,
+                Rotation = transform.Rotation,
                 BodyType = (PhysicsBodyType)rigidbody.Type,
                 Mass = rigidbody.Mass,
                 Shape = boxCollider.Shape,

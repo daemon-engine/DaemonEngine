@@ -2,6 +2,7 @@
 using BepuUtilities;
 using BepuUtilities.Memory;
 using DaemonEngine.Extensions.Runtime;
+using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Bepuphysics2.Callbacks;
 using DaemonEngine.Physics.Bepuphysics2.Shape;
 using DaemonEngine.Physics.Bepuphysics2.Shape.Factories;
@@ -55,7 +56,8 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyDescription = BodyDescription.CreateDynamic(physicsBody.Position, collider.BodyInertia, collider.CollidableDescription, collider.BodyActivityDescription);
+        var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+        var bodyDescription = BodyDescription.CreateDynamic(pose, collider.BodyInertia, collider.CollidableDescription, collider.BodyActivityDescription);
 
         var bodyHandle = _simulation.Bodies.Add(bodyDescription);
 
@@ -66,7 +68,8 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyDescription = BodyDescription.CreateKinematic(physicsBody.Position, collider.CollidableDescription, collider.BodyActivityDescription);
+        var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+        var bodyDescription = BodyDescription.CreateKinematic(pose, collider.CollidableDescription, collider.BodyActivityDescription);
 
         var bodyHandle = _simulation.Bodies.Add(bodyDescription);
 
@@ -77,7 +80,8 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var bodyDescription = new StaticDescription(physicsBody.Position, collider.CollidableDescription);
+        var rotation = Quaternion.Euler(physicsBody.Rotation);
+        var bodyDescription = new StaticDescription(physicsBody.Position, rotation, collider.CollidableDescription);
 
         _simulation.Statics.Add(bodyDescription);
 
