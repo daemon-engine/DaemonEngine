@@ -21,15 +21,99 @@ internal sealed class PrimitiveGeometric : IPrimitiveGeometric
 
     public IMesh CreateSphere(float radius, IPipeline pipeline)
     {
+        var uScale = 1.0f;
+        var vScale = 1.0f;
+
         radius /= 2;
 
         var tesselation = 16;
         var verticalSegments = tesselation;
         var horizontalSegments = tesselation * 2;
 
+        //var vertices = new float[(verticalSegments + 1) * (horizontalSegments + 1)];
+        //var indices = new uint[(verticalSegments) * (horizontalSegments + 1) * 6];
 
+        var vertices = new List<float>();
+        var indices = new uint[verticalSegments * (horizontalSegments + 1) * 6];
 
-        throw new NotImplementedException();
+        for (int j = 0; j < horizontalSegments; j++)
+        {
+            var normal = new Vector3(0.0f, -1.0f, 0.0f);
+
+            var textureCoordinate = new Vector2(uScale * j / horizontalSegments, vScale);
+
+            //vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, normal.X, normal.Y, normal.Z, textureCoordinate.X, textureCoordinate.Y });
+            vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, 0.0f, 0.9f, 0.1f });
+        }
+
+        for (int i = 1; i < verticalSegments; i++)
+        {
+            float v = vScale * (1.0f - (float)i / verticalSegments);
+
+            var latitude = (float)((i * Math.PI / verticalSegments) - Math.PI / 2.0);
+            var dy = MathF.Sin(latitude);
+            var dxz = MathF.Cos(latitude);
+
+            // the first point
+            var firstNormal = new Vector3(0, dy, dxz);
+
+            //vertices.AddRange(new[] { firstNormal.X * radius, firstNormal.Y * radius, firstNormal.Z * radius, firstNormal.X, firstNormal.Y, firstNormal.Z, 0.0f, v });
+            vertices.AddRange(new[] { firstNormal.X * radius, firstNormal.Y * radius, firstNormal.Z * radius, 0.0f, 0.9f, 0.1f });
+
+            for (int j = 1; j < horizontalSegments; j++)
+            {
+                float u = (uScale * j) / horizontalSegments;
+
+                var longitude = (float)(j * 2.0 * Math.PI / horizontalSegments);
+                var dx = MathF.Sin(longitude);
+                var dz = MathF.Cos(longitude);
+
+                dx *= dxz;
+                dz *= dxz;
+
+                var normal = new Vector3(dx, dy, dz);
+                var textureCoordinate = new Vector2(u, v);
+
+                //vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, normal.X, normal.Y, normal.Z, textureCoordinate.X, textureCoordinate.Y });
+                vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, 0.0f, 0.9f, 0.1f });
+            }
+
+            // the last point equal to the first point
+            //vertices.AddRange(new[] { uScale, v });
+        }
+
+        // generate the end extremity points
+        for (int j = 0; j <= horizontalSegments; j++)
+        {
+            var normal = new Vector3(0, 1, 0);
+            var textureCoordinate = new Vector2(uScale * j / horizontalSegments, 0f);
+
+            vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, 0.0f, 0.9f, 0.1f });
+            //vertices.AddRange(new[] { normal.X * radius, normal.Y * radius, normal.Z * radius, normal.X, normal.Y, normal.Z, textureCoordinate.X, textureCoordinate.Y });
+        }
+
+        // Fill the index buffer with triangles joining each pair of latitude rings.
+        uint stride = (uint)horizontalSegments + 1;
+
+        uint indexCount = 0;
+        for (uint i = 0; i < verticalSegments; i++)
+        {
+            for (uint j = 0; j <= horizontalSegments; j++)
+            {
+                uint nextI = i + 1;
+                uint nextJ = (j + 1) % stride;
+
+                indices[indexCount++] = (i * stride + j);
+                indices[indexCount++] = (nextI * stride + j);
+                indices[indexCount++] = (i * stride + nextJ);
+
+                indices[indexCount++] = (i * stride + nextJ);
+                indices[indexCount++] = (nextI * stride + j);
+                indices[indexCount++] = (nextI * stride + nextJ);
+            }
+        }
+
+        return MeshFactory.CreateMesh(vertices.ToArray(), indices, pipeline);
     }
 
     public IMesh CreateCube(Vector3 size, IPipeline pipeline)
