@@ -70,10 +70,16 @@ internal class PhysicsTestLayer : LayerBase
     {
         _sceneHierarchy.OnGUI();
 
+        ImGuiNET.ImGui.Begin("Performance");
+
+        var io = ImGuiNET.ImGui.GetIO();
+        ImGuiNET.ImGui.Text($"FPS: {io.Framerate:f1} f/sec");
+        ImGuiNET.ImGui.Text($"Delta Time: {io.DeltaTime * 1000.0f:f3} ms/f");
+
         ImGuiNET.ImGui.Begin("Settings");
 
         var showColliders = Physics.ShowColliders;
-        if(ImGuiNET.ImGui.Checkbox("Show Physics Colliders", ref showColliders))
+        if (ImGuiNET.ImGui.Checkbox("Show Physics Colliders", ref showColliders))
         {
             Logger.Information($"Showing Physics Colliders: {showColliders}");
             Physics.ShowColliders = showColliders;
