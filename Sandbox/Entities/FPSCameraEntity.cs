@@ -11,7 +11,6 @@ namespace Sandbox.Entities;
 
 public class MainCamera : ICamera
 {
-    private Vector3 _position;
     private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
     private readonly Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
 
@@ -23,15 +22,7 @@ public class MainCamera : ICamera
         ProjectionMatrix = Matrix4.Perspective(Maths.ToRadians(60.0f), 1366.0f / 768.0f, 0.1f, 100.0f);
     }
 
-    public Vector3 Position
-    {
-        get { return _position; }
-        set
-        {
-            _position = value;
-            ViewMatrix = Matrix4.LookAt(Position, Position + _cameraFront, _cameraUp);
-        }
-    }
+    public Vector3 Position { get; set; }
     public Vector3 Front => _cameraFront;
 
     public Matrix4 ProjectionMatrix { get; set; }
