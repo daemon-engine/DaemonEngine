@@ -9,7 +9,7 @@ layout(std140, binding = 0) uniform Camera
     mat4 View;
     vec3 ViewPosition;
 };
-uniform mat4 _Model;
+uniform mat4 _Model = mat4(1.0);
 
 out vec3 Color;
 

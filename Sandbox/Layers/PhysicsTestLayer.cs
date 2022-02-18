@@ -22,11 +22,6 @@ internal class PhysicsTestLayer : LayerBase
 
     private Vector3 _lightDirection = new(-0.2f, -1.0f, -0.3f);
 
-    private IShader _lineShader;
-    private IPipeline _linePipeline;
-
-    private IMesh _cubeMesh;
-
     public PhysicsTestLayer(string name, IServiceProvider serviceProvider)
         : base(name, serviceProvider)
     {
@@ -35,24 +30,6 @@ internal class PhysicsTestLayer : LayerBase
     public override void OnStart()
     {
         _shader = GraphicsFactory.CreateShader("Assets/Shaders/LitBasic.shader");
-        _lineShader = GraphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
-
-        var bufferLayout = new BufferLayout(new List<BufferElement>
-        {
-            new BufferElement("POSITION", ShaderDataType.Float3),
-            new BufferElement("COLOR", ShaderDataType.Float3)
-        });
-
-        var pipelineOptions = new PipelineOptions
-        {
-            BufferLayout = bufferLayout,
-            Shader = _lineShader,
-            PrimitiveTopology = PrimitiveTopology.Lines,
-        };
-        _linePipeline = GraphicsFactory.CreatePipeline(pipelineOptions);
-
-        var primitiveGeometric = ServiceProvider.GetRequiredService<IPrimitiveGeometric>();
-        _cubeMesh = primitiveGeometric.CreateCube(Vector3.One, _linePipeline);
 
         var meshFactory = ServiceProvider.GetRequiredService<IMeshFactory>();
 
@@ -82,10 +59,6 @@ internal class PhysicsTestLayer : LayerBase
         _shader.SetFloat3("_DirectionalLight.specular", 1.0f, 1.0f, 1.0f);
 
         _scene.RuntimeUpdate(deltaTime);
-
-        _lineShader.Bind();
-        _lineShader.SetMat4("_Model", Matrix4.Identity * Matrix4.Translate(new Vector3(-2.0f, 0.5f, 2.0f)));
-        Renderer.RenderMesh(_cubeMesh);
     }
 
     public override void OnEvent(IEvent e)

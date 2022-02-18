@@ -4,7 +4,6 @@ using DaemonEngine.Graphics;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
-using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Shapes;
 using DaemonEngine.Physics.Shapes.Factories;
 
@@ -17,7 +16,7 @@ public interface IBepuphysics2ColliderShapeFactory : IColliderShapeFactory
 
 internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFactory
 {
-    private readonly IPipeline _shapePipeline;
+    private IPipeline _pipeline;
 
     public Bepuphysics2ColliderShapeFactory(IPrimitiveGeometric primitiveGeometric, IGraphicsFactory graphicsFactory)
     {
@@ -36,7 +35,7 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
             BufferLayout = bufferLayout,
             PrimitiveTopology = Graphics.Renderer.Enums.PrimitiveTopology.Lines
         };
-        _shapePipeline = graphicsFactory.CreatePipeline(options);
+        _pipeline = graphicsFactory.CreatePipeline(options);
     }
 
     protected IPrimitiveGeometric PrimitiveGeometric { get; }
@@ -47,8 +46,8 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
         var mesh = physicsBody.PhysicsBodyShape switch
         {
-            PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, _shapePipeline),
-            _ => PrimitiveGeometric.CreateCube(size, _shapePipeline),
+            PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, _pipeline),
+            _ => PrimitiveGeometric.CreateCube(size, _pipeline),
         };
 
         BodyActivityDescription bodyActivityDescription;
@@ -57,19 +56,21 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
         switch (physicsBody.PhysicsBodyShape)
         {
             case PhysicsBodyShape.Box:
-            default:
-                {
-                    var shape = new Box(size.X, size.Y, size.Z);
-
-                    shape.ComputeInertia(physicsBody.Mass, out bodyInertia);
-
-                    collidableDescription = new CollidableDescription(simulation.Shapes.Add(shape), 0.01f);
-
-                    bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
-                }
-                break;
+            default: CreateBoxShape(physicsBody, simulation, size, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
         }
 
         return new Bepuphysics2ColliderShapeBase(mesh, collidableDescription, bodyActivityDescription, bodyInertia);
+    }
+
+    private static void CreateBoxShape(PhysicsBody physicsBody, Simulation simulation, Mathematics.Vector3 size, out BodyActivityDescription bodyActivityDescription, out CollidableDescription collidableDescription, out BodyInertia bodyInertia)
+    {
+        var shape = new Box(size.X, size.Y, size.Z);
+
+        shape.ComputeInertia(physicsBody.Mass, out bodyInertia);
+
+        var shapeId = simulation.Shapes.Add(shape);
+        collidableDescription = new CollidableDescription(shapeId, 0.01f);
+
+        bodyActivityDescription = BodyDescription.GetDefaultActivity<Box>(shape);
     }
 }

@@ -6,7 +6,7 @@ namespace DaemonEngine.Graphics;
 
 public interface IPrimitiveGeometric
 {
-    IMesh CreateCube(Vector3 scale, IPipeline pipeline);
+    IMesh CreateCube(Vector3 size, IPipeline pipeline);
 }
 
 internal sealed class PrimitiveGeometric : IPrimitiveGeometric
@@ -18,21 +18,21 @@ internal sealed class PrimitiveGeometric : IPrimitiveGeometric
 
     private IMeshFactory MeshFactory { get; }
 
-    public IMesh CreateCube(Vector3 scale, IPipeline pipeline)
+    public IMesh CreateCube(Vector3 size, IPipeline pipeline)
     {
-        scale /= 2;
+        size /= 2;
 
         var vertices = new float[8 * (3 + 3)]
         {
-             1.0f * scale.X,  1.0f * scale.Y, -1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 0
-             1.0f * scale.X, -1.0f * scale.Y, -1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 1
-             1.0f * scale.X,  1.0f * scale.Y,  1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 2
-             1.0f * scale.X, -1.0f * scale.Y,  1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 3
+             1.0f * size.X,  1.0f * size.Y, -1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 0
+             1.0f * size.X, -1.0f * size.Y, -1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 1
+             1.0f * size.X,  1.0f * size.Y,  1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 2
+             1.0f * size.X, -1.0f * size.Y,  1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 3
 
-            -1.0f * scale.X,  1.0f * scale.Y, -1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 4
-            -1.0f * scale.X, -1.0f * scale.Y, -1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 5
-            -1.0f * scale.X,  1.0f * scale.Y,  1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 6
-            -1.0f * scale.X, -1.0f * scale.Y,  1.0f * scale.Z, 1.0f, 1.0f, 1.0f, // 7
+            -1.0f * size.X,  1.0f * size.Y, -1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 4
+            -1.0f * size.X, -1.0f * size.Y, -1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 5
+            -1.0f * size.X,  1.0f * size.Y,  1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 6
+            -1.0f * size.X, -1.0f * size.Y,  1.0f * size.Z, 0.0f, 0.9f, 0.1f, // 7
         };
 
         var indices = new uint[12 * 3]

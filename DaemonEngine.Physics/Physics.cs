@@ -1,32 +1,29 @@
-﻿using DaemonEngine.Graphics.Renderer;
+﻿using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Worlds;
 
 namespace DaemonEngine.Physics;
-
-public interface IPhysics
-{
-    bool ShowColliders { get; set; }
-
-    void Step();
-    void RenderColliders();
-    PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
-    object GetBodyReference(PhysicsBody body);
-}
 
 internal sealed class Physics : IPhysics
 {
     private List<PhysicsBody> _physicsBodies;
 
-    public Physics(IWorld world, IRenderer renderer)
+    public Physics(IWorld world, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
         _physicsBodies = new List<PhysicsBody>();
 
         World = world;
         Renderer = renderer;
+
+#if DEBUG
+        ShowColliders = true;
+#else
+        ShowColliders = false;
+#endif
     }
 
     public bool ShowColliders { get; set; }
-
     protected IWorld World { get; }
     private IRenderer Renderer { get; }
 

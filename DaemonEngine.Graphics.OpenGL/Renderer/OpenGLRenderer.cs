@@ -31,11 +31,11 @@ internal class OpenGLRenderer : RendererBase
         GL.Enable(GLCapabilities.DepthTest);
         GL.Enable(GLCapabilities.LineSmooth);
 
-        GL.LineWidth(5.0f);
+        GL.LineWidth(2.0f);
 
         _cameraData = new CameraData();
 
-        CameraUniformBuffer = new OpenGLUniformBuffer(140, 0);
+        CameraUniformBuffer = new OpenGLUniformBuffer(144, 0);
     }
 
     public override void Shutdown()

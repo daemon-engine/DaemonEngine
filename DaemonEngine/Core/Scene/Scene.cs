@@ -74,14 +74,16 @@ public class Scene
         var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>());
         foreach (var entity in rigidbodyEntities)
         {
-            var transform = entity.GetComponent<Transform>()!;
             var rigidbody = entity.GetComponent<Rigidbody>()!;
-
-            if (rigidbody.PhysicsBody.BodyHandle != null)
+            if (rigidbody.Type == RigidbodyType.Static)
             {
-                var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
-                transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
+                continue;
             }
+
+            var transform = entity.GetComponent<Transform>()!;
+
+            var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
+            transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
         }
 
         // Rendering
@@ -121,7 +123,7 @@ public class Scene
             }
 
             // Render colliders
-            if(Physics.ShowColliders)
+            if (Physics.ShowColliders)
             {
                 Physics.RenderColliders();
             }

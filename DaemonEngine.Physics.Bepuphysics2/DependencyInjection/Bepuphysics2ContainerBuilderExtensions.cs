@@ -2,6 +2,10 @@
 using BepuPhysics;
 using BepuUtilities;
 using DaemonEngine.DependencyInjection;
+using DaemonEngine.Graphics;
+using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Physics.Bepuphysics2.Shape.Factories;
 using DaemonEngine.Physics.Worlds;
 
