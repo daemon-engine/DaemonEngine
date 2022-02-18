@@ -90,5 +90,16 @@ internal class PhysicsTestLayer : LayerBase
     public override void OnGUI()
     {
         _sceneHierarchy.OnGUI();
+
+        ImGuiNET.ImGui.Begin("Settings");
+
+        var showColliders = true;
+        if(ImGuiNET.ImGui.Checkbox("Show Physics Colliders", ref showColliders))
+        {
+            Logger.Information($"Showing Physics Colliders: {showColliders}");
+            //Physics.ShowPhysicsColliders(showColliders);
+        }
+
+        ImGuiNET.ImGui.End();
     }
 }
