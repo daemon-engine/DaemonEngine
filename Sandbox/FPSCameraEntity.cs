@@ -51,6 +51,15 @@ internal class FPSCameraController : NativeScriptBase
     {
         var camPosition = _camera!.MainCamera.Position;
 
+        if (Input.IsKeyPressed(Keycode.Q))
+        {
+            camPosition.Y -= 1.0f * deltaTime;
+        }
+        else if (Input.IsKeyPressed(Keycode.E))
+        {
+            camPosition.Y += 1.0f * deltaTime;
+        }
+
         if (Input.IsKeyPressed(Keycode.A))
         {
             camPosition.X -= 1.0f * deltaTime;
