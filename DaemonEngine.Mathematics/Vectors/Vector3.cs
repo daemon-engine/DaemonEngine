@@ -213,6 +213,22 @@ public class Vector3 : IEquatable<Vector3>
     #endregion
 
     #region Conversion operators
+    public static implicit operator Vector3(System.Numerics.Quaternion q)
+    {
+        var result = Zero;
+
+        var test = q.X * q.Y + q.Z * q.W;
+        var sqx = q.X * q.X;
+        var sqy = q.Y * q.Y;
+        var sqz = q.Z * q.Z;
+
+        result.X = Maths.Atan2(2 * q.Y * q.W - 2 * q.X * q.Z, 1 - 2 * sqy - 2 * sqz);
+        result.Y = Maths.Asin(2 * test);
+        result.Z = Maths.Atan2(2 * q.X * q.W - 2 * q.Y * q.Z, 1 - 2 * sqx - 2 * sqz);
+
+        return result;
+    }
+
     public static implicit operator Vector3(System.Numerics.Vector3 v)
     {
         return new Vector3(v.X, v.Y, v.Z);
