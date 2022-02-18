@@ -20,8 +20,7 @@ internal sealed class Bepuphysics2World : WorldBase
         BufferPool = new BufferPool();
 
         var narrowPhaseCallback = new DefaultNarrowPhaseCallback();
-        var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -1.0f, 0.0f));
-        //var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
+        var poseIntegratorCallback = new DefaultPoseIntegratorCallback(new System.Numerics.Vector3(0.0f, -9.81f, 0.0f));
 
         Simulation = Simulation.Create(BufferPool, narrowPhaseCallback, poseIntegratorCallback, Timestepper);
     }
