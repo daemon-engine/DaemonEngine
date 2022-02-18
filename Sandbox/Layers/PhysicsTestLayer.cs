@@ -37,7 +37,7 @@ internal class PhysicsTestLayer : LayerBase
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 20));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 25));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(5.0f, 1.0f, 5.0f)));
-        _scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
+        //_scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
         _scene.RuntimeStart();
