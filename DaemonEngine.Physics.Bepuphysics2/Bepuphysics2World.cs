@@ -74,7 +74,7 @@ internal sealed class Bepuphysics2World : WorldBase
 
     private void CreateStaticBody(ref PhysicsBody physicsBody)
     {
-        var shape = new Box(physicsBody.ColliderSize.X * 2.0f, physicsBody.ColliderSize.Y * 2.0f, physicsBody.ColliderSize.Z * 2.0f);
+        var shape = new Box(physicsBody.ColliderSize.X, physicsBody.ColliderSize.Y, physicsBody.ColliderSize.Z);
         var collidableDescription = new CollidableDescription(Simulation.Shapes.Add(shape), 0.1f);
 
         var bodyDescription = new StaticDescription(physicsBody.Position, collidableDescription);
