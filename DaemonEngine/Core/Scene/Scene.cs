@@ -24,7 +24,7 @@ public class Scene
     protected IPhysics Physics { get; }
     internal List<IEntity> Entities { get; }
 
-    //private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
+    private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
 
     public void RuntimeStart()
     {
@@ -37,8 +37,8 @@ public class Scene
 
         // Setup physics bodies
         var rigidbodyEntities = Entities.Where(entity => entity.HasComponent<Rigidbody>() && entity.HasComponent<BoxCollider>());
-        //PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
-        //int physicsBodyEntityBufferIndex = 0;
+        PhysicsBodyEntityBuffer = new PhysicsBody[rigidbodyEntities.Count()];
+        int physicsBodyEntityBufferIndex = 0;
         foreach (var entity in rigidbodyEntities)
         {
             var transform = entity.GetComponent<Transform>()!;
@@ -56,7 +56,7 @@ public class Scene
             };
             var physicsBody = Physics.CreateBody(physicsBodyOptions);
 
-            //PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
+            PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;
             rigidbody.PhysicsBody = physicsBody;
         }
     }
@@ -85,6 +85,10 @@ public class Scene
 
             var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
             transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
+            //transform.Rotation = ((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
+
+            rigidbody.PhysicsBody.Position = transform.Position;
+            rigidbody.PhysicsBody.Rotation = transform.Rotation;
         }
 
         // Rendering
@@ -126,7 +130,7 @@ public class Scene
             // Render colliders
             if (Physics.ShowColliders)
             {
-                Physics.RenderColliders();
+                Physics.RenderColliders(PhysicsBodyEntityBuffer);
             }
 
             Renderer.EndScene();

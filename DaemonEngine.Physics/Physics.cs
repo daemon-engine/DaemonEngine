@@ -1,4 +1,7 @@
-﻿using DaemonEngine.Graphics.Renderer;
+﻿using DaemonEngine.Graphics.Factories;
+using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Graphics.Renderer.Data;
+using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Shapes.Factories;
 using DaemonEngine.Physics.Worlds;
 
@@ -9,22 +12,35 @@ public interface IPhysics
     bool ShowColliders { get; set; }
 
     void Step();
-    void RenderColliders();
+    void RenderColliders(IEnumerable<PhysicsBody> physicsBodies);
     PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
     object GetBodyReference(PhysicsBody body);
 }
 
 internal sealed class Physics : IPhysics
 {
-    private List<PhysicsBody> _physicsBodies;
+    private IPipeline _pipeline;
+    private IShader _shader;
 
-    public Physics(IWorld world, IRenderer renderer/*, IColliderShapeFactory colliderShapeFactory*/)
+    public Physics(IWorld world, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
-        _physicsBodies = new List<PhysicsBody>();
-
         World = world;
-        //ColliderShapeFactory = colliderShapeFactory;
         Renderer = renderer;
+
+        _shader = graphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
+        var bufferLayout = new BufferLayout(new List<BufferElement>
+        {
+            new BufferElement("POSITION", ShaderDataType.Float3),
+            new BufferElement("COLOR", ShaderDataType.Float3),
+        });
+
+        var options = new PipelineOptions
+        {
+            Shader = _shader,
+            BufferLayout = bufferLayout,
+            PrimitiveTopology = Graphics.Renderer.Enums.PrimitiveTopology.Lines
+        };
+        _pipeline = graphicsFactory.CreatePipeline(options);
 
 #if DEBUG
         ShowColliders = true;
@@ -35,7 +51,7 @@ internal sealed class Physics : IPhysics
 
     public bool ShowColliders { get; set; }
     protected IWorld World { get; }
-    protected IColliderShapeFactory ColliderShapeFactory { get; }
+
     private IRenderer Renderer { get; }
 
     public void Step()
@@ -43,22 +59,23 @@ internal sealed class Physics : IPhysics
         World.Step();
     }
 
-    public void RenderColliders()
+    public void RenderColliders(IEnumerable<PhysicsBody> physicsBodies)
     {
-        foreach (var physicsBody in _physicsBodies)
+        foreach (var physicsBody in physicsBodies)
         {
+            var model = Matrix4.Identity * Matrix4.Translate(physicsBody.Position);
             //Console.WriteLine($"Position: {physicsBody.Position.X}, {physicsBody.Position.Y}, {physicsBody.Position.Z}");
+
+            _shader.Bind();
+            _shader.SetMat4("_Model", model);
+
             Renderer.RenderMesh(physicsBody.ColliderShape.Mesh);
         }
     }
 
     public PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
     {
-        var physicsBody = World.CreateBody(physicsBodyOptions);
-
-        _physicsBodies.Add(physicsBody);
-
-        return physicsBody;
+        return World.CreateBody(physicsBodyOptions, _pipeline);
     }
 
     public object GetBodyReference(PhysicsBody body)

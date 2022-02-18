@@ -3,7 +3,6 @@ using BepuPhysics.Collidables;
 using DaemonEngine.Graphics;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
-using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Physics.Shapes;
 using DaemonEngine.Physics.Shapes.Factories;
 
@@ -11,7 +10,7 @@ namespace DaemonEngine.Physics.Bepuphysics2.Shape.Factories;
 
 public interface IBepuphysics2ColliderShapeFactory : IColliderShapeFactory
 {
-    IColliderShape CreateColliderShape(PhysicsBody physicsBody, ref Simulation simulation);
+    IColliderShape CreateColliderShape(PhysicsBody physicsBody, ref Simulation simulation, IPipeline pipeline);
 }
 
 internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFactory
@@ -21,33 +20,18 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
     public Bepuphysics2ColliderShapeFactory(IPrimitiveGeometric primitiveGeometric, IGraphicsFactory graphicsFactory)
     {
         PrimitiveGeometric = primitiveGeometric;
-
-        var shader = graphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
-        var bufferLayout = new BufferLayout(new List<BufferElement>
-        {
-            new BufferElement("POSITION", ShaderDataType.Float3),
-            new BufferElement("COLOR", ShaderDataType.Float3),
-        });
-
-        var options = new PipelineOptions
-        {
-            Shader = shader,
-            BufferLayout = bufferLayout,
-            PrimitiveTopology = Graphics.Renderer.Enums.PrimitiveTopology.Lines
-        };
-        _pipeline = graphicsFactory.CreatePipeline(options);
     }
 
     protected IPrimitiveGeometric PrimitiveGeometric { get; }
 
-    public IColliderShape CreateColliderShape(PhysicsBody physicsBody, ref Simulation simulation)
+    public IColliderShape CreateColliderShape(PhysicsBody physicsBody, ref Simulation simulation, IPipeline pipeline)
     {
         var size = physicsBody.ColliderSize *= 2;
 
         var mesh = physicsBody.PhysicsBodyShape switch
         {
-            PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, _pipeline),
-            _ => PrimitiveGeometric.CreateCube(size, _pipeline),
+            PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, pipeline),
+            _ => PrimitiveGeometric.CreateCube(size, pipeline),
         };
 
         BodyActivityDescription bodyActivityDescription;

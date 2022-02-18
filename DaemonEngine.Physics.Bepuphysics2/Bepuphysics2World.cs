@@ -2,6 +2,7 @@
 using BepuUtilities;
 using BepuUtilities.Memory;
 using DaemonEngine.Extensions.Runtime;
+using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Physics.Bepuphysics2.Callbacks;
 using DaemonEngine.Physics.Bepuphysics2.Shape;
@@ -35,11 +36,11 @@ internal sealed class Bepuphysics2World : WorldBase
     protected IBepuphysics2ColliderShapeFactory ColliderShapeFactory { get; }
     protected BufferPool BufferPool { get; }
 
-    public override PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
+    public override PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions, IPipeline pipeline)
     {
         var resultBody = new PhysicsBody(physicsBodyOptions);
 
-        resultBody.ColliderShape = ColliderShapeFactory.CreateColliderShape(resultBody, ref _simulation);
+        resultBody.ColliderShape = ColliderShapeFactory.CreateColliderShape(resultBody, ref _simulation, pipeline);
 
         switch (resultBody.PhysicsBodyType)
         {
@@ -57,6 +58,7 @@ internal sealed class Bepuphysics2World : WorldBase
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
         var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+
         var bodyDescription = BodyDescription.CreateDynamic(pose, collider.BodyInertia, collider.CollidableDescription, collider.BodyActivityDescription);
 
         var bodyHandle = _simulation.Bodies.Add(bodyDescription);
@@ -69,6 +71,7 @@ internal sealed class Bepuphysics2World : WorldBase
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
         var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+
         var bodyDescription = BodyDescription.CreateKinematic(pose, collider.CollidableDescription, collider.BodyActivityDescription);
 
         var bodyHandle = _simulation.Bodies.Add(bodyDescription);
@@ -81,6 +84,7 @@ internal sealed class Bepuphysics2World : WorldBase
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
         var rotation = Quaternion.Euler(physicsBody.Rotation);
+
         var bodyDescription = new StaticDescription(physicsBody.Position, rotation, collider.CollidableDescription);
 
         _simulation.Statics.Add(bodyDescription);

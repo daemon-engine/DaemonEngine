@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Physics.Shapes;
+﻿using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Physics.Shapes;
 using Serilog;
 
 namespace DaemonEngine.Physics.Worlds;
@@ -12,7 +13,7 @@ public abstract class WorldBase : IWorld
 
     protected ILogger Logger { get; }
 
-    public abstract PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions);
+    public abstract PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions, IPipeline pipeline);
 
     public abstract object GetBodyReference(PhysicsBody physicsBody);
 
