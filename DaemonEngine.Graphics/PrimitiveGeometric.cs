@@ -6,6 +6,7 @@ namespace DaemonEngine.Graphics;
 
 public interface IPrimitiveGeometric
 {
+    IMesh CreateSphere(float radius, IPipeline pipeline);
     IMesh CreateCube(Vector3 size, IPipeline pipeline);
 }
 
@@ -17,6 +18,19 @@ internal sealed class PrimitiveGeometric : IPrimitiveGeometric
     }
 
     private IMeshFactory MeshFactory { get; }
+
+    public IMesh CreateSphere(float radius, IPipeline pipeline)
+    {
+        radius /= 2;
+
+        var tesselation = 16;
+        var verticalSegments = tesselation;
+        var horizontalSegments = tesselation * 2;
+
+
+
+        throw new NotImplementedException();
+    }
 
     public IMesh CreateCube(Vector3 size, IPipeline pipeline)
     {

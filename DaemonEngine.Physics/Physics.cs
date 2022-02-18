@@ -63,6 +63,11 @@ internal sealed class Physics : IPhysics
     {
         foreach (var physicsBody in physicsBodies)
         {
+            if(physicsBody.ColliderShape.Mesh == null)
+            {
+                continue;
+            }
+
             var model = Matrix4.Identity * Matrix4.Translate(physicsBody.Position);
             //Console.WriteLine($"Position: {physicsBody.Position.X}, {physicsBody.Position.Y}, {physicsBody.Position.Z}");
 

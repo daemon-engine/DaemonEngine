@@ -13,6 +13,7 @@ public class PhysicsBody
         Rotation = physicsBodyOptions.Rotation;
         Mass = physicsBodyOptions.Mass;
         ColliderSize = physicsBodyOptions.ColliderSize;
+        SphereRadius = physicsBodyOptions.Radius;
     }
 
     public IColliderShape ColliderShape { get; set; }
@@ -22,6 +23,7 @@ public class PhysicsBody
     public float Mass { get; set; } = 1.0f;
 
     public Vector3 ColliderSize { get; set; }
+    public float SphereRadius { get; set; }
 
     public PhysicsBodyShape PhysicsBodyShape { get; set; }
     public PhysicsBodyType PhysicsBodyType { get; set; }

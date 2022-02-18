@@ -26,10 +26,12 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
     public IColliderShape CreateColliderShape(PhysicsBody physicsBody, ref Simulation simulation, IPipeline pipeline)
     {
-        var size = physicsBody.ColliderSize *= 2;
+        var size = physicsBody.ColliderSize * 2;
+        var radius = physicsBody.SphereRadius * 2;
 
         var mesh = physicsBody.PhysicsBodyShape switch
         {
+            PhysicsBodyShape.Sphere => null, //PrimitiveGeometric.CreateSphere(radius, pipeline),
             PhysicsBodyShape.Box => PrimitiveGeometric.CreateCube(size, pipeline),
             _ => PrimitiveGeometric.CreateCube(size, pipeline),
         };
@@ -39,11 +41,24 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
         BodyInertia bodyInertia;
         switch (physicsBody.PhysicsBodyShape)
         {
+            case PhysicsBodyShape.Sphere: CreateSphereShape(physicsBody, simulation, physicsBody.SphereRadius, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
             case PhysicsBodyShape.Box:
             default: CreateBoxShape(physicsBody, simulation, size, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
         }
 
         return new Bepuphysics2ColliderShapeBase(mesh, collidableDescription, bodyActivityDescription, bodyInertia);
+    }
+
+    private static void CreateSphereShape(PhysicsBody physicsBody, Simulation simulation, float radius, out BodyActivityDescription bodyActivityDescription, out CollidableDescription collidableDescription, out BodyInertia bodyInertia)
+    {
+        var shape = new Sphere(radius);
+
+        shape.ComputeInertia(physicsBody.Mass, out bodyInertia);
+
+        var shapeId = simulation.Shapes.Add(shape);
+        collidableDescription = new CollidableDescription(shapeId, 0.01f);
+
+        bodyActivityDescription = BodyDescription.GetDefaultActivity<Sphere>(shape);
     }
 
     private static void CreateBoxShape(PhysicsBody physicsBody, Simulation simulation, Mathematics.Vector3 size, out BodyActivityDescription bodyActivityDescription, out CollidableDescription collidableDescription, out BodyInertia bodyInertia)
