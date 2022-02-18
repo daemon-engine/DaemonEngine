@@ -5,7 +5,7 @@ using DaemonEngine.Graphics;
 using DaemonEngine.Mathematics;
 using DaemonEngine.Scripting;
 
-namespace Sandbox;
+namespace Sandbox.Entities;
 
 public class MainCamera : ICamera
 {
