@@ -41,6 +41,19 @@ internal class FPSCameraController : NativeScriptBase
     private Transform? _transform;
     private Camera? _camera;
 
+    private bool _firstMouse = true;
+    private float _lastX = 0.0f;
+    private float _lastY = 0.0f;
+
+    private float _yaw = -90;
+    private float _pitch;
+
+    private const float MOVEMENT_SPEED = 2.0f;
+    private const float SENSITIVITY = 2.0f;
+
+    private Vector3 _cameraFront = new(0.0f, 0.0f, -1.0f);
+    private readonly Vector3 _cameraUp = new(0.0f, 1.0f, 0.0f);
+
     public override void Start()
     {
         _transform = Entity.GetComponent<Transform>()!;
@@ -49,37 +62,78 @@ internal class FPSCameraController : NativeScriptBase
 
     public override void Update(float deltaTime)
     {
-        var camPosition = _camera!.MainCamera.Position;
+        Move(deltaTime);
+        Rotate();
 
-        if (Input.IsKeyPressed(Keycode.Q))
+        _camera!.MainCamera.Position = _transform!.Position;
+        _camera!.MainCamera.ViewMatrix = Matrix4.LookAt(_transform!.Position, _transform!.Position + _cameraFront, _cameraUp);
+    }
+
+    private void Rotate()
+    {
+        var mousePosition = Input.GetMousePosition();
+        if (_firstMouse)
         {
-            camPosition.Y -= 1.0f * deltaTime;
-        }
-        else if (Input.IsKeyPressed(Keycode.E))
-        {
-            camPosition.Y += 1.0f * deltaTime;
+            _lastX = mousePosition.X;
+            _lastY = mousePosition.Y;
+            _firstMouse = false;
         }
 
-        if (Input.IsKeyPressed(Keycode.A))
+        float xOffset = mousePosition.X - _lastX;
+        float yOffset = _lastY - mousePosition.Y;  // reversed since y-coordinates go from bottom to top
+        _lastX = mousePosition.X;
+        _lastY = mousePosition.Y;
+
+        xOffset *= (SENSITIVITY / 10.0f);
+        yOffset *= (SENSITIVITY / 10.0f);
+
+        _yaw += xOffset;
+        _pitch += yOffset;
+
+        // make sure that when pitch is out of bounds, screen doesn't get flipped
+        // TODO: Make a clamp method for this (propably in Maths class)
+        if (_pitch > 89.0f)
+            _pitch = 89.0f;
+        if (_pitch < -89.0f)
+            _pitch = -89.0f;
+
+        Vector3 front_ = new()
         {
-            camPosition.X -= 1.0f * deltaTime;
+            X = Maths.Cos(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f)),
+            Y = Maths.Sin(_pitch * (3.14 / 180.0f)),
+            Z = Maths.Sin(_yaw * (3.14 / 180.0f)) * Maths.Cos(_pitch * (3.14 / 180.0f))
+        };
+        _cameraFront = Vector3.Normalize(front_);
+    }
+
+    private void Move(float deltaTime)
+    {
+        if (Input.IsKeyPressed(Keycode.E))
+        {
+            _transform!.Position += _cameraUp * MOVEMENT_SPEED * deltaTime;
         }
-        else if (Input.IsKeyPressed(Keycode.D))
+        else if (Input.IsKeyPressed(Keycode.Q))
         {
-            camPosition.X += 1.0f * deltaTime;
+            _transform!.Position -= _cameraUp * MOVEMENT_SPEED * deltaTime;
         }
 
         if (Input.IsKeyPressed(Keycode.W))
         {
-            camPosition.Z -= 1.0f * deltaTime;
+            _transform!.Position += _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
         else if (Input.IsKeyPressed(Keycode.S))
         {
-            camPosition.Z += 1.0f * deltaTime;
+            _transform!.Position -= _cameraFront * MOVEMENT_SPEED * deltaTime;
         }
 
-        _camera!.MainCamera.Position = camPosition;
-        _transform!.Position = camPosition;
+        if (Input.IsKeyPressed(Keycode.A))
+        {
+            _transform!.Position -= Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
+        }
+        else if (Input.IsKeyPressed(Keycode.D))
+        {
+            _transform!.Position += Vector3.Normalize(Vector3.Cross(_cameraFront, _cameraUp)) * MOVEMENT_SPEED * deltaTime;
+        }
     }
 }
 
