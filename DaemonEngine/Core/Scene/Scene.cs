@@ -89,7 +89,7 @@ public class Scene
 
             var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
             transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
-            //transform.Rotation = ((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
+            transform.Rotation = ((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
 
             rigidbody.PhysicsBody.Position = transform.Position;
             rigidbody.PhysicsBody.Rotation = transform.Rotation;
