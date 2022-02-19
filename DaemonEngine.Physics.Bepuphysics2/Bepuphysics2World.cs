@@ -57,7 +57,7 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+        var pose = new RigidPose(physicsBody.Position, physicsBody.Rotation);
 
         var bodyDescription = BodyDescription.CreateDynamic(pose, collider.BodyInertia, collider.CollidableDescription, collider.BodyActivityDescription);
 
@@ -70,7 +70,7 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var pose = new RigidPose(physicsBody.Position, Quaternion.Euler(physicsBody.Rotation));
+        var pose = new RigidPose(physicsBody.Position, physicsBody.Rotation);
 
         var bodyDescription = BodyDescription.CreateKinematic(pose, collider.CollidableDescription, collider.BodyActivityDescription);
 
@@ -83,7 +83,7 @@ internal sealed class Bepuphysics2World : WorldBase
     {
         var collider = (Bepuphysics2ColliderShapeBase)physicsBody.ColliderShape;
 
-        var rotation = Quaternion.Euler(physicsBody.Rotation);
+        var rotation = physicsBody.Rotation;
 
         var bodyDescription = new StaticDescription(physicsBody.Position, rotation, collider.CollidableDescription);
 

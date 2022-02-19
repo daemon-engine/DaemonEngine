@@ -39,6 +39,11 @@ public class Maths
         return (float)global::System.Math.Acos(angle);
     }
 
+    public static float Abs(float angle)
+    {
+        return (float)global::System.Math.Abs(angle);
+    }
+
     public static float ToRadians(float degrees)
     {
         return degrees * (PI / 180.0f);

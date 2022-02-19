@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.ECS;
 using DaemonEngine.ECS.Components;
+using DaemonEngine.Mathematics;
 using Serilog;
 
 namespace DaemonEngine.Core.Scene;
@@ -54,12 +55,12 @@ public sealed class SceneHierarchy
             DrawComponent("Transform", _selectedEntity, (Transform transform) =>
             {
                 var position = (System.Numerics.Vector3)transform.Position;
-                ImGuiNET.ImGui.DragFloat3("Position", ref position, 0.1f);
+                ImGuiNET.ImGui.DragFloat3("Position", ref position, 0.1f, -1000.0f, 1000.0f);
                 transform.Position = position;
 
-                var rotation = (System.Numerics.Vector3)transform.Rotation;
-                ImGuiNET.ImGui.DragFloat3("Rotation", ref rotation, 0.1f);
-                transform.Rotation = rotation;
+                var rotation = (System.Numerics.Vector3)transform.EulerAngles;
+                ImGuiNET.ImGui.DragFloat3("Rotation", ref rotation, 0.1f, -360.0f, 360.0f);
+                transform.Rotation = Quaternion.Euler(rotation);
 
                 var scale = (System.Numerics.Vector3)transform.Scale;
                 ImGuiNET.ImGui.DragFloat3("Scale", ref scale);

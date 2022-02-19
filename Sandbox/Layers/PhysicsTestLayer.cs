@@ -31,6 +31,8 @@ internal class PhysicsTestLayer : LayerBase
 
         _scene = new Scene(Logger, Renderer, Physics);
 
+        //TestQuaternion();
+
         _scene.AddEntity(new FloorEntity(meshFactory, _shader, "Assets/Models/Plane/plane.obj"));
         _scene.AddEntity(new PhysicsEntity("Cube", meshFactory, _shader, "Assets/Models/cube.obj", Vector3.YAxis));
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", Vector3.YAxis * 15.0f, 1.0f));
@@ -46,6 +48,16 @@ internal class PhysicsTestLayer : LayerBase
         _scene.RuntimeStart();
 
         _sceneHierarchy = new SceneHierarchy(_scene, Logger);
+    }
+
+    private static void TestQuaternion()
+    {
+        var a = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
+        var b = Quaternion.Euler(new Vector3(-180.0f, 0.0f, -180.0f));
+
+        var angle = Quaternion.Angle(a, b);
+
+        bool sameRotation = Maths.Abs(angle) < 1e-3f;
     }
 
     public override void OnShutdown()

@@ -86,7 +86,7 @@ public class Scene
 
             var bodyRef = Physics.GetBodyReference(rigidbody.PhysicsBody);
             transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
-            transform.Rotation = ((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
+            transform.Rotation = (Quaternion)((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
 
             rigidbody.PhysicsBody.Position = transform.Position;
             rigidbody.PhysicsBody.Rotation = transform.Rotation;
@@ -120,7 +120,7 @@ public class Scene
 
                 var model = Matrix4.Identity
                     * Matrix4.Scale(transform.Scale)
-                    * Matrix4.Rotate(transform.Rotation)
+                    * Matrix4.Rotate(Vector3.ToEulerAngles(transform.Rotation))
                     * Matrix4.Translate(transform.Position);
 
                 shader.SetMat4("_Model", model);

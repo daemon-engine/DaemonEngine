@@ -19,7 +19,7 @@ public class PhysicsBody
     public IColliderShape ColliderShape { get; set; }
 
     public Vector3 Position { get; set; }
-    public Vector3 Rotation { get; set; }
+    public Quaternion Rotation { get; set; }
     public float Mass { get; set; } = 1.0f;
 
     public Vector3 ColliderSize { get; set; }

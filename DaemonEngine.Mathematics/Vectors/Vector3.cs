@@ -49,6 +49,34 @@ public class Vector3 : IEquatable<Vector3>
     }
 
     #region Static vector math methods
+    public static Vector3 ToEulerAngles(Quaternion quaternion)
+    {
+        var result = Zero;
+
+        // roll (x-axis rotation)
+        var sinr_cosp = 2.0f * (quaternion.W * quaternion.X + quaternion.Y * quaternion.Z);
+        var cosr_cosp = 1.0f - 2.0f * (quaternion.X * quaternion.X + quaternion.Y * quaternion.Y);
+        result.X = Maths.Atan2(sinr_cosp, cosr_cosp);
+
+        // pitch (y-axis rotation)
+        var sinp = 2.0f * (quaternion.W * quaternion.Y - quaternion.Z * quaternion.X);
+        if (Maths.Abs(sinp) >= 1)
+        {
+            //result.Y = std::copysign(M_PI / 2, sinp); // use 90 degrees if out of range
+        }
+        else
+        {
+            result.Y = Maths.Asin(sinp);
+        }
+
+        // yaw (z-axis rotation)
+        var siny_cosp = 2.0f * (quaternion.W * quaternion.Z + quaternion.X * quaternion.Y);
+        var cosy_cosp = 1.0f - 2.0f * (quaternion.Y * quaternion.Y + quaternion.Z * quaternion.Z);
+        result.Z = Maths.Atan2(siny_cosp, cosy_cosp);
+
+        return result;
+    }
+
     public static Vector3 Normalize(Vector3 vector)
     {
         var scale = 1.0f / vector.Length;

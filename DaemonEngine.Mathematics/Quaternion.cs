@@ -56,6 +56,11 @@ public class Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    public static float Angle(Quaternion a, Quaternion b)
+    {
+        throw new NotImplementedException();
+    }
+
     public static Quaternion Conjugate(Quaternion quaternion)
     {
         var vector = new Vector3(quaternion.X, quaternion.Y, quaternion.Z);

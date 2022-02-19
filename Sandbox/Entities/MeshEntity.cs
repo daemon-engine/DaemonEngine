@@ -24,9 +24,9 @@ internal class MeshEntity : EntityBase
 
         meshRenderer.Model = new Model(meshFactory, shader, filepath);
 
-        var rigidbody = AddComponent<Rigidbody>();
+        //var rigidbody = AddComponent<Rigidbody>();
 
-        var collider = AddComponent<BoxCollider>();
-        collider.Size = new Vector3(10.0f, 0.01f, 10.0f);
+        //var collider = AddComponent<BoxCollider>();
+        //collider.Size = new Vector3(10.0f, 0.01f, 10.0f);
     }
 }
