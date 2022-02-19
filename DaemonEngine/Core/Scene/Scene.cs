@@ -45,9 +45,6 @@ public class Scene
             var rigidbody = entity.GetComponent<Rigidbody>()!;
             var collider = entity.GetComponent<ColliderBase>()!;
 
-            //var boxCollider = (BoxCollider)collider;
-            //var sphereCollider = (SphereCollider)collider;
-
             var physicsBodyOptions = new PhysicsBodyOptions
             {
                 Position = transform.Position,
