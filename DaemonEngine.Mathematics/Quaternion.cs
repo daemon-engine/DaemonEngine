@@ -233,7 +233,7 @@ public class Quaternion : IEquatable<Quaternion>
 
     public bool Equals(Quaternion? other)
     {
-        return X == other.X && Y == other.Y && Z == other.Z && W == other.W;
+        return other is not null && X == other!.X && Y == other!.Y && Z == other!.Z && W == other!.W;
     }
 
     public override int GetHashCode()
