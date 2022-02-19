@@ -1,7 +1,6 @@
 ﻿using BepuPhysics;
 using BepuPhysics.Collidables;
 using DaemonEngine.Graphics;
-using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Physics.Shapes;
 using DaemonEngine.Physics.Shapes.Factories;

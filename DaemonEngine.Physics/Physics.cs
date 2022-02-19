@@ -2,7 +2,6 @@
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
 using DaemonEngine.Mathematics;
-using DaemonEngine.Physics.Shapes.Factories;
 using DaemonEngine.Physics.Worlds;
 
 namespace DaemonEngine.Physics;
