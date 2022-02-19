@@ -44,6 +44,11 @@ public class Maths
         return (float)global::System.Math.Abs(angle);
     }
 
+    public static float CopySign(float x, float y)
+    {
+        return (float)global::System.Math.CopySign((float)x, (float)y);
+    }
+
     public static float ToRadians(float degrees)
     {
         return degrees * (PI / 180.0f);

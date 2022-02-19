@@ -62,7 +62,8 @@ public class Vector3 : IEquatable<Vector3>
         var sinp = 2.0f * (quaternion.W * quaternion.Y - quaternion.Z * quaternion.X);
         if (Maths.Abs(sinp) >= 1)
         {
-            //result.Y = std::copysign(M_PI / 2, sinp); // use 90 degrees if out of range
+
+            result.Y = Maths.CopySign(Maths.PI / 2, sinp); // use 90 degrees if out of range
         }
         else
         {
