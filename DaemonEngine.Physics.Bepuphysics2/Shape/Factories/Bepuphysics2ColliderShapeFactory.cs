@@ -45,7 +45,7 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
             default: CreateBoxShape(physicsBody, simulation, size, out bodyActivityDescription, out collidableDescription, out bodyInertia); break;
         }
 
-        return new Bepuphysics2ColliderShapeBase(mesh, collidableDescription, bodyActivityDescription, bodyInertia);
+        return new Bepuphysics2ColliderShapeBase(mesh!, collidableDescription, bodyActivityDescription, bodyInertia);
     }
 
     private static void CreateSphereShape(PhysicsBody physicsBody, Simulation simulation, float radius, out BodyActivityDescription bodyActivityDescription, out CollidableDescription collidableDescription, out BodyInertia bodyInertia)
@@ -74,7 +74,7 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
     private static void CreateMeshShape(PhysicsBody physicsBody, Simulation simulation, out CollidableDescription collidableDescription)
     {
-        BepuUtilities.Memory.Buffer<Triangle> buffer = new BepuUtilities.Memory.Buffer<Triangle>();
+        //BepuUtilities.Memory.Buffer<Triangle> buffer = new BepuUtilities.Memory.Buffer<Triangle>();
 
         var shape = new BepuPhysics.Collidables.Mesh();
 

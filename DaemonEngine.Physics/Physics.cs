@@ -18,8 +18,8 @@ public interface IPhysics
 
 internal sealed class Physics : IPhysics
 {
-    private IPipeline _pipeline;
-    private IShader _shader;
+    private IPipeline? _pipeline;
+    private IShader? _shader;
 
     public Physics(IWorld world, IRenderer renderer, IGraphicsFactory graphicsFactory)
     {
@@ -56,8 +56,8 @@ internal sealed class Physics : IPhysics
             var model = Matrix4.Identity * Matrix4.Rotate(physicsBody.Rotation) * Matrix4.Translate(physicsBody.Position);
             //Console.WriteLine($"Position: {physicsBody.Position.X}, {physicsBody.Position.Y}, {physicsBody.Position.Z}");
 
-            _shader.Bind();
-            _shader.SetMat4("_Model", model);
+            _shader!.Bind();
+            _shader!.SetMat4("_Model", model);
 
             Renderer.RenderMesh(physicsBody.ColliderShape.Mesh);
         }
@@ -65,7 +65,7 @@ internal sealed class Physics : IPhysics
 
     public PhysicsBody CreateBody(PhysicsBodyOptions physicsBodyOptions)
     {
-        return World.CreateBody(physicsBodyOptions, _pipeline);
+        return World.CreateBody(physicsBodyOptions, _pipeline!);
     }
 
     public object GetBodyReference(PhysicsBody body)
