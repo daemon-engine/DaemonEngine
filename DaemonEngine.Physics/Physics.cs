@@ -26,20 +26,7 @@ internal sealed class Physics : IPhysics
         World = world;
         Renderer = renderer;
 
-        _shader = graphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
-        var bufferLayout = new BufferLayout(new List<BufferElement>
-        {
-            new BufferElement("POSITION", ShaderDataType.Float3),
-            new BufferElement("COLOR", ShaderDataType.Float3),
-        });
-
-        var options = new PipelineOptions
-        {
-            Shader = _shader,
-            BufferLayout = bufferLayout,
-            PrimitiveTopology = Graphics.Renderer.Enums.PrimitiveTopology.Lines
-        };
-        _pipeline = graphicsFactory.CreatePipeline(options);
+        SetupDebugPipeline(graphicsFactory);
 
 #if DEBUG
         ShowColliders = true;
@@ -49,8 +36,7 @@ internal sealed class Physics : IPhysics
     }
 
     public bool ShowColliders { get; set; }
-    protected IWorld World { get; }
-
+    private IWorld World { get; }
     private IRenderer Renderer { get; }
 
     public void Step()
@@ -85,5 +71,23 @@ internal sealed class Physics : IPhysics
     public object GetBodyReference(PhysicsBody body)
     {
         return World.GetBodyReference(body);
+    }
+
+    private void SetupDebugPipeline(IGraphicsFactory graphicsFactory)
+    {
+        _shader = graphicsFactory.CreateShader("Assets/Shaders/FlatColorLine.shader");
+        var bufferLayout = new BufferLayout(new List<BufferElement>
+        {
+            new BufferElement("POSITION", ShaderDataType.Float3),
+            new BufferElement("COLOR", ShaderDataType.Float3),
+        });
+
+        var options = new PipelineOptions
+        {
+            Shader = _shader,
+            BufferLayout = bufferLayout,
+            PrimitiveTopology = Graphics.Renderer.Enums.PrimitiveTopology.Lines
+        };
+        _pipeline = graphicsFactory.CreatePipeline(options);
     }
 }
