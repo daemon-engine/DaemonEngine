@@ -28,6 +28,6 @@ internal class FloorEntity : EntityBase
         var rigidbody = AddComponent<Rigidbody>();
 
         var collider = AddComponent<BoxCollider>();
-        collider.Size = new Vector3(10.0f, 0.01f, 10.0f) * 10.0f;
+        collider.Size = new Vector3(10.0f, 0.001f, 10.0f) * 10.0f;
     }
 }
