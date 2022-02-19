@@ -13,6 +13,7 @@ internal class FloorEntity : EntityBase
     {
         var transform = AddComponent<Transform>();
         transform.Position = new Vector3(0.0f, 0.0f, 0.0f);
+        transform.Scale = Vector3.One * 10.0f;
 
         var meshRenderer = AddComponent<MeshRenderer>();
 
@@ -27,6 +28,6 @@ internal class FloorEntity : EntityBase
         var rigidbody = AddComponent<Rigidbody>();
 
         var collider = AddComponent<BoxCollider>();
-        collider.Size = new Vector3(10.0f, 0.01f, 10.0f);
+        collider.Size = new Vector3(10.0f, 0.01f, 10.0f) * 10.0f;
     }
 }

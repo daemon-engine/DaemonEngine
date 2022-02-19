@@ -8,7 +8,7 @@ namespace Sandbox.Entities;
 
 internal class SphereEntity : EntityBase
 {
-    public SphereEntity(IMeshFactory meshFactory, IShader shader, Vector3 position) 
+    public SphereEntity(IMeshFactory meshFactory, IShader shader, Vector3 position, float mass = 1.0f) 
         : base("Sphere with Physics!")
     {
         var transform = AddComponent<Transform>();
@@ -27,7 +27,7 @@ internal class SphereEntity : EntityBase
 
         var rigidbody = AddComponent<Rigidbody>();
         rigidbody.Type = RigidbodyType.Dynamic;
-        rigidbody.Mass = 1.0f;
+        rigidbody.Mass = mass;
 
         var collider = AddComponent<SphereCollider>();
     }

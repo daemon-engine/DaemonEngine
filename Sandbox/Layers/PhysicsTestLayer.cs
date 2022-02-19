@@ -39,8 +39,8 @@ internal class PhysicsTestLayer : LayerBase
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(-5.0f, 5.0f, 5.0f), 1.0f));
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(-5.0f, 200.0f, 5.0f), 1.0f));
         _scene.AddEntity(new PhysicsEntity("Falling Cube", meshFactory, _shader, "Assets/Models/cube.obj", new Vector3(5.0f, 200.0f, 5.0f), 10.0f));
-        _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 20));
-        _scene.AddEntity(new SphereEntity(meshFactory, _shader, Vector3.YAxis * 25));
+        _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(0.0f, 20.0f, 0.0f)));
+        _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(0.5f, 25.0f, 0.5f), 100.0f));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(5.0f, 1.0f, 5.0f)));
         _scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
