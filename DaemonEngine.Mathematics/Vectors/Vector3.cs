@@ -247,9 +247,9 @@ public class Vector3 : IEquatable<Vector3>
         return obj is Vector3 vector && Equals(vector);
     }
 
-    public bool Equals(Vector3 other)
+    public bool Equals(Vector3? other)
     {
-        return X == other.X && Y == other.Y && Z == other.Z;
+        return other is not null && X == other.X && Y == other.Y && Z == other.Z;
     }
 
     public override int GetHashCode()

@@ -24,7 +24,7 @@ public class Scene
     protected IPhysics Physics { get; }
     internal List<IEntity> Entities { get; }
 
-    private PhysicsBody[] PhysicsBodyEntityBuffer { get; set; }
+    private PhysicsBody[]? PhysicsBodyEntityBuffer { get; set; }
 
     public void RuntimeStart()
     {
@@ -131,7 +131,7 @@ public class Scene
             // Render colliders
             if (Physics.ShowColliders)
             {
-                Physics.RenderColliders(PhysicsBodyEntityBuffer);
+                Physics.RenderColliders(PhysicsBodyEntityBuffer!);
             }
 
             Renderer.EndScene();
