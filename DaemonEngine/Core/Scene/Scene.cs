@@ -88,6 +88,9 @@ public class Scene
             transform.Position = ((BepuPhysics.BodyReference)bodyRef).Pose.Position;
             transform.Rotation = (Quaternion)((BepuPhysics.BodyReference)bodyRef).Pose.Orientation;
 
+            rigidbody.LinearVelocity = ((BepuPhysics.BodyReference)bodyRef).Velocity.Linear;
+            rigidbody.AngularVelocity = ((BepuPhysics.BodyReference)bodyRef).Velocity.Angular;
+
             rigidbody.PhysicsBody.Position = transform.Position;
             rigidbody.PhysicsBody.Rotation = transform.Rotation;
         }

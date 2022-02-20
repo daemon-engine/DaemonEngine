@@ -1,4 +1,5 @@
-﻿using DaemonEngine.Physics;
+﻿using DaemonEngine.Mathematics;
+using DaemonEngine.Physics;
 
 namespace DaemonEngine.ECS.Components;
 
@@ -21,4 +22,8 @@ public class Rigidbody : ComponentBase
     public float Mass { get; set; } = 1.0f;
 
     public PhysicsBody PhysicsBody { get; set; }
+
+    // Debug
+    public Vector3 LinearVelocity { get; set; }
+    public Vector3 AngularVelocity { get; set; }
 }

@@ -54,7 +54,6 @@ internal sealed class Physics : IPhysics
             }
 
             var model = Matrix4.Identity * Matrix4.Rotate(Vector3.ToEulerAngles(physicsBody.Rotation)) * Matrix4.Translate(physicsBody.Position);
-            //Console.WriteLine($"Position: {physicsBody.Position.X}, {physicsBody.Position.Y}, {physicsBody.Position.Z}");
 
             _shader!.Bind();
             _shader!.SetMat4("_Model", model);

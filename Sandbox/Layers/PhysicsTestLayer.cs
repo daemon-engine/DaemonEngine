@@ -102,5 +102,7 @@ internal class PhysicsTestLayer : LayerBase
         }
 
         ImGuiNET.ImGui.End();
+
+        ImGuiNET.ImGui.ShowDemoWindow();
     }
 }

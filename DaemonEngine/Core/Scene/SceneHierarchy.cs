@@ -97,6 +97,17 @@ public sealed class SceneHierarchy
                 var mass = rigidbody.Mass;
                 ImGuiNET.ImGui.DragFloat("Mass", ref mass);
                 rigidbody.Mass = mass;
+
+                if(ImGuiNET.ImGui.TreeNode("Debugging"))
+                {
+                    var linearVelocity = (System.Numerics.Vector3)rigidbody.LinearVelocity;
+                    ImGuiNET.ImGui.DragFloat3("Linear Velocity", ref linearVelocity);
+
+                    var angularVelocity = (System.Numerics.Vector3)rigidbody.AngularVelocity;
+                    ImGuiNET.ImGui.DragFloat3("Angular Velocity", ref angularVelocity);
+
+                    ImGuiNET.ImGui.TreePop();
+                }
             });
 
             DrawComponent("Box Collider", _selectedEntity, (BoxCollider boxCollider) =>
