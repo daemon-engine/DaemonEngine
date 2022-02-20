@@ -48,7 +48,7 @@ internal sealed class Physics : IPhysics
     {
         foreach (var physicsBody in physicsBodies)
         {
-            if(physicsBody.ColliderShape.Mesh == null)
+            if(physicsBody.ColliderShape.Mesh == default)
             {
                 continue;
             }
