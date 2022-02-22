@@ -55,6 +55,19 @@ public class Scene
                 ColliderSize = collider is BoxCollider boxCollider ? boxCollider!.Size : Vector3.Zero,
                 Radius = collider is SphereCollider sphereCollider ? sphereCollider!.Radius : 0.0f
             };
+
+            if(entity.HasComponent<MeshRenderer>() && entity.HasComponent<MeshCollider>())
+            {
+                var meshRenderer = entity.GetComponent<MeshRenderer>();
+                var modelMesh = meshRenderer?.Model.Mesh;
+
+                physicsBodyOptions.MeshColliderData = new MeshColliderData
+                {
+                    Vertices = modelMesh?.GetVertices()!,
+                    Indices = modelMesh?.GetIndices()!
+                };
+            }
+
             var physicsBody = Physics.CreateBody(physicsBodyOptions);
 
             PhysicsBodyEntityBuffer[physicsBodyEntityBufferIndex++] = physicsBody;

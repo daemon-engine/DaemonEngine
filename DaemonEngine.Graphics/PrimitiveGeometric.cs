@@ -6,6 +6,8 @@ namespace DaemonEngine.Graphics;
 
 public interface IPrimitiveGeometric
 {
+    IMesh CreateMesh(float[] vertices, uint[] indices, IPipeline pipeline);
+    IMesh CreateMesh(IPipeline pipeline);
     IMesh CreateSphere(float radius, IPipeline pipeline);
     IMesh CreateCube(Vector3 size, IPipeline pipeline);
 }
@@ -18,6 +20,43 @@ internal sealed class PrimitiveGeometric : IPrimitiveGeometric
     }
 
     private IMeshFactory MeshFactory { get; }
+
+    public IMesh CreateMesh(float[] vertices, uint[] indices, IPipeline pipeline)
+    {
+        var v_ = new List<float>();
+        for (int i = 0; i < vertices.Length; i += 8)
+        {
+            v_.Add(vertices[i + 0]);
+            v_.Add(vertices[i + 1]);
+            v_.Add(vertices[i + 2]);
+
+            v_.Add(0.0f);
+            v_.Add(0.9f);
+            v_.Add(0.9f);
+        }
+
+        vertices = v_.ToArray();
+        return MeshFactory.CreateMesh(vertices, indices, pipeline);
+    }
+
+    public IMesh CreateMesh(IPipeline pipeline)
+    {
+        var vertices = new float[4 * (3 + 3)]
+        {
+            0.0f, 0.0f, 0.0f, 0.0f, 0.9f, 0.1f,
+            1.0f, 0.0f, 0.0f, 0.0f, 0.9f, 0.1f,
+            0.0f, 1.0f, 0.0f, 0.0f, 0.9f, 0.1f,
+            1.0f, 1.0f, 0.0f, 0.0f, 0.9f, 0.1f,
+        };
+
+        var indices = new uint[6]
+        {
+            0, 2, 1,
+            2, 3, 1
+        };
+
+        return MeshFactory.CreateMesh(vertices, indices, pipeline);
+    }
 
     public IMesh CreateSphere(float radius, IPipeline pipeline)
     {

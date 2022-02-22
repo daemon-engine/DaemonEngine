@@ -3,6 +3,12 @@ using DaemonEngine.Physics.Shapes;
 
 namespace DaemonEngine.Physics;
 
+public class MeshColliderData
+{
+    public float[] Vertices { get; set; }
+    public uint[] Indices { get; set; }
+}
+
 public class PhysicsBody
 {
     public PhysicsBody(PhysicsBodyOptions physicsBodyOptions)
@@ -14,6 +20,7 @@ public class PhysicsBody
         Mass = physicsBodyOptions.Mass;
         ColliderSize = physicsBodyOptions.ColliderSize;
         SphereRadius = physicsBodyOptions.Radius;
+        MeshData = physicsBodyOptions.MeshColliderData;
     }
 
     public IColliderShape ColliderShape { get; set; }
@@ -24,6 +31,7 @@ public class PhysicsBody
 
     public Vector3 ColliderSize { get; set; }
     public float SphereRadius { get; set; }
+    public MeshColliderData MeshData { get; set; }
 
     public PhysicsBodyShape PhysicsBodyShape { get; set; }
     public PhysicsBodyType PhysicsBodyType { get; set; }

@@ -45,6 +45,16 @@ public class Mesh : IMesh
 
     protected IGraphicsFactory GraphicsFactory { get; } = default!;
 
+    public float[] GetVertices()
+    {
+        return _vertices;
+    }
+
+    public uint[] GetIndices()
+    {
+        return _indices;
+    }
+
     private void Setup()
     {
         int verticesSize = sizeof(float) * _vertices.Length;

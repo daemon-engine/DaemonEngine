@@ -10,6 +10,7 @@ public class PhysicsBodyOptions
 
     public Vector3 ColliderSize { get; set; }
     public float Radius { get; set; }
+    public MeshColliderData MeshColliderData { get; set; }
 
     public PhysicsBodyShape Shape { get; set; }
     public PhysicsBodyType BodyType { get; set; }

@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.Core.Layer;
 using DaemonEngine.Core.Scene;
+using DaemonEngine.ECS.Components;
 using DaemonEngine.EventSystem;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
@@ -42,7 +43,14 @@ internal class PhysicsTestLayer : LayerBase
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(0.0f, 20.0f, 0.0f)));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(0.5f, 25.0f, 0.5f), 100.0f));
         _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(5.0f, 1.0f, 5.0f)));
-        _scene.AddEntity(new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.XAxis * 30.0f, meshFactory, _shader));
+
+        _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(15.0f, 200.0f, 0.0f), 100.0f));
+        _scene.AddEntity(new SphereEntity(meshFactory, _shader, new Vector3(30.0f, 200.0f, 0.0f), 100.0f));
+        var landscapeEntity = new MeshEntity("Assets/Models/Landscape/landscape.obj", new Vector3(30.0f, 10.0f, -5.0f), meshFactory, _shader);
+        landscapeEntity.AddComponent<Rigidbody>();
+        landscapeEntity.AddComponent<MeshCollider>();
+        _scene.AddEntity(landscapeEntity);
+
         _scene.AddEntity(new MeshEntity("Assets/Models/Capsule/capsule.obj", new Vector3(-5.0f, 1.0f, -5.0f), meshFactory, _shader));
         _scene.AddEntity(new FPSCameraEntity(new Vector3(0.0f, 1.0f, 5.0f)));
 
