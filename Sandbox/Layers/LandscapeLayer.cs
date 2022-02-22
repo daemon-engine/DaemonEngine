@@ -34,10 +34,6 @@ internal class LandscapeLayer : LayerBase
         _sceneHierarchy = new SceneHierarchy(_scene, Logger);
 
         var landscapeEntity = new MeshEntity("Assets/Models/Landscape/landscape.obj", Vector3.Zero, meshFactory, _shader);
-
-        var transform = landscapeEntity.GetComponent<Transform>();
-        transform!.Scale *= 3.0f;
-
         landscapeEntity.AddComponent<Rigidbody>();
         landscapeEntity.AddComponent<MeshCollider>();
         _scene.AddEntity(landscapeEntity);
