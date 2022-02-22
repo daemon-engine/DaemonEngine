@@ -21,7 +21,8 @@ public class Application : ApplicationBase
         //AddLayer<FramebufferTestLayer>("Framebuffer Test Layer");
         //AddLayer<CubemapTestLayer>("Cubemap Test Layer");
         //AddLayer<SceneTestLayer>("Scene Test Layer");
-        AddLayer<PhysicsTestLayer>("Physics Test Layer");
+        //AddLayer<PhysicsTestLayer>("Physics Test Layer");
+        AddLayer<LandscapeLayer>("Landscape Layer");
         //AddLayer<SandboxLayer>("Sandbox Layer");
     }
 

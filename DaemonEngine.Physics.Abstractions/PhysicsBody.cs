@@ -7,6 +7,7 @@ public class MeshColliderData
 {
     public float[] Vertices { get; set; }
     public uint[] Indices { get; set; }
+    public Vector3 Size { get; set; } = Vector3.One;
 }
 
 public class PhysicsBody

@@ -64,7 +64,8 @@ public class Scene
                 physicsBodyOptions.MeshColliderData = new MeshColliderData
                 {
                     Vertices = modelMesh?.GetVertices()!,
-                    Indices = modelMesh?.GetIndices()!
+                    Indices = modelMesh?.GetIndices()!,
+                    Size = transform.Scale
                 };
             }
 

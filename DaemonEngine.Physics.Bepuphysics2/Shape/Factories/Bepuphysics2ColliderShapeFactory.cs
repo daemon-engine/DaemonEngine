@@ -104,7 +104,7 @@ internal class Bepuphysics2ColliderShapeFactory : IBepuphysics2ColliderShapeFact
 
             BepuUtilities.Memory.Buffer<Triangle> buffer = new(mem.Pin().Pointer, triangles.Length, 1);
 
-            var shape = new BepuPhysics.Collidables.Mesh(buffer, System.Numerics.Vector3.One, new BepuUtilities.Memory.BufferPool());
+            var shape = new BepuPhysics.Collidables.Mesh(buffer, physicsBody.MeshData.Size!, new BepuUtilities.Memory.BufferPool());
 
             var shapeId = simulation.Shapes.Add(shape);
             collidableDescription = new CollidableDescription(shapeId, 0.01f);
