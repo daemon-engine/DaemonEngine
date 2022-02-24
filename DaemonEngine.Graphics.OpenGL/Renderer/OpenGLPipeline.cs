@@ -1,7 +1,9 @@
 ﻿using DaemonEngine.Extensions.Runtime;
 using DaemonEngine.Graphics.Helpers;
+using DaemonEngine.Graphics.OpenGL.DllImport.Enums;
 using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
+using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.OpenGL.DllImport;
 using Serilog;
 
@@ -26,10 +28,15 @@ internal class OpenGLPipeline : PipelineBase, IPipeline
         GL.BindVertexArray(_id);
 
         SetupBufferLayout();
+
+        var wireframe = Options.Wireframe || Options.PrimitiveTopology == PrimitiveTopology.Lines;
+        GL.PolygonMode(GLPolygonFace.FrontAndBack, wireframe ? GLPolygonMode.Line : GLPolygonMode.Fill);
     }
 
     public override void Unbind()
     {
+        GL.PolygonMode(GLPolygonFace.FrontAndBack, GLPolygonMode.Fill);
+
         GL.BindVertexArray(0);
     }
 

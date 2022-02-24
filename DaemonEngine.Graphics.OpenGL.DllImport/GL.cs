@@ -32,6 +32,11 @@ public static class GL
         OpenGLDllImport.glBufferSubData(target, offset, size, data);
     }
 
+    public static void LineWidth(float width)
+    {
+        OpenGLDllImport.glLineWidth(width);
+    }
+
     public static void BufferSubData(uint target, int offset, int size, float[] data)
     {
         OpenGLDllImport.glBufferSubData(target, offset, size, data);

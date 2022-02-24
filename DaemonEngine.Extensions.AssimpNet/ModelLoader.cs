@@ -36,8 +36,6 @@ public class ModelLoader
 
                 for (int j = 0; j < mesh.VertexCount; j++)
                 {
-                    child.Transform.DecomposeNoScaling(out _, out Vector3D translation);
-
                     vertices.Add(mesh.Vertices[j].X);
                     vertices.Add(mesh.Vertices[j].Y);
                     vertices.Add(mesh.Vertices[j].Z);
@@ -46,8 +44,16 @@ public class ModelLoader
                     vertices.Add(mesh.Normals[j].Y);
                     vertices.Add(mesh.Normals[j].Z);
 
-                    vertices.Add(mesh.TextureCoordinateChannels[0][j].X);
-                    vertices.Add(mesh.TextureCoordinateChannels[0][j].Y);
+                    if (mesh.HasTextureCoords(0))
+                    {
+                        vertices.Add(mesh.TextureCoordinateChannels[0][j].X);
+                        vertices.Add(mesh.TextureCoordinateChannels[0][j].Y);
+                    }
+                    else
+                    {
+                        vertices.Add(0.0f);
+                        vertices.Add(0.0f);
+                    }
                 }
             }
 

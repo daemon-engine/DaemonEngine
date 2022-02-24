@@ -7,5 +7,6 @@ public enum GLCapabilities : uint
     CullFace = GLConstants.GL_CULL_FACE,
     ScissorTest = GLConstants.GL_SCISSOR_TEST,
     StencilTest = GLConstants.GL_STENCIL_TEST,
-    DepthTest = GLConstants.GL_DEPTH_TEST
+    DepthTest = GLConstants.GL_DEPTH_TEST,
+    LineSmooth = GLConstants.GL_LINE_SMOOTH
 }

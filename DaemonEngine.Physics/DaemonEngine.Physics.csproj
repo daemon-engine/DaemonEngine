@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Graphics.Abstractions\DaemonEngine.Graphics.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Physics.Bepuphysics2\DaemonEngine.Physics.Bepuphysics2.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -24,9 +24,29 @@ public class Maths
         return (float)global::System.Math.Tan(angle);
     }
 
+    internal static float Asin(float d)
+    {
+        return (float)global::System.Math.Asin((float)d);
+    }
+
+    public static float Atan2(float y, float x)
+    {
+        return (float)global::System.Math.Atan2((float)y, (float)x);
+    }
+
     public static float Acos(float angle)
     {
         return (float)global::System.Math.Acos(angle);
+    }
+
+    public static float Abs(float angle)
+    {
+        return (float)global::System.Math.Abs(angle);
+    }
+
+    public static float CopySign(float x, float y)
+    {
+        return (float)global::System.Math.CopySign((float)x, (float)y);
     }
 
     public static float ToRadians(float degrees)

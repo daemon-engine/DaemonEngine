@@ -9,6 +9,7 @@ public interface IRenderer
     void EndScene();
 
     void RenderGeometry(IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
+    void RenderGeometry(IPipeline pipeline, IUniformBuffer uniformBuffer, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer, int indexCount = 0);
     void RenderMesh(IMesh mesh);
     void SubmitFullscreenQuad(uint colorAttachment, IPipeline pipeline, IVertexBuffer vertexBuffer, IIndexBuffer indexBuffer);
 

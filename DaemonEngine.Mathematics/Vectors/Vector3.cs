@@ -49,6 +49,35 @@ public class Vector3 : IEquatable<Vector3>
     }
 
     #region Static vector math methods
+    public static Vector3 ToEulerAngles(Quaternion quaternion)
+    {
+        var result = Zero;
+
+        // roll (x-axis rotation)
+        var sinr_cosp = 2.0f * (quaternion.W * quaternion.X + quaternion.Y * quaternion.Z);
+        var cosr_cosp = 1.0f - 2.0f * (quaternion.X * quaternion.X + quaternion.Y * quaternion.Y);
+        result.X = Maths.Atan2(sinr_cosp, cosr_cosp);
+
+        // pitch (y-axis rotation)
+        var sinp = 2.0f * (quaternion.W * quaternion.Y - quaternion.Z * quaternion.X);
+        if (Maths.Abs(sinp) >= 1)
+        {
+
+            result.Y = Maths.CopySign(Maths.PI / 2, sinp); // use 90 degrees if out of range
+        }
+        else
+        {
+            result.Y = Maths.Asin(sinp);
+        }
+
+        // yaw (z-axis rotation)
+        var siny_cosp = 2.0f * (quaternion.W * quaternion.Z + quaternion.X * quaternion.Y);
+        var cosy_cosp = 1.0f - 2.0f * (quaternion.Y * quaternion.Y + quaternion.Z * quaternion.Z);
+        result.Z = Maths.Atan2(siny_cosp, cosy_cosp);
+
+        return result;
+    }
+
     public static Vector3 Normalize(Vector3 vector)
     {
         var scale = 1.0f / vector.Length;
@@ -213,6 +242,24 @@ public class Vector3 : IEquatable<Vector3>
     #endregion
 
     #region Conversion operators
+    public static implicit operator Vector3(System.Numerics.Quaternion q)
+    {
+        var t0 = 2.0f * (q.W * q.X + q.Y * q.Z);
+        var t1 = 1.0f - 2.0f * (q.X * q.X + q.Y * q.Y);
+        var roll = Maths.Atan2(t0, t1);
+
+        var t2 = 2.0f * (q.W * q.Y - q.Z * q.X);
+        t2 = ((t2 > 1.0f) ? 1.0f : t2);
+        t2 = ((t2 < -1.0f) ? -1.0f : t2);
+        var pitch = Maths.Asin(t2);
+
+        var t3 = 2.0f * (q.W * q.Y - q.Z * q.X);
+        var t4 = 1.0f - 2.0f * (q.Y * q.Y + q.Z * q.Z);
+        var yaw = Maths.Atan2(t3, t4);
+
+        return new Vector3(roll, pitch, yaw);
+    }
+
     public static implicit operator Vector3(System.Numerics.Vector3 v)
     {
         return new Vector3(v.X, v.Y, v.Z);
@@ -229,9 +276,9 @@ public class Vector3 : IEquatable<Vector3>
         return obj is Vector3 vector && Equals(vector);
     }
 
-    public bool Equals(Vector3 other)
+    public bool Equals(Vector3? other)
     {
-        return X == other.X && Y == other.Y && Z == other.Z;
+        return other is not null && X == other.X && Y == other.Y && Z == other.Z;
     }
 
     public override int GetHashCode()

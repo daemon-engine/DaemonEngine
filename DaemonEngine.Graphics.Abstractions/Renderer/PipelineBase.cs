@@ -5,6 +5,8 @@ namespace DaemonEngine.Graphics.Renderer;
 
 public interface IPipeline
 {
+    PipelineOptions Options { get; }
+
     void Bind();
     void Unbind();
 }
@@ -18,7 +20,7 @@ public abstract class PipelineBase : IPipeline
     }
 
     protected ILogger Logger { get; }
-    protected PipelineOptions Options { get; }
+    public PipelineOptions Options { get; }
 
     public abstract void Bind();
     public abstract void Unbind();

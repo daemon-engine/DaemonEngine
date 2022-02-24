@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepuPhysics" Version="2.3.0" />
+    <PackageReference Include="BepuUtilities" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaemonEngine.Abstractions\DaemonEngine.Abstractions.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Extensions.Runtime\DaemonEngine.Extensions.Runtime.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Graphics\DaemonEngine.Graphics.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Mathematics\DaemonEngine.Mathematics.csproj" />
+    <ProjectReference Include="..\DaemonEngine.Physics.Abstractions\DaemonEngine.Physics.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

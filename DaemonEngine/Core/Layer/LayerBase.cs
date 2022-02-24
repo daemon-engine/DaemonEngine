@@ -1,6 +1,8 @@
 ﻿using DaemonEngine.EventSystem;
 using DaemonEngine.Graphics.Factories;
 using DaemonEngine.Graphics.Renderer;
+using DaemonEngine.Physics;
+using DaemonEngine.Physics.Worlds;
 using DaemonEngine.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -13,10 +15,13 @@ public abstract class LayerBase : ILayer
     {
         Name = name;
         ServiceProvider = serviceProvider;
+
         Logger = ServiceProvider.GetRequiredService<ILogger>();
-        Window = serviceProvider.GetRequiredService<IWindow>();
-        Renderer = serviceProvider.GetRequiredService<IRenderer>();
-        GraphicsFactory = serviceProvider.GetRequiredService<IGraphicsFactory>();
+        Window = ServiceProvider.GetRequiredService<IWindow>();
+        Renderer = ServiceProvider.GetRequiredService<IRenderer>();
+        World = ServiceProvider.GetRequiredService<IWorld>();
+        GraphicsFactory = ServiceProvider.GetRequiredService<IGraphicsFactory>();
+        Physics = ServiceProvider.GetRequiredService<IPhysics>();
     }
 
     protected string Name { get; }
@@ -25,7 +30,9 @@ public abstract class LayerBase : ILayer
     protected ILogger Logger { get; }
     protected IWindow Window { get; }
     protected IRenderer Renderer { get; }
+    protected IWorld World { get; }
     protected IGraphicsFactory GraphicsFactory { get; }
+    protected IPhysics Physics { get; }
 
     public abstract void OnStart();
     public abstract void OnShutdown();

@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DaemonEngine.Graphics.OpenGL.DllImport\DaemonEngine.Graphics.OpenGL.DllImport.csproj" />
+		<ProjectReference Include="..\DaemonEngine.Physics\DaemonEngine.Physics.csproj" />
 		<ProjectReference Include="..\DaemonEngine\DaemonEngine.csproj" />
 	</ItemGroup>
 

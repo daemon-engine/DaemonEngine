@@ -1,5 +1,6 @@
 ﻿using DaemonEngine.Graphics.Renderer;
 using DaemonEngine.Graphics.Renderer.Data;
+using DaemonEngine.Graphics.Renderer.Enums;
 using DaemonEngine.OpenGL.DllImport;
 using DaemonEngine.OpenGL.DllImport.Enums;
 
@@ -38,5 +39,16 @@ internal static class OpenGLHelper
         }
 
         return value;
+    }
+
+    internal static uint PrimitiveTopologyToOpenGLType(PrimitiveTopology primitiveTopology)
+    {
+        return primitiveTopology switch
+        {
+            PrimitiveTopology.Lines =>      GLConstants.GL_LINES,
+            PrimitiveTopology.Points =>     GLConstants.GL_POINTS,
+            PrimitiveTopology.Triangles =>  GLConstants.GL_TRIANGLES,
+            _ =>                            GLConstants.GL_TRIANGLES,
+        };
     }
 }
