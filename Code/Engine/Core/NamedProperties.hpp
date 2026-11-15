@@ -83,22 +83,21 @@ struct HasSetFromText<T, std::void_t<decltype(std::declval<T>().SetFromText(std:
 // ParseFromString: convert std::string to T
 //----------------------------------------------------------------------------------------------------
 
-// Default: types with SetFromText
+// Types with SetFromText parse themselves; other types return the default.
 template <typename T>
-typename std::enable_if<HasSetFromText<T>::value, T>::type
-ParseFromString(std::string const& str, T const& defaultValue)
+T ParseFromString(std::string const& str, T const& defaultValue)
 {
-    T result = defaultValue;
-    result.SetFromText(str.c_str());
-    return result;
-}
-
-// Fallback: types without SetFromText — return default
-template <typename T>
-typename std::enable_if<!HasSetFromText<T>::value, T>::type
-ParseFromString(std::string const& /*str*/, T const& defaultValue)
-{
-    return defaultValue;
+    if constexpr (HasSetFromText<T>::value)
+    {
+        T result = defaultValue;
+        result.SetFromText(str.c_str());
+        return result;
+    }
+    else
+    {
+        (void)str;
+        return defaultValue;
+    }
 }
 
 // Explicit specializations for primitives

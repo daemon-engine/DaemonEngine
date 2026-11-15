@@ -146,7 +146,7 @@ bool IsPointInsideOBB3D(Vec3 const& point, OBB3 const& obb3);
 
 Vec2 GetNearestPointOnDisc2D(Vec2 const& point, Vec2 const& discCenter, float discRadius);
 Vec2 GetNearestPointOnLineSegment2D(Vec2 const& point, Vec2 const& lineStartPosition, Vec2 const& lineEndPosition, bool isLineInfinite);
-Vec2 GetNearestPointOnTriangle2D(Vec2 const& point, Vec2 const triangle2Points[3]);
+Vec2 GetNearestPointOnTriangle2D(Vec2 const& point, Vec2 const* triangle2Points); // triangle2Points: 3 points
 Vec2 GetNearestPointOnAABB2D(Vec2 const& point, Vec2 const& aabb2Mins, Vec2 const& aabb2Maxs);
 Vec2 GetNearestPointOnOBB2D(Vec2 const& point, Vec2 const& obb2Center, Vec2 const& obb2IBasisNormal, Vec2 const& obb2HalfDimensions);
 Vec2 GetNearestPointOnCapsule2D(Vec2 const& point, Vec2 const& capsuleStartPosition, Vec2 const& capsuleEndPosition, float capsuleRadius);

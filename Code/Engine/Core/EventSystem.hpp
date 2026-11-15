@@ -18,13 +18,14 @@
 //----------------------------------------------------------------------------------------------------
 using EventArgs             = NamedProperties;
 using EventCallbackFunction = bool (*)(EventArgs& args);
+using EventMemberCallback   = std::function<bool(EventArgs&)>;
 
 //----------------------------------------------------------------------------------------------------
 struct sEventSubscription
 {
-    EventCallbackFunction              callbackFunction = nullptr;
-    void*                              objectInstance   = nullptr;
-    std::function<bool(EventArgs&)>    memberCallback;
+    EventCallbackFunction callbackFunction = nullptr;
+    void*                 objectInstance   = nullptr;
+    EventMemberCallback   memberCallback;
 };
 
 //----------------------------------------------------------------------------------------------------

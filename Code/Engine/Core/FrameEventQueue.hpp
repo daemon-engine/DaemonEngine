@@ -56,6 +56,10 @@ struct FrameEvent
 {
     eFrameEventType type;
 
+    // Payload selected by `type`: `key` for key and mouse-button events, `cursor` for CursorUpdate.
+    // @cond / @endcond hide the anonymous union from Doxygen only; Sphinx's C++ parser cannot
+    // render an unnamed union, and naming it would change every `evt.key` / `evt.cursor` access.
+    /// @cond
     union
     {
         // KeyDown, KeyUp, MouseButtonDown, MouseButtonUp
@@ -73,6 +77,7 @@ struct FrameEvent
             float dy;  // Delta Y since last frame
         } cursor;
     };
+    /// @endcond
 
     // Default constructor (required for CommandQueueBase ring buffer)
     FrameEvent()
