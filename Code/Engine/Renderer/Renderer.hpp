@@ -130,6 +130,9 @@ private:
     void CreateRenderTargetView();
     void CreateBlendStates();
     void CreateDepthStencilTextureAndView();
+    void CreateSizeDependentRenderTextures();
+    void ReleaseSizeDependentRenderTextures();
+    void ResizeBackBufferIfNeeded();
     void CreateDepthStencilState();
     void CreateSamplerState();
     void CreateRasterizerState();
@@ -145,6 +148,7 @@ private:
     D3D11_VIEWPORT* m_cameraViewport = nullptr;
 
     sRendererConfig m_config;
+    IntVec2         m_backBufferDimensions; // Size of the swap chain buffers; compared against the window each frame
 
 protected:
     // Create variables to store DirectX state------------------------------------------------------------

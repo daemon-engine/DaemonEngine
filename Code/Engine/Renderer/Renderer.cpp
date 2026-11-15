@@ -201,6 +201,85 @@ void Renderer::CreateDepthStencilTextureAndView()
     if (FAILED(hr)) ERROR_AND_DIE("Could not create depth stencil view.")
 }
 
+//----------------------------------------------------------------------------------------------------
+/// @brief Create the render textures sized from the window's client area (emissive, screen, bloom blur chain).
+//----------------------------------------------------------------------------------------------------
+void Renderer::CreateSizeDependentRenderTextures()
+{
+    Vec2 const clientDimensions = m_config.m_window->GetClientDimensions();
+
+    m_emissiveTexture = CreateRenderTexture(IntVec2(clientDimensions), "EmissiveTexture");
+    m_screenTexture   = CreateRenderTexture(IntVec2(min(clientDimensions.x * 8, 16384), min(clientDimensions.y * 8, 16384)), "ScreenTexture");
+
+    for (int i = 0; i < k_blurDownTextureCount; i++)
+    {
+        m_blurDownTextures[i] = CreateRenderTexture(IntVec2(clientDimensions.x / (float)pow(2, i + 1), clientDimensions.y / (float)pow(2, i + 1)), Stringf("Blur Down Texture %d", i).c_str());
+    }
+
+    for (int i = 0; i < k_blurUpTextureCount; i++)
+    {
+        m_blurUpTextures[i] = CreateRenderTexture(IntVec2(clientDimensions.x / (float)pow(2, i), clientDimensions.y / (float)pow(2, i)), Stringf("Blur Up Texture %d", i).c_str());
+    }
+}
+
+//----------------------------------------------------------------------------------------------------
+void Renderer::ReleaseSizeDependentRenderTextures()
+{
+    for (int i = 0; i < k_blurUpTextureCount; i++)
+    {
+        delete m_blurUpTextures[i];
+        m_blurUpTextures[i] = nullptr;
+    }
+
+    for (int i = 0; i < k_blurDownTextureCount; i++)
+    {
+        delete m_blurDownTextures[i];
+        m_blurDownTextures[i] = nullptr;
+    }
+
+    delete m_emissiveTexture;
+    m_emissiveTexture = nullptr;
+
+    delete m_screenTexture;
+    m_screenTexture = nullptr;
+}
+
+//----------------------------------------------------------------------------------------------------
+/// @brief Resize the swap chain and every window-sized target when the client area changes size,
+/// e.g. after Window::SetWindowType switches between windowed and fullscreen. Without this, the
+/// startup-sized back buffer is stretched to the new window and the image is scaled and offset.
+//----------------------------------------------------------------------------------------------------
+void Renderer::ResizeBackBufferIfNeeded()
+{
+    IntVec2 const clientDimensions(m_config.m_window->GetClientDimensions());
+
+    if (clientDimensions == m_backBufferDimensions) return;
+    if (clientDimensions.x <= 0 || clientDimensions.y <= 0) return; // e.g. minimized
+
+    // ResizeBuffers fails while anything still references the back buffers, so unbind and release first.
+    m_deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+    DX_SAFE_RELEASE(m_renderTargetView)
+    DX_SAFE_RELEASE(m_depthStencilDSV)
+    DX_SAFE_RELEASE(m_depthStencilTexture)
+    ReleaseSizeDependentRenderTextures();
+
+    DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
+    m_swapChain->GetDesc(&swapChainDesc);
+
+    HRESULT const hr = m_swapChain->ResizeBuffers(0,
+                                                  static_cast<unsigned int>(clientDimensions.x),
+                                                  static_cast<unsigned int>(clientDimensions.y),
+                                                  DXGI_FORMAT_UNKNOWN,
+                                                  swapChainDesc.Flags);
+    if (FAILED(hr)) ERROR_AND_DIE(Stringf("Could not resize swap chain buffers (HRESULT 0x%08X).", hr))
+
+    CreateRenderTargetView();
+    CreateDepthStencilTextureAndView();
+    CreateSizeDependentRenderTextures();
+
+    m_backBufferDimensions = clientDimensions;
+}
+
 void Renderer::CreateDepthStencilState()
 {
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc = {};
@@ -371,24 +450,14 @@ void Renderer::Startup()
 
     CreateDeviceAndSwapChain(deviceFlags);
     CreateRenderTargetView();
+    m_backBufferDimensions = IntVec2(m_config.m_window->GetClientDimensions());
     CreateBlendStates();
     CreateDepthStencilTextureAndView();
     CreateDepthStencilState();
     CreateSamplerState();
     CreateRasterizerState();
 
-    m_emissiveTexture = CreateRenderTexture(IntVec2(m_config.m_window->GetClientDimensions()), "EmissiveTexture");
-    m_screenTexture   = CreateRenderTexture(IntVec2(min(m_config.m_window->GetClientDimensions().x * 8, 16384), min(m_config.m_window->GetClientDimensions().y * 8, 16384)), "ScreenTexture");
-
-    for (int i = 0; i < k_blurDownTextureCount; i++)
-    {
-        m_blurDownTextures[i] = CreateRenderTexture(IntVec2(m_config.m_window->GetClientDimensions().x / (float)pow(2, i + 1), m_config.m_window->GetClientDimensions().y / (float)pow(2, i + 1)), Stringf("Blur Down Texture %d", i).c_str());
-    }
-
-    for (int i = 0; i < k_blurUpTextureCount; i++)
-    {
-        m_blurUpTextures[i] = CreateRenderTexture(IntVec2(m_config.m_window->GetClientDimensions().x / (float)pow(2, i), m_config.m_window->GetClientDimensions().y / (float)pow(2, i)), Stringf("Blur Up Texture %d", i).c_str());
-    }
+    CreateSizeDependentRenderTextures();
 
     m_immediateVBO_PCU    = CreateVertexBuffer(sizeof(Vertex_PCU), sizeof(Vertex_PCU));
     m_immediateVBO_PCUTBN = CreateVertexBuffer(sizeof(Vertex_PCUTBN), sizeof(Vertex_PCUTBN));
@@ -436,7 +505,7 @@ void Renderer::PostStartup()
 //----------------------------------------------------------------------------------------------------
 void Renderer::BeginFrame()
 {
-    // m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilDSV);
+    ResizeBackBufferIfNeeded();
     SetDefaultRenderTargets();
 }
 
@@ -473,15 +542,7 @@ void Renderer::Shutdown()
     m_loadedShaders.clear();
     m_loadedTextures.clear();
 
-    for (int i = 0; i < k_blurUpTextureCount; i++)
-    {
-        delete m_blurUpTextures[i];
-    }
-
-    for (int i = 0; i < k_blurDownTextureCount; i++)
-    {
-        delete m_blurDownTextures[i];
-    }
+    ReleaseSizeDependentRenderTextures();
 
     // Phase 4: Only delete default texture if we own it (fallback case)
     if (m_ownsDefaultTexture && m_defaultTexture)
@@ -493,8 +554,6 @@ void Renderer::Shutdown()
     }
     // Otherwise, ResourceSubsystem owns it and will clean it up
 
-    delete m_emissiveTexture;
-    delete m_screenTexture;
     delete m_blurDownShader;
     delete m_blurUpShader;
     delete m_blurCompositeShader;
