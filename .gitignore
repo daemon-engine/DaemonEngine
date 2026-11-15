@@ -2,18 +2,15 @@
 .playwright-mcp/
 .serena
 
-# Sphinx documentation build output
-Docs/build/
-Docs/source/_build/
+# Sphinx build output and Exhale-generated API pages
+Docs/_build/
+Docs/api/
+Docs/.venv/
 
 # Sphinx cache and temporary files
 .doctrees/
 *.doctree
 *.pickle
-
-# Read the Docs build files
-_readthedocs/
-readthedocs-build/
 
 # Doxygen output (if used)
 doxygen/

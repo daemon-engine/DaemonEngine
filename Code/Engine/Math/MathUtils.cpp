@@ -1064,7 +1064,7 @@ Vec2 GetNearestPointOnLineSegment2D(Vec2 const& point,
 
 //----------------------------------------------------------------------------------------------------
 Vec2 GetNearestPointOnTriangle2D(Vec2 const& point,
-                                 Vec2 const  triangle2Points[3])
+                                 Vec2 const* triangle2Points)
 {
     // 1. If the point is inside the triangle, return the point itself.
     if (IsPointInsideTriangle2D(point, triangle2Points[0], triangle2Points[1], triangle2Points[2]))

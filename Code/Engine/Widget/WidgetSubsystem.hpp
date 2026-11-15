@@ -20,13 +20,11 @@ struct sWidgetSubsystemConfig
 };
 
 //----------------------------------------------------------------------------------------------------
-// WidgetSubsystem - Central UI management system
-//
-// Manages lifecycle of all widgets in the application, provides z-order sorting,
-// owner-based widget grouping, and viewport management.
-//
-// Owner IDs are uint64_t values that typically correspond to entity IDs.
-// Pass 0 as owner ID for global widgets with no specific owner.
+/// @brief Manages lifecycle of all widgets in the application, provides z-order sorting,
+/// owner-based widget grouping, and viewport management.
+///
+/// Owner IDs are uint64_t values that typically correspond to entity IDs.
+/// Pass 0 as owner ID for global widgets with no specific owner.
 //----------------------------------------------------------------------------------------------------
 class WidgetSubsystem
 {
@@ -52,7 +50,7 @@ public:
     WidgetPtr              FindWidgetByName(String const& name) const;
     std::vector<WidgetPtr> GetWidgetsByOwner(uint64_t ownerID) const;
     std::vector<WidgetPtr> GetAllWidgets() const;
-    bool                   HasModalWidget() const;  // Returns true if any modal widget is visible
+    bool                   HasModalWidget() const; // Returns true if any modal widget is visible
 
     // Viewport Management
     void      SetViewportWidget(WidgetPtr const& widget);

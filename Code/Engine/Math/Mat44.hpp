@@ -18,7 +18,7 @@
 //----------------------------------------------------------------------------------------------------
 struct Mat44
 {
-    enum { Ix, Iy, Iz, Iw, Jx, Jy, Jz, Jw, Kx, Ky, Kz, Kw, Tx, Ty, Tz, Tw }; // index nicknames, [0] through [15]
+    enum eMat44Index { Ix, Iy, Iz, Iw, Jx, Jy, Jz, Jw, Kx, Ky, Kz, Kw, Tx, Ty, Tz, Tw }; // index nicknames, [0] through [15]
     float m_values[16]; // stored in "basis major" order (Ix,Iy,Iz,Iw,Jx,...), translation in [12,13,14]
 
     Mat44(); // Default constructor is IDENTITY matrix!
