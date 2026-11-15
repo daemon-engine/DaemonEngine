@@ -2,6 +2,9 @@
 // ScriptReloader.cpp
 //----------------------------------------------------------------------------------------------------
 
+#include "Game/EngineBuildPreferences.hpp"
+#ifdef ENGINE_SCRIPTING_ENABLED
+
 //----------------------------------------------------------------------------------------------------
 #include "Engine/Script/ScriptReloader.hpp"
 //----------------------------------------------------------------------------------------------------
@@ -476,3 +479,5 @@ bool ScriptReloader::ReloadES6Module(String const& modulePath)
 
     return success;
 }
+
+#endif // ENGINE_SCRIPTING_ENABLED

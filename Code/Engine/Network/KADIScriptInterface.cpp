@@ -2,6 +2,9 @@
 // KADIScriptInterface.cpp
 // V8 JavaScript bindings implementation for KADI broker integration
 //----------------------------------------------------------------------------------------------------
+#include "Game/EngineBuildPreferences.hpp"
+#ifdef ENGINE_SCRIPTING_ENABLED
+
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -778,3 +781,5 @@ std::string KADIScriptInterface::ConnectionStateToString(eKADIConnectionState st
 	default:                                      return "unknown";
 	}
 }
+
+#endif // ENGINE_SCRIPTING_ENABLED
